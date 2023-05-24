@@ -1,0 +1,27 @@
+{
+    "name": "klinik/klinik",
+    "description": "Aplikasi Klinik",
+    "type": "project",
+    "require": {
+        "guzzlehttp/guzzle": "^7.0.1"
+    },
+    "license": "GPL",
+
+    "autoload": {
+        "psr-4": {
+            "Bridging\\": "Bridging/"
+        },
+        "files": [
+            "Bridging/Helpers/function.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "authors": [{
+        "name": "Feri Fahrul",
+        "email": "ferifahrul1@gmail.com"
+    }]
+}

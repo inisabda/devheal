@@ -1,0 +1,11 @@
+Apoteker
+Login B32poke  (pwd : c45tommad3)
+
+Admin
+Login My0b ( pwd : mindurownbisnis)
+
+Receptionist
+Login ourguest (pwd: punter)
+
+Dokter
+Healthy. (Pwd : lollipop5)

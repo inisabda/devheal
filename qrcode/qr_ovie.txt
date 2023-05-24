@@ -1,0 +1,2 @@
+Web = http://www.kki.go.id/cekdokter/form/ysttntx27jsgd/259368XCXbe9a4182bfc046e9dad5716ec057bd9118caf422
+embed = <a href="id.qr-code-generator.com/" border="0" style="cursor:default" rel="nofollow"><img src="https://chart.googleapis.com/chart?cht=qr&chl=http%3A%2F%2Fwww.kki.go.id%2Fcekdokter%2Fform%2Fysttntx27jsgd%2F259368XCXbe9a4182bfc046e9dad5716ec057bd9118caf422&chs=180x180&choe=UTF-8&chld=L|2"></a>
