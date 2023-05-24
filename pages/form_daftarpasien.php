@@ -66,7 +66,7 @@ $kdtkp = json_decode($jsonString);
 							<input name="no_daftar" id="no_daftar" placeholder="nomor daftar" type="hidden" class="form-control form-control-sm" value="<?php echo $no_daftar; ?>">
 							<input name="tgl_daftar" id="tgl_daftar" type="hidden" class="form-control form-control-sm" value="<?php echo gmdate("Y-m-d", time() + 60 * 60 * 7); ?>">
 							<input name="tgl_periksa" id="tgl_periksa" type="hidden" class="form-control form-control-sm" value="<?php echo gmdate("Y-m-d H:i:s", time() + 60 * 60 * 7); ?>">
-							<input type="hidden" class="form-control form-control-sm" id="id_pas" value="<?php echo $id_pas; ?>">
+							<input name="id_pas" type="hidden" class="form-control form-control-sm" id="id_pas" value="<?php echo $id_pas; ?>">
 						</div>
 					</div>
 					<?php
@@ -78,37 +78,37 @@ $kdtkp = json_decode($jsonString);
 					<div class="form-group row">
 						<label for="nama_pas" class="col-sm-2 col-form-label">Nama Pasien</label>
 						<div class="col-sm-4">
-							<input type="text" class="form-control form-control-sm" id="nama_pas" autofocus="" value="<?php echo $data['nama_pas']; ?>" readonly>
+							<input name="nama_pas" type="text" class="form-control form-control-sm" id="nama_pas" autofocus="" value="<?php echo $data['nama_pas']; ?>" readonly>
 							<!--<input type="hidden" class="form-control form-control-sm" id="diagnosa" placeholder="" autofocus="" value="">-->
 						</div>
 						<label for="nomor_rm" class="col-sm-2 col-form-label">Nomor RM</label>
 						<div class="col-sm-4">
-							<input type="text" class="form-control form-control-sm" id="nomor_rm" value="<?php echo $data['nomor_rm']; ?>" readonly>
+							<input name="nomor_rm" type="text" class="form-control form-control-sm" id="nomor_rm" value="<?php echo $data['nomor_rm']; ?>" readonly>
 						</div>
 					</div>
 
 					<div class="form-group row pt-1">
-						<label for="nama_pas" class="col-sm-2 col-form-label">Tempat Tgl Lahir</label>
+						<label for="tpt_lahir" class="col-sm-2 col-form-label">Tempat Tgl Lahir</label>
 						<div class="col-sm-2">
-							<input type="text" class="form-control form-control-sm" id="tpt_lahir" value="<?php echo $data['tpt_lahir']; ?>" readonly>
+							<input name="tpt_lahir" type="text" class="form-control form-control-sm" id="tpt_lahir" value="<?php echo $data['tpt_lahir']; ?>" readonly>
 						</div>
 						<div class="col-sm-2">
-							<input type="text" class="form-control form-control-sm" id="tlahir_pas" value="<?php echo $data['lhr_pas']; ?>" readonly>
+							<input name="tgl_lahir" type="text" class="form-control form-control-sm" id="tlahir_pas" value="<?php echo $data['lhr_pas']; ?>" readonly>
 						</div>
 						<label for="jk_pas" class="col-sm-2 col-form-label">Jenis Kelamin</label>
 						<div class="col-sm-4">
-							<input type="text" class="form-control form-control-sm" id="jk_pas" value="<?php echo $data['jk_pas']; ?>" readonly>
+							<input name="jk_pas" type="text" class="form-control form-control-sm" id="jk_pas" value="<?php echo $data['jk_pas']; ?>" readonly>
 						</div>
 					</div>
 
 					<div class="form-group row pt-1">
 						<label for="nik" class="col-sm-2 col-form-label">NIK</label>
 						<div class="col-sm-4">
-							<input type="text" class="form-control form-control-sm" id="nik" value="<?php echo $data['nik']; ?>" readonly>
+							<input name="nik" type="text" class="form-control form-control-sm" id="nik" value="<?php echo $data['nik']; ?>" readonly>
 						</div>
 						<label for="nomor_rm" class="col-sm-2 col-form-label">Nomor HP</label>
 						<div class="col-sm-4">
-							<input type="text" class="form-control form-control-sm" name="no_hp" id="no_hp" value="<?php echo $data['no_hp']; ?>" readonly>
+							<input name="no_hp" type="text" class="form-control form-control-sm"  id="no_hp" value="<?php echo $data['no_hp']; ?>" readonly>
 						</div>
 					</div>
 					<div class="form-group row pt-1">
@@ -205,7 +205,7 @@ $kdtkp = json_decode($jsonString);
 						</div>
 					</div>
 					<div class="form-group row pt-1">
-						<label for="nama_pas" class="col-sm-2 col-form-label">Cara Bayar Pasien</label>
+						<label for="asuransi_pas" class="col-sm-2 col-form-label">Cara Bayar Pasien</label>
 						<div class="col-sm-4">
 							<select name="asuransi_pas" id="asuransi_pas" class="form-control form-control-sm">
 								<?php
@@ -217,7 +217,7 @@ $kdtkp = json_decode($jsonString);
 								<?php } ?>
 							</select>
 						</div>
-						<label for="dokter" class="col-sm-2 col-form-label">Dokter</label>
+						<label for="nm_dokter" class="col-sm-2 col-form-label">Dokter</label>
 						<div class="col-sm-4">
 							<select name="nm_dokter" id="nm_dokter" class="form-control form-control-sm bg-warning">
 								<?php
@@ -240,7 +240,7 @@ $kdtkp = json_decode($jsonString);
 						</div>
 						<label for="status_rawat" class="col-sm-2 col-form-label">Status Rawat</label>
 						<div class="col-sm-4">
-							<input type="text" name="status_rawat" id="status_rawat" class="form-control form-control-sm" value="Belum diperiksa" disabled>
+							<input name="status_rawat" type="text"  id="status_rawat" class="form-control form-control-sm" value="Belum diperiksa" disabled>
 						</div>
 					</div>
 					<div class="form-group row pt-1">
@@ -256,7 +256,7 @@ $kdtkp = json_decode($jsonString);
 							<input type="text" name="status_bayar" id="status_bayar" class="form-control form-control-sm" value="Belum Bayar" disabled>
 						</div>
 						<div class="col-sm-4">
-							<input type="hidden" name="status_obat" id="status_obat" class="form-control form-control-sm" value="Belum dilayani" readonly>
+							<input name="status_obat" type="hidden" id="status_obat" class="form-control form-control-sm" value="Belum dilayani" readonly>
 						</div>
 					</div>
 
@@ -279,7 +279,7 @@ $kdtkp = json_decode($jsonString);
 							$no_antrian = $data['nomor_terakhir'] + 1;
 							?>
 							<div class="col-sm-3">
-								<input type="text" class="form-control form-control-sm" id="number_antrian" autofocus="" style="font-size:28px ; color: red; text-align: center" value="<?php echo number_format($no_antrian, 0, '', '.'); ?>">
+								<input name="nomor_antri" type="text" class="form-control form-control-sm" id="number_antrian" autofocus="" style="font-size:28px ; color: red; text-align: center" value="<?php echo number_format($no_antrian, 0, '', '.'); ?>">
 							</div>
 							<label id="btn_simpandaftar" class="btn btn-success col-sm-3 form-label"> Daftar</label>
 						</div>
@@ -296,7 +296,7 @@ $kdtkp = json_decode($jsonString);
 				  </div>-->
 
 					<div class="form-group row pt-1">
-						<label for="cara_masuk" class="col-sm-2 col-form-label">No. Peserta BPJS</label>
+						<label for="no_asuransi" class="col-sm-2 col-form-label">No. Peserta BPJS</label>
 						<div class="col-sm-3">
 							<input type="text" name="no_asuransi" id="no_asuransi" class="form-control">
 						</div>
@@ -306,7 +306,7 @@ $kdtkp = json_decode($jsonString);
 					</div>
 
 					<div class="form-group row">
-						<label for="keluhan" class="col-sm-2 col-form-label">Poli</label>
+						<label for="kd_poli" class="col-sm-2 col-form-label">Poli</label>
 						<div class="col-sm-4">
 							<select name="kd_poli" id="kd_poli" class="form-control select2">
 								<option value="">-- Pilih Poli --</option>
@@ -374,7 +374,7 @@ $kdtkp = json_decode($jsonString);
 					</div>
 
 					<div class="form-group row">
-						<label for="keluhan" class="col-sm-2 col-form-label">TKP</label>
+						<label for="kd_tkp" class="col-sm-2 col-form-label">TKP</label>
 						<div class="col-sm-4">
 							<select name="kd_tkp" id="kd_tkp" class="form-control select2">
 								<option value="">-- Pilih TKP --</option>

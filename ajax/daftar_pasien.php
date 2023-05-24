@@ -43,6 +43,9 @@
 	$lingkar_perut = @mysqli_real_escape_string($conn, $_POST['lingkar_perut']);
 	$heart_rate = @mysqli_real_escape_string($conn, $_POST['heart_rate']);
 	$kd_tkp = @mysqli_real_escape_string($conn, $_POST['kd_tkp']);
+	$no_asuransi =  @mysqli_real_escape_string($conn, $_POST['no_asuransi']);
+	$kd_provider_peserta = @mysqli_real_escape_string($conn, $_POST['kd_provider_peserta']);
+	// $kd_provider_peserta = "11011201";
 
 	// var_dump($tekanan_darah_diastole); die();
 	// $tekanan_darah = @mysqli_real_escape_string($conn, $_POST['tekanan_darah']);
@@ -60,24 +63,26 @@
 	
 	//bridiging 
 	$data = [ 
-			"kdProviderPeserta" => "0114A026",
-			"tglDaftar" => "12-08-2015",
-			"noKartu" => "0001113569638",
-			"kdPoli" => "001",
-			"keluhan" => null,
+			"kdProviderPeserta" => $kd_provider_peserta,
+			"tglDaftar" => date("d-m-Y"),
+			"noKartu" => $no_asuransi,
+			"kdPoli" => $kd_poli,
+			"keluhan" => $keluhan,
 			"kunjSakit" => true,
-			"sistole" => 0,
-			"diastole" => 0,
-			"beratBadan" => 0,
-			"tinggiBadan" => 0,
-			"respRate" => 0,
-			"lingkarPerut" => 0,
-			"heartRate" => 0,
+			"sistole" => (int) $tekanan_darah_sistole,
+			"diastole" => (int) $tekanan_darah_diastole,
+			"beratBadan" => (int) $berat_badan,
+			"tinggiBadan" => (int) $tinggi_badan,
+			"respRate" => (int) $frekwensi_nafas,
+			"lingkarPerut" => (int) $lingkar_perut,
+			"heartRate" => (int) $heart_rate,
 			"rujukBalik" => 0,
-			"kdTkp" => "10",
+			"kdTkp" => $kd_tkp,
 	];
-	var_dump($data); die;
-	if($sql && $sql_antrian) {
+	// var_dump($data); die;
+	// if($sql && $sql_antrian) {
+		if(true) {
+		$result = postRequestPcare("pcare/addPendaftaran",$data);
 		echo "berhasil";
 	} else {
 		echo "gagal";
