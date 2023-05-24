@@ -42,6 +42,8 @@
 	$frekwensi_nafas = @mysqli_real_escape_string($conn, $_POST['frekwensi_nafas']);
 	$lingkar_perut = @mysqli_real_escape_string($conn, $_POST['lingkar_perut']);
 	$heart_rate = @mysqli_real_escape_string($conn, $_POST['heart_rate']);
+	$kd_tkp = @mysqli_real_escape_string($conn, $_POST['kd_tkp']);
+
 	// var_dump($tekanan_darah_diastole); die();
 	// $tekanan_darah = @mysqli_real_escape_string($conn, $_POST['tekanan_darah']);
 	//$subjektif = @mysqli_real_escape_string($conn, $_POST['subjektif']);
@@ -55,7 +57,26 @@
 
 	$query_antrian = "INSERT INTO tbl_antrian (no_daftar,tanggal,no_antrian,nama_pas,nomor_rm) VALUES ('$no_daftar', '$tgl_daftar', '$nomor_antri','$nama_pas', '$nomor_rm')";
 	$sql_antrian = mysqli_query($conn, $query_antrian) or die ($conn->error);
-
+	
+	//bridiging 
+	$data = [ 
+			"kdProviderPeserta" => "0114A026",
+			"tglDaftar" => "12-08-2015",
+			"noKartu" => "0001113569638",
+			"kdPoli" => "001",
+			"keluhan" => null,
+			"kunjSakit" => true,
+			"sistole" => 0,
+			"diastole" => 0,
+			"beratBadan" => 0,
+			"tinggiBadan" => 0,
+			"respRate" => 0,
+			"lingkarPerut" => 0,
+			"heartRate" => 0,
+			"rujukBalik" => 0,
+			"kdTkp" => "10",
+	];
+	var_dump($data); die;
 	if($sql && $sql_antrian) {
 		echo "berhasil";
 	} else {

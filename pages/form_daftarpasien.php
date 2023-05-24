@@ -7,6 +7,10 @@ $poli_pcare = getRequestPcare("pcare/poli/1/100");
 if($poli_pcare != null){
 	$poli_pcare = json_decode($poli_pcare);
 }
+
+$jsonString = '[{ "kdTkp": "10", "nmTkp": "RJTP" }, { "kdTkp": "20", "nmTkp": "RITP" }, { "kdTkp": "50", "nmTkp": "Promotif" }]';
+$kdtkp = json_decode($jsonString);
+
 // var_dump($poli_pcare->response->count); die();
 ?>
 <link rel="stylesheet" href="agoi/select2.min.css">
@@ -366,6 +370,21 @@ if($poli_pcare != null){
 						<label for="heart_rate" class="col-sm-2 col-form-label">Heart Rate</label>
 						<div class="col-sm-4">
 							<input type="text" class="form-control form-control-sm" name="heart_rate" id="heart_rate" placeholder="Masukkan Heart Rate">
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label for="keluhan" class="col-sm-2 col-form-label">TKP</label>
+						<div class="col-sm-4">
+							<select name="kd_tkp" id="kd_tkp" class="form-control select2">
+								<option value="">-- Pilih TKP --</option>
+								<?php 
+									for ($i=0; $i < count($kdtkp); $i++) { 
+										echo "<option value='".$kdtkp[$i]->kdTkp."' >".$kdtkp[$i]->nmTkp."</option>";
+									}
+								
+								?>
+							</select>
 						</div>
 					</div>
 				</form>
