@@ -122,7 +122,7 @@ function postRequestPcare($url,$data)
 	$header =  [
 		'headers' => [
 			'secret-header' => 'megono',
-			"Content-Type" => "application/json"
+			// "Content-Type" => "application/json"
 		]
 	];
 	$response = $client->request('POST', $endpoint,$data, $header);

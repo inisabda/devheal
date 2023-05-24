@@ -2,12 +2,12 @@
 // require 'vendor/autoload.php'; // Assuming GuzzleHTTP is installed via Composer
 // use Bridging\Helpers\HelperFunc;
 
-$id_pas = @$_GET['id'];
-$poli_pcare = getRequestPcare("pcare/poli/1/100"); 
-if($poli_pcare != null){
-	$poli_pcare = json_decode($poli_pcare);
-}
 
+$id_pas = @$_GET['id'];
+$poli_pcare = getRequestPcare("pcare/poli/1/100");
+if ($poli_pcare != null) {
+	$poli_pcare = json_decode($poli_pcare);
+} 
 $jsonString = '[{ "kdTkp": "10", "nmTkp": "RJTP" }, { "kdTkp": "20", "nmTkp": "RITP" }, { "kdTkp": "50", "nmTkp": "Promotif" }]';
 $kdtkp = json_decode($jsonString);
 
@@ -108,7 +108,7 @@ $kdtkp = json_decode($jsonString);
 						</div>
 						<label for="nomor_rm" class="col-sm-2 col-form-label">Nomor HP</label>
 						<div class="col-sm-4">
-							<input name="no_hp" type="text" class="form-control form-control-sm"  id="no_hp" value="<?php echo $data['no_hp']; ?>" readonly>
+							<input name="no_hp" type="text" class="form-control form-control-sm" id="no_hp" value="<?php echo $data['no_hp']; ?>" readonly>
 						</div>
 					</div>
 					<div class="form-group row pt-1">
@@ -240,7 +240,7 @@ $kdtkp = json_decode($jsonString);
 						</div>
 						<label for="status_rawat" class="col-sm-2 col-form-label">Status Rawat</label>
 						<div class="col-sm-4">
-							<input name="status_rawat" type="text"  id="status_rawat" class="form-control form-control-sm" value="Belum diperiksa" disabled>
+							<input name="status_rawat" type="text" id="status_rawat" class="form-control form-control-sm" value="Belum diperiksa" disabled>
 						</div>
 					</div>
 					<div class="form-group row pt-1">
@@ -300,9 +300,9 @@ $kdtkp = json_decode($jsonString);
 						<div class="col-sm-3">
 							<input type="text" name="no_asuransi" id="no_asuransi" class="form-control">
 						</div>
-						<!-- <div class="col-sm-1">
-							<button type="button" class="btn btn-primary "><i class="fas fa-search"></i></button>
-						</div> -->
+						<div class="col-sm-1">
+							<button data-toggle="modal" data-target="#cariNokaByKtp" id="cari_noka_by_ktp" type="button" class="btn btn-primary "><i class="fas fa-search"></i></button>
+						</div>
 					</div>
 
 					<div class="form-group row">
@@ -311,9 +311,9 @@ $kdtkp = json_decode($jsonString);
 							<select name="kd_poli" id="kd_poli" class="form-control select2">
 								<option value="">-- Pilih Poli --</option>
 								<?php
-								if($poli_pcare->metaData->code == 200){
-									for ($i=0; $i < $poli_pcare->response->count; $i++) { 
-										echo "<option value='".$poli_pcare->response->list[$i]->kdPoli."' >".$poli_pcare->response->list[$i]->nmPoli."</option>";
+								if ($poli_pcare->metaData->code == 200) {
+									for ($i = 0; $i < $poli_pcare->response->count; $i++) {
+										echo "<option value='" . $poli_pcare->response->list[$i]->kdPoli . "' >" . $poli_pcare->response->list[$i]->nmPoli . "</option>";
 									}
 								}
 								?>
@@ -325,6 +325,12 @@ $kdtkp = json_decode($jsonString);
 						<label for="keluhan" class="col-sm-2 col-form-label">Keluhan</label>
 						<div class="col-sm-4">
 							<input type="text" class="form-control form-control-sm" name="keluhan" id="keluhan" placeholder="Keluhan Pasien">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="kd_provider_peserta" class="col-sm-2 col-form-label">Kode Provider</label>
+						<div class="col-sm-4">
+							<input type="text"  class="form-control form-control-sm" name="kd_provider_peserta" id="kd_provider_peserta" placeholder="Kd Provider">
 						</div>
 					</div>
 					<div class="form-group row">
@@ -378,25 +384,74 @@ $kdtkp = json_decode($jsonString);
 						<div class="col-sm-4">
 							<select name="kd_tkp" id="kd_tkp" class="form-control select2">
 								<option value="">-- Pilih TKP --</option>
-								<?php 
-									for ($i=0; $i < count($kdtkp); $i++) { 
-										echo "<option value='".$kdtkp[$i]->kdTkp."' >".$kdtkp[$i]->nmTkp."</option>";
-									}
-								
+								<?php
+								for ($i = 0; $i < count($kdtkp); $i++) {
+									echo "<option value='" . $kdtkp[$i]->kdTkp . "' >" . $kdtkp[$i]->nmTkp . "</option>";
+								}
+
 								?>
 							</select>
 						</div>
 					</div>
+					<input type="hidden" name="rujuk_balik" value="0">
+					<input type="hidden" name="kunj_sakit" value="true">
 				</form>
 			</div>
 		</div>
 	</div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="cariNokaByKtp" tabindex="-1" aria-labelledby="cariNokaByKtpLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="cariNokaByKtpLabel">Cari Pasien By KTP</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-group row pt-1">
+					<label for="cari_noka" class="col-sm-2 col-form-label">No. Peserta BPJS</label>
+					<div class="col-sm-6">
+						<input type="text" id="cari_noka" class="form-control">
+					</div>
+					<div class="col-sm-2">
+						<button id="btn_cari_noka"  type="button" class="btn btn-primary "><i class="fas fa-search"></i></button>
+					</div>
+				</div>
+			</div>
+			<!-- <div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> 
+			</div> -->
+		</div>
+	</div>
+</div>
+
 <script src="agoi/select2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
 	$(document).ready(function() {
 		// tampilkan jumlah antrian
 		$('#kd_poli').select2();
+		$('#cari_noka').val($('#nik').val())
+
+		$('#btn_cari_noka').on('click', function(){
+			axios.get('ajax/bridging_peserta.php?nik='+$('#cari_noka').val()).then(res => {
+				if(res.status == 200){
+					console.log(res.data)
+					$('#kd_provider_peserta').val(res.data.response.kdProviderPst.kdProvider)
+					$('#no_asuransi').val(res.data.response.noKartu)
+					$('#cariNokaByKtp').modal('hide')
+				}
+			}).catch(error => {
+				console.log(error)
+			})
+		})
+
+		// $('#cari_noka_by_ktp').click(function (){ 
+		// })
 		$('#antrian').load('nomor-antrian/get_antrian.php');
 		// proses insert data
 		// $('#btn_simpandaftar').on('click', function() {
@@ -538,6 +593,8 @@ $kdtkp = json_decode($jsonString);
 						// "&agama=" + agama + 
 						// "&id_pas=" + id_pas,
 						success: function(hasil) {
+							let hasil_parse = JSON.parse(hasil);
+							console.log(hasil_parse);
 							if (hasil == "berhasil") {
 								Swal.fire({
 									title: 'Berhasil',
