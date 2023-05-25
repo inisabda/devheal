@@ -595,7 +595,7 @@ $kdtkp = json_decode($jsonString);
 						success: function(hasil) {
 							let hasil_parse = JSON.parse(hasil);
 							console.log(hasil_parse);
-							if (hasil == "berhasil") {
+							if (hasil_parse?.status == "berhasil") {
 								Swal.fire({
 									title: 'Berhasil',
 									text: 'Pasien Berhasil Didaftarkan',
@@ -611,10 +611,10 @@ $kdtkp = json_decode($jsonString);
 									location.reload()
 									window.location = '?page=pendaftaran';
 								})
-							} else if (hasil == "gagal") {
+							} else if (hasil_parse?.status == "gagal") {
 								Swal.fire(
-									'Gagal',
-									'Data Gagal Diubah',
+									'Gagal Simpan!',
+									hasil_parse?.res,
 									'error'
 								)
 							}

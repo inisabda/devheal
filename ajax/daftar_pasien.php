@@ -63,7 +63,7 @@ try {
 
 	$conn->begin_transaction();
 	//code...
-	$now = date('Y-m-d H:i:s',$tgl_daftar);
+	$now = date('Y-m-d', $tgl_daftar);
 	$query = "INSERT INTO tbl_daftarpasien VALUES('$no_daftar', '$tgl_daftar', '$tgl_periksa', '$nama_pas', '$nik', '$agama', '$jk', '$tpt_lahir', '$tgl_lahir', '$asuransi_pas', '$pekerjaan', '$alergi', '$no_hp', '$alm_pas','$nomor_rm', '$nm_dokter', '$nomor_antri', '$status_masuk', '$cara_masuk', '$desa','$kec', '$kab_kota', '$provinsi', '$status_rawat', '$status_bayar', '$status_obat','$id_pas', '$id_pegawai')";
 	$sql = mysqli_query($conn, $query) or die($conn->error);
 
@@ -71,9 +71,6 @@ try {
 	$sql_antrian = mysqli_query($conn, $query_antrian) or die($conn->error);
 
 
-	$query_pcare = "INSERT INTO pendaftaran_pcare (tgl_daftar,no_daftar,sistole,diastole,berat_badan,tinggi_badan,heart_rate,resp_rate,kd_poli,keluhan,kunj_sakit,no_kartu,lingkar_perut,rujuk_balik,kd_tkp,no_urut,created_at) VALUES (
-'$tgl_daftar','$no_daftar','$tekanan_darah_sistole','$tekanan_darah_diastole','$berat_badan','$tinggi_badan','$heart_rate','$frekwensi_nafas','$kd_poli','$keluhan','$kunj_sakit','$no_asuransi','$lingkar_perut','$rujuk_balik','$kd_tkp',null,'$now')";
-	$sql_antrian = mysqli_query($conn, $query_pcare) or die($conn->error);
 	//bridiging 
 	$data = [
 		"kdProviderPeserta" => $kd_provider_peserta,
@@ -95,15 +92,24 @@ try {
 	// var_dump($data); die;
 	if ($sql && $sql_antrian) {
 		// if(true) {
-		// var_dump(json_encode($data)); die();
-		$queruUpdateAntrian = $sql_antrian->insert_id;
+		// var_dump(json_encode($data)); die(); 
 		$result = postRequestPcare("pcare/addPendaftaran", $data);
+		if (is_string($result)) {
+			$result = json_decode($result);
+		}
+		// else{
+		// 	 (object) $result->response->message = "";
+		// }
 		
+		$query_pcare = "INSERT INTO pendaftaran_pcare (tgl_daftar,no_daftar,sistole,diastole,berat_badan,tinggi_badan,heart_rate,resp_rate,kd_poli,keluhan,kunj_sakit,no_kartu,lingkar_perut,rujuk_balik,kd_tkp,no_urut,created_at) VALUES (
+		'$tgl_daftar','$no_daftar','$tekanan_darah_sistole','$tekanan_darah_diastole','$berat_badan','$tinggi_badan','$heart_rate','$frekwensi_nafas','$kd_poli','$keluhan','$kunj_sakit','$no_asuransi','$lingkar_perut','$rujuk_balik','$kd_tkp','$no_urut_bpjs','$now')";
+		$sql_antrian = mysqli_query($conn, $query_pcare) or die($conn->error);
+
 
 		echo json_encode(["status" => "berhasil", "res" => $result]);
 		// echo "berhasil";
 	} else {
-		echo "gagal";
+		echo json_encode(["status" => "gagal", "res" => $result]);
 	}
 	$conn->commit();
 } catch (\Throwable $th) {
