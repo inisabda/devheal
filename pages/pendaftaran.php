@@ -42,6 +42,7 @@
 						<thead>
 							<tr>
 								<th>Antrian</th>
+								<th>No Urut PCare</th>
 								<th>No Reg</th>
 								<th>Nama</th>
 								<th>No.RM</th>
@@ -55,14 +56,16 @@
 						</thead>
 						<tbody>
 							<?php 
-							$query_tampil = "SELECT tbl_daftarpasien.*, tbl_daftarpasien.no_daftar, tbl_antrian.id FROM tbl_daftarpasien
+							$query_tampil = "SELECT tbl_daftarpasien.*,pendaftaran_pcare.no_urut, tbl_daftarpasien.no_daftar, tbl_antrian.id FROM tbl_daftarpasien
 						    LEFT JOIN tbl_antrian ON tbl_daftarpasien.no_daftar=tbl_antrian.no_daftar
-						     WHERE tgl_daftar = CURDATE() AND status_masuk='daftar' ORDER BY no_antrian DESC";					
+						    INNER JOIN pendaftaran_pcare ON tbl_daftarpasien.no_daftar=pendaftaran_pcare.no_daftar
+						     WHERE tbl_daftarpasien.tgl_daftar = CURDATE() AND status_masuk='daftar' ORDER BY no_antrian DESC";					
 							$sql_tampil = mysqli_query($conn, $query_tampil) or die ($conn->error);
 							while($data = mysqli_fetch_array($sql_tampil)) {
 								?>
 							<tr>
 								<td width="23"><a style ="font-size:18px; color:red; font-weight: bold;">A-<?php echo $data['no_antrian']; ?></a></td>
+								<td width="23"><a style ="font-size:18px; color:red; font-weight: bold;"><?php echo $data['no_urut']; ?></a></td>
 								<td><?php echo $data['no_daftar']; ?></td>
 								<td width="20%"><?php echo $data['nama_pas']; ?></td>
 								<td width="10%"><?php echo $data['nomor_rm']; ?></td>

@@ -63,7 +63,7 @@ try {
 
 	$conn->begin_transaction();
 	//code...
-	$now = date('Y-m-d', $tgl_daftar);
+	$now = date('Y-m-d');
 	$query = "INSERT INTO tbl_daftarpasien VALUES('$no_daftar', '$tgl_daftar', '$tgl_periksa', '$nama_pas', '$nik', '$agama', '$jk', '$tpt_lahir', '$tgl_lahir', '$asuransi_pas', '$pekerjaan', '$alergi', '$no_hp', '$alm_pas','$nomor_rm', '$nm_dokter', '$nomor_antri', '$status_masuk', '$cara_masuk', '$desa','$kec', '$kab_kota', '$provinsi', '$status_rawat', '$status_bayar', '$status_obat','$id_pas', '$id_pegawai')";
 	$sql = mysqli_query($conn, $query) or die($conn->error);
 
@@ -97,6 +97,11 @@ try {
 		if (is_string($result)) {
 			$result = json_decode($result);
 		}
+		if($result != null){
+			$no_urut_bpjs = $result->response->message;
+		}else{
+			$no_urut_bpjs = '';
+		}
 		// else{
 		// 	 (object) $result->response->message = "";
 		// }
@@ -105,7 +110,7 @@ try {
 		'$tgl_daftar','$no_daftar','$tekanan_darah_sistole','$tekanan_darah_diastole','$berat_badan','$tinggi_badan','$heart_rate','$frekwensi_nafas','$kd_poli','$keluhan','$kunj_sakit','$no_asuransi','$lingkar_perut','$rujuk_balik','$kd_tkp','$no_urut_bpjs','$now')";
 		$sql_antrian = mysqli_query($conn, $query_pcare) or die($conn->error);
 
-
+		
 		echo json_encode(["status" => "berhasil", "res" => $result]);
 		// echo "berhasil";
 	} else {

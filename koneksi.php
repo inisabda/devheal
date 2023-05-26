@@ -115,17 +115,16 @@ function getRequestPcare($url)
 	return $response->getBody()->getContents();
 }
 
-function postRequestPcare($url,$data)
+function postRequestPcare($url, $data)
 {
 	$endpoint = "http://localhost:8000/$url";
-	$client = new Client(); 
+	$client = new Client();
 	$header =  [
-		'headers' => [
-			'secret-header' => 'megono',
-			// "Content-Type" => "application/json"
-		]
+		// 'secret-header' => 'megono',
+		"Content-Type" => "application/json"
 	];
-	$response = $client->request('POST', $endpoint,$data, $header);
-
+	// var_dump($data); die();
+	$response = $client->request('POST',$endpoint, ['body' => json_encode($data), 'headers' => $header]);
+	// var_dump($response->getBody()->); die();
 	return $response->getBody()->getContents();
 }
