@@ -111,10 +111,22 @@ try {
 		$sql_antrian = mysqli_query($conn, $query_pcare) or die($conn->error);
 
 		
+		if($result!= null){
+			if($result->metaData->code == 412 ||$result->metaData->code == 401){
+				echo json_encode(["status" => "gagal", "res" => $result]);
+				$conn->rollback();
+				return;
+			}
+		}
 		echo json_encode(["status" => "berhasil", "res" => $result]);
 		// echo "berhasil";
 	} else {
-		echo json_encode(["status" => "gagal", "res" => $result]);
+		if($result!= null){
+			if($result->metaData->code == 412 || $result->metaData->code == 401){
+				echo json_encode(["status" => "gagal", "res" => $result]);
+				$conn->rollback();
+			}
+		}
 	}
 	$conn->commit();
 } catch (\Throwable $th) {

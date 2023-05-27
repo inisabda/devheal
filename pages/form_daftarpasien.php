@@ -7,7 +7,7 @@ $id_pas = @$_GET['id'];
 $poli_pcare = getRequestPcare("pcare/poli/1/100");
 if ($poli_pcare != null) {
 	$poli_pcare = json_decode($poli_pcare);
-} 
+}
 $jsonString = '[{ "kdTkp": "10", "nmTkp": "RJTP" }, { "kdTkp": "20", "nmTkp": "RITP" }, { "kdTkp": "50", "nmTkp": "Promotif" }]';
 $kdtkp = json_decode($jsonString);
 
@@ -330,7 +330,7 @@ $kdtkp = json_decode($jsonString);
 					<div class="form-group row">
 						<label for="kd_provider_peserta" class="col-sm-2 col-form-label">Kode Provider</label>
 						<div class="col-sm-4">
-							<input type="text"  class="form-control form-control-sm" name="kd_provider_peserta" id="kd_provider_peserta" placeholder="Kd Provider">
+							<input type="text" class="form-control form-control-sm" name="kd_provider_peserta" id="kd_provider_peserta" placeholder="Kd Provider">
 						</div>
 					</div>
 					<div class="form-group row">
@@ -418,7 +418,7 @@ $kdtkp = json_decode($jsonString);
 						<input type="text" id="cari_noka" class="form-control">
 					</div>
 					<div class="col-sm-2">
-						<button id="btn_cari_noka"  type="button" class="btn btn-primary "><i class="fas fa-search"></i></button>
+						<button id="btn_cari_noka" type="button" class="btn btn-primary "><i class="fas fa-search"></i></button>
 					</div>
 				</div>
 			</div>
@@ -432,14 +432,23 @@ $kdtkp = json_decode($jsonString);
 <script src="agoi/select2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
+	function mergeArrayToString(array) {
+		let mergedString = '';
+		array.forEach(item => {
+			const field = item.field;
+			const message = item.message;
+			mergedString += `${field}: ${message}\n`;
+		});
+		return mergedString;
+	}
 	$(document).ready(function() {
 		// tampilkan jumlah antrian
 		$('#kd_poli').select2();
 		$('#cari_noka').val($('#nik').val())
 
-		$('#btn_cari_noka').on('click', function(){
-			axios.get('ajax/bridging_peserta.php?nik='+$('#cari_noka').val()).then(res => {
-				if(res.status == 200){
+		$('#btn_cari_noka').on('click', function() {
+			axios.get('ajax/bridging_peserta.php?nik=' + $('#cari_noka').val()).then(res => {
+				if (res.status == 200) {
 					console.log(res.data)
 					$('#kd_provider_peserta').val(res.data.response.kdProviderPst.kdProvider)
 					$('#no_asuransi').val(res.data.response.noKartu)
@@ -612,11 +621,50 @@ $kdtkp = json_decode($jsonString);
 									window.location = '?page=pendaftaran';
 								})
 							} else if (hasil_parse?.status == "gagal") {
-								Swal.fire(
-									'Gagal Simpan!',
-									hasil_parse?.res,
-									'error'
-								)
+								if (hasil_parse?.res?.metaData?.code == 412) {
+
+									if (hasil_parse?.res?.response != null) {
+										if (Array.isArray(hasil_parse?.res?.response)) {
+											console.log('The JSON value is an array.');
+											const mergedString = mergeArrayToString(hasil_parse?.res?.response);
+											Swal.fire({
+												title: 'Perhatian!',
+												text: `Terjadi Kesalahan input:\n${mergedString}`,
+												icon: 'info',
+											});
+										} else if (typeof hasil_parse?.res?.response === 'object' && hasil_parse?.res?.response !== null) {
+											console.log('The JSON value is an object.');
+											const {
+												field,
+												message
+											} = hasil_parse?.res?.response;
+											Swal.fire({
+												title: 'Perhatian!',
+												text: `Terjadi Kesalahan input:\n${field} ${message}`,
+												icon: 'info',
+											});
+										} else {
+											Swal.fire({
+												title: 'Perhatian!',
+												text: `Terjadi Kesalahan`,
+												icon: 'error',
+											});
+										}
+									}
+								} else if (hasil_parse?.res?.metaData?.code == 401) {
+									const message = hasil_parse?.res?.metaData?.message;
+									Swal.fire({
+										title: 'Perhatian!',
+										text: `Duplikasi Input :\n${message}`,
+										icon: 'info',
+									});
+								} else {
+									Swal.fire(
+										'Gagal Simpan!',
+										hasil_parse?.res,
+										'error'
+									)
+								}
 							}
 						}
 					})
