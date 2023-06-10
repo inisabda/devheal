@@ -301,7 +301,7 @@ $kdtkp = json_decode($jsonString);
 							<input type="text" name="no_asuransi" id="no_asuransi" class="form-control">
 						</div>
 						<div class="col-sm-1">
-							<button data-toggle="modal" data-target="#cariNokaByKtp" id="cari_noka_by_ktp" type="button" class="btn btn-primary "><i class="fas fa-search"></i></button>
+							<button data-toggle="modal" data-target="#cariNoka" id="cari_noka_by_ktp" type="button" class="btn btn-primary "><i class="fas fa-search"></i></button>
 						</div>
 					</div>
 
@@ -339,12 +339,12 @@ $kdtkp = json_decode($jsonString);
 							<input type="number" class="form-control form-control-sm" name="berat_badan" id="berat_badan" placeholder="Masukkan BB">
 						</div>
 					</div>
-					<div class="form-group row">
+					<!-- <div class="form-group row">
 						<label for="temp" class="col-sm-2 col-form-label">Temperatur</label>
 						<div class="col-sm-4">
 							<input type="text" class="form-control form-control-sm" name="temp" id="temp" placeholder="suhu tubuh">
 						</div>
-					</div>
+					</div> -->
 					<div class="form-group row">
 						<label for="tinggi_badan" class="col-sm-2 col-form-label">Tinggi Badan</label>
 						<div class="col-sm-4">
@@ -402,11 +402,11 @@ $kdtkp = json_decode($jsonString);
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="cariNokaByKtp" tabindex="-1" aria-labelledby="cariNokaByKtpLabel" aria-hidden="true">
+<div class="modal fade" id="cariNoka" tabindex="-1" aria-labelledby="cariNokaLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="cariNokaByKtpLabel">Cari Pasien By KTP</h5>
+				<h5 class="modal-title" id="cariNokaLabel">Cari Pasien By Noka</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -444,15 +444,20 @@ $kdtkp = json_decode($jsonString);
 	$(document).ready(function() {
 		// tampilkan jumlah antrian
 		$('#kd_poli').select2();
-		$('#cari_noka').val($('#nik').val())
+		// $('#cari_noka').val($('#nik').val())
+		$('#cari_noka_by_ktp').on('click', function() {
+			$('#cari_noka').val($('#no_asuransi').val()).trigger('change')
+		})
 
 		$('#btn_cari_noka').on('click', function() {
-			axios.get('ajax/bridging_peserta.php?nik=' + $('#cari_noka').val()).then(res => {
+
+			$('#cari_noka').val($('#no_asuransi').val()).trigger('change')
+			axios.get('ajax/bridging_peserta.php?noka=' + $('#cari_noka').val()).then(res => {
 				if (res.status == 200) {
 					console.log(res.data)
 					$('#kd_provider_peserta').val(res.data.response.kdProviderPst.kdProvider)
 					$('#no_asuransi').val(res.data.response.noKartu)
-					$('#cariNokaByKtp').modal('hide')
+					$('#cariNoka').modal('hide')
 				}
 			}).catch(error => {
 				console.log(error)

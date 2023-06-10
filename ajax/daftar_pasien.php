@@ -38,7 +38,7 @@ $tinggi_badan = @mysqli_real_escape_string($conn, $_POST['tinggi_badan']);
 $berat_badan = @mysqli_real_escape_string($conn, $_POST['berat_badan']);
 $kd_poli = @mysqli_real_escape_string($conn, $_POST['kd_poli']);
 $keluhan = @mysqli_real_escape_string($conn, $_POST['keluhan']);
-$temp = @mysqli_real_escape_string($conn, $_POST['temp']);
+// $temp = @mysqli_real_escape_string($conn, $_POST['temp']);
 $frekwensi_nafas = @mysqli_real_escape_string($conn, $_POST['frekwensi_nafas']);
 $lingkar_perut = @mysqli_real_escape_string($conn, $_POST['lingkar_perut']);
 $heart_rate = @mysqli_real_escape_string($conn, $_POST['heart_rate']);
@@ -85,7 +85,7 @@ try {
 		"tinggiBadan" => (int) $tinggi_badan,
 		"respRate" => (int) $frekwensi_nafas,
 		"lingkarPerut" => (int) $lingkar_perut,
-		"heartRate" => (int) $heart_rate,
+		"heartRate" => (int) $heart_rate, 
 		"rujukBalik" => 0,
 		"kdTkp" => $kd_tkp,
 	];
