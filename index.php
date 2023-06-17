@@ -420,7 +420,9 @@
               } else if(@$_GET['page']=='perawatan2') {
                 include 'pages/perawatan_pasien2.php';
               } else if(@$_GET['page']=='form_assesment') {
-                include 'pages/form_assesment.php';
+                include 'pages/form_assesment.php'; 
+              } else if(@$_GET['page']=='form_kunjungan') {
+                include 'pages/form_kunjungan.php';
                 // Panggil Antrian pada halaman Assesment
               } else if(@$_GET['page']=='panggil') {
                 include 'pages/panggil.php';

@@ -31,15 +31,15 @@
       <div class="row data-assesment">
           <?php 
           
-          $query_tampil = "SELECT * FROM tbl_daftarpasien WHERE no_daftar='$no_daftar'";
+          $query_tampil = "SELECT * FROM tbl_daftarpasien LEFT JOIN pendaftaran_pcare on tbl_daftarpasien.no_daftar = pendaftaran_pcare.no_daftar WHERE tbl_daftarpasien.no_daftar='$no_daftar' ";
           $sql_tampil = mysqli_query($conn, $query_tampil) or die ($conn->error);
-          $data = mysqli_fetch_array($sql_tampil);
-              $nomor_rm = $data['nomor_rm'];
-              $nama_pasien = $data['nama_pas'];
-              $alergi = $data['alergi'];
+          $datapas = mysqli_fetch_array($sql_tampil); 
+              $nomor_rm = $datapas['nomor_rm'];
+              $nama_pasien = $datapas['nama_pas'];
+              $alergi = $datapas['alergi'];
               $tidak_alergi = "tidak ada";
          //Fungsi Menghitung Umur Pasien
-              $tanggal_lahir = new DateTime($data['lhr_pas']);
+              $tanggal_lahir = new DateTime($datapas['lhr_pas']);
               $sekarang = new DateTime("today");
               if ($tanggal_lahir > $sekarang) { 
                   $thn = "0";
@@ -59,13 +59,13 @@
                   <tr>
                       <td width="100"><b>No. Registrasi</b></td>
                       <td width="10">:</td>
-                      <td><?php echo $data['no_daftar']; ?></td>
+                      <td><?php echo $datapas['no_daftar']; ?></td>
                       <td>Alergi :
                         <?php
                         $tidak_alergi = "Tidak Ada Alergi";
-                          if($data['alergi']){ ?>
-                            <span class="badge badge-pill badge-warning" style="padding: 8px; font-size: 11px;"><?php echo $data['alergi']; ?></span>
-                          <?php }else if($data['alergi'] == ''){?>                       
+                          if($datapas['alergi']){ ?>
+                            <span class="badge badge-pill badge-warning" style="padding: 8px; font-size: 11px;"><?php echo $datapas['alergi']; ?></span>
+                          <?php }else if($datapas['alergi'] == ''){?>                       
                             <span class="badge badge-pill badge-success" style="padding: 8px; font-size: 11px;"><?php echo $tidak_alergi;?></span>
                           <?php }
                         ?>
@@ -74,61 +74,61 @@
                   <tr>
                       <td width="100"><b>Nomor RM</b></td>
                       <td width="10">:</td>
-                      <td><?php echo $data['nomor_rm']; ?></td>
+                      <td><?php echo $datapas['nomor_rm']; ?></td>
                   </tr>
                   <tr>
                       <td width="100"><b>Nama Pasien</b></td>
                       <td width="10">:</td>
-                      <td><?php echo $data['nama_pas']; ?></td>
-                      <td><?php echo $data['jk_pas']; ?></td>
+                      <td><?php echo $datapas['nama_pas']; ?></td>
+                      <td><?php echo $datapas['jk_pas']; ?></td>
                   </tr>
                   <tr>
                       <td width="100"><b>TTL Pasien</b></td>
                       <td width="10">:</td>
-                      <td><?php echo $data['tpt_lahir']; ?>, <?php echo date('d-m-Y',strtotime($data['lhr_pas'])); ?> (<?php echo $thn." tahun ".$bln." bulan ";?>)</td>
+                      <td><?php echo $datapas['tpt_lahir']; ?>, <?php echo date('d-m-Y',strtotime($datapas['lhr_pas'])); ?> (<?php echo $thn." tahun ".$bln." bulan ";?>)</td>
                   </tr>
                   <tr>
                       <td width="100"><b>Agama</b></td>
                       <td width="10">:</td>
-                      <td><?php echo $data['agama']; ?></td>
+                      <td><?php echo $datapas['agama']; ?></td>
                   </tr>
                   <tr>
                       <td width="100"><b>Alamat</b></td>
                       <td width="10">:</td>
-                      <td><?php echo $data['alm_pas']; ?></td>
+                      <td><?php echo $datapas['alm_pas']; ?></td>
                   </tr>
                   <tr>
                       <td width="100"><b>Cara Bayar</b></td>
                       <td width="10">:</td>
-                      <td><?php echo $data['asuransi_pas']; ?></td>
+                      <td><?php echo $datapas['asuransi_pas']; ?></td>
                   </tr>
                   <tr>
                       <td width="100"><b>Dokter</b></td>
                       <td width="10">:</td>
-                      <td><?php echo $data['nm_dokter']; ?></td>
+                      <td><?php echo $datapas['nm_dokter']; ?></td>
                   </tr>
                   
               </table>
               <table class="data_pasien mt-3" border="0" cellpadding="0">
                   <tr>
                     <td>
-                        <button class="btn btn-warning btn-sm" title="Form Assesment Pasien" id="tombol_diagnosa" name="tombol_diagnosa" data-id="<?php echo $data['no_daftar']; ?>"><i class="fas fa-stethoscope"> Assesment</i></button>
-                        <button class="btn-transition btn btn-outline-info btn-sm" title="Form Pemberian Obat Non Racikan" id="tombol_obatoral" name="tombol_obatoral" data-id="<?php echo $data['no_daftar']; ?>"><i class="fas fa-pills"> Obat Non racikan</i></button>
-                        <button class="btn-transition btn btn-outline-info btn-sm" title="Form Pemberian Obat Racikan" id="tombol_obatracik" name="tombol_obatracik" data-id="<?php echo $data['no_daftar']; ?>"><i class="fas fa-mortar-pestle"> Obat Racikan</i></button>
-                        <button class="btn-transition btn btn-outline-info btn-sm" title="Form Tindakan Pasien" id="tombol_tindakan" name="tombol_tindakan" data-id="<?php echo $data['no_daftar']; ?>"><i class="fas fa-syringe"> Tindakan</i></button>
-                        <button class="btn-transition btn btn-outline-info btn-sm" title="Form Laborat Pasien" id="tombol_laborat" name="tombol_laborat" data-id="<?php echo $data['no_daftar']; ?>"><i class="fas fa-flask"> Laborat</i></button>
-                        <a href="#" target="_blank" class="btn-transition btn btn-outline-info btn-sm" title="Rujukan" id="tombol_riwayat" name="tombol_riwayat" data-id="<?php echo $data['nomor_rm']; ?>"><i class="fas fa-user"> Rujukan</i></a>
-                        <button class="btn-transition btn btn-outline-danger btn-sm" title="Riwayat Berobat Pasien" id="tombol_riwayat" name="tombol_riwayat" data-id="<?php echo $data['nomor_rm']; ?>"><i class="fas fa-receipt"> Riwayat Berobat</i></button>
+                        <button class="btn btn-warning btn-sm" title="Form Assesment Pasien" id="tombol_diagnosa" name="tombol_diagnosa" data-id="<?php echo $datapas['no_daftar']; ?>"><i class="fas fa-stethoscope"> Assesment</i></button>
+                        <button class="btn-transition btn btn-outline-info btn-sm" title="Form Pemberian Obat Non Racikan" id="tombol_obatoral" name="tombol_obatoral" data-id="<?php echo $datapas['no_daftar']; ?>"><i class="fas fa-pills"> Obat Non racikan</i></button>
+                        <button class="btn-transition btn btn-outline-info btn-sm" title="Form Pemberian Obat Racikan" id="tombol_obatracik" name="tombol_obatracik" data-id="<?php echo $datapas['no_daftar']; ?>"><i class="fas fa-mortar-pestle"> Obat Racikan</i></button>
+                        <button class="btn-transition btn btn-outline-info btn-sm" title="Form Tindakan Pasien" id="tombol_tindakan" name="tombol_tindakan" data-id="<?php echo $datapas['no_daftar']; ?>"><i class="fas fa-syringe"> Tindakan</i></button>
+                        <button class="btn-transition btn btn-outline-info btn-sm" title="Form Laborat Pasien" id="tombol_laborat" name="tombol_laborat" data-id="<?php echo $datapas['no_daftar']; ?>"><i class="fas fa-flask"> Laborat</i></button> 
+                        <button class="btn-transition btn  btn-outline-info  btn-sm" title="Kunjungan Pasien" id="tombol_kunjungan" name="tombol_kunjungan" data-id="<?php echo $datapas['no_daftar']; ?>"><i class="fas fa-user"> Kunjungan</i></button>
+                        <button class="btn-transition btn btn-outline-danger btn-sm" title="Riwayat Berobat Pasien" id="tombol_riwayat" name="tombol_riwayat" data-id="<?php echo $datapas['nomor_rm']; ?>"><i class="fas fa-receipt"> Riwayat Berobat</i></button>
                         <div class="btn-group dropright">
                             <button class="btn-transition btn btn-outline-danger btn-sm dropdown" type="button" title="Cetak Surat" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                <i class="fas fa-envelope"> Cetak Surat</i></button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <button class="dropdown-item" id="tombol_suratijin" name="tombol_suratijin" data-id="<?php echo $data['no_daftar']; ?>">Surat Ijin Sakit</button>
-                                <button class="dropdown-item" id="tombol_suratsehat" name="tombol_suratsehat" data-id="<?php echo $data['no_daftar']; ?>">Surat Keterangan Sehat</button>
-                                <button class="dropdown-item" id="tombol_suratsakit" name="tombol_suratsakit" data-id="<?php echo $data['no_daftar']; ?>">Surat Keterangan Sakit</button>
-                                <button class="dropdown-item" id="tombol_rujuk" name="tombol_rujuk" data-id="<?php echo $data['no_daftar']; ?>">Rujuk Pasien</button>
-                                <button class="dropdown-item" id="tombol_swab" name="tombol_swab" data-id="<?php echo $data['no_daftar']; ?>">Surat Keterangan SWAB</button>
-                                <button class="dropdown-item" id="tombol_narkoba" name="tombol_narkoba" data-id="<?php echo $data['no_daftar']; ?>">Surat Ket. Narkoba</button>
+                                <button class="dropdown-item" id="tombol_suratijin" name="tombol_suratijin" data-id="<?php echo $datapas['no_daftar']; ?>">Surat Ijin Sakit</button>
+                                <button class="dropdown-item" id="tombol_suratsehat" name="tombol_suratsehat" data-id="<?php echo $datapas['no_daftar']; ?>">Surat Keterangan Sehat</button>
+                                <button class="dropdown-item" id="tombol_suratsakit" name="tombol_suratsakit" data-id="<?php echo $datapas['no_daftar']; ?>">Surat Keterangan Sakit</button>
+                                <button class="dropdown-item" id="tombol_rujuk" name="tombol_rujuk" data-id="<?php echo $datapas['no_daftar']; ?>">Rujuk Pasien</button>
+                                <button class="dropdown-item" id="tombol_swab" name="tombol_swab" data-id="<?php echo $datapas['no_daftar']; ?>">Surat Keterangan SWAB</button>
+                                <button class="dropdown-item" id="tombol_narkoba" name="tombol_narkoba" data-id="<?php echo $datapas['no_daftar']; ?>">Surat Ket. Narkoba</button>
                             </div>
                         </div>
                     </td>
@@ -171,14 +171,14 @@
               </div>
               <div class="col-sm-3">
                 <input name="no_diagnosa" id="no_diagnosa" type="hidden" class="form-control form-control-sm" value="<?php echo $no_diagnosa; ?>">
-                <input type="hidden" class="form-control form-control-sm" name="no_daftar" id="no_daftar" value="<?php echo $data['no_daftar']; ?>" disabled>
+                <input type="hidden" class="form-control form-control-sm" name="no_daftar" id="no_daftar" value="<?php echo $datapas['no_daftar']; ?>" disabled>
               </div>
               <div class="col-sm-3">
-                <input type="hidden" class="form-control form-control-sm" name="nomor_rm" id="nomor_rm" value="<?php echo $data['nomor_rm']; ?>" disabled>
-                <input type="hidden" class="form-control form-control-sm" name="nama_pas" id="nama_pas" value="<?php echo $data['nama_pas']; ?>" disabled>
+                <input type="hidden" class="form-control form-control-sm" name="nomor_rm" id="nomor_rm" value="<?php echo $datapas['nomor_rm']; ?>" disabled>
+                <input type="hidden" class="form-control form-control-sm" name="nama_pas" id="nama_pas" value="<?php echo $datapas['nama_pas']; ?>" disabled>
               </div>              
               <div class="col-sm-3">
-                <input type="hidden" class="form-control form-control-sm" name="alm_pas" id="alm_pas" value="<?php echo $data['alm_pas']; ?>" disabled>
+                <input type="hidden" class="form-control form-control-sm" name="alm_pas" id="alm_pas" value="<?php echo $datapas['alm_pas']; ?>" disabled>
                 <input type="hidden" class="form-control form-control-sm" name="alergi" id="alergi" value="<?php echo $alergi; ?>" disabled>
               </div>
           </div>                         
@@ -203,7 +203,7 @@
 
             <label for="dokter" class="col-sm-2 col-form-label" style="text-align: left;">DPJP</label>
               <div class="col-sm-4">
-                  <input type="text" class="form-control form-control-sm" id="nm_dokter" value="<?php echo $data['nm_dokter']; ?>" name="nm_dokter" disabled>
+                  <input type="text" class="form-control form-control-sm" id="nm_dokter" value="<?php echo $datapas['nm_dokter']; ?>" name="nm_dokter" disabled>
               </div>
           </div>
           <div class="col-md-12">
@@ -222,7 +222,10 @@
               </thead>
               <tbody>
                 <tr>
-                  <td><input type="button" class="btn btn-danger btn-sm" onclick="loadttvnormal()" value="Load hasil ttv normal"></td>
+                  <td>
+                  <input type="button" class="btn btn-danger btn-sm my-2" onclick="loadttvnormal()" value="Load hasil ttv normal">
+                  <input type="button" class="btn btn-danger btn-sm" onclick="loadttvpendaftaran()" value="Load hasil ttv pendaftaran">
+                  </td>
                   <td><input type="text" style="width:100px; background-color: yellow;" class="form-control form-control-sm" name="tekanan_darah" id="tekanan_darah" placeholder="........... MmHg"></td>
                   <td><input type="number" style="width:90px; background-color: yellow;" class="form-control form-control-sm" name="tinggi_badan" id="tinggi_badan" placeholder="............Cm"></td>
                   <td><input type="number" style="width:90px; background-color: yellow;" class="form-control form-control-sm" name="berat_badan" id="berat_badan" placeholder="............Kg"></td>
@@ -612,6 +615,18 @@
     document.getElementById("nadi").value ="90";
   }
 
+  
+  function loadttvpendaftaran() {
+    // < var_dump($datapas); die(); ?>
+    document.getElementById("tekanan_darah").value = "<?= $datapas['sistole']."/".$datapas["diastole"] ?>";
+    // document.getElementById("temp").value  ="36.5";
+    // document.getElementById("saturasi").value = 
+    document.getElementById('tinggi_badan').value = "<?= $datapas['tinggi_badan'] ?>";
+    document.getElementById('berat_badan').value = "<?= $datapas['berat_badan'] ?>";
+    document.getElementById('rr').value = "<?= $datapas['resp_rate'] ?>";
+    document.getElementById("nadi").value = "<?= $datapas['heart_rate'] ?>";
+  }
+
   $("#simpan_edit").on("submit", function(event){
     event.preventDefault();
     var no_daftar = $("#no_daf").val();
@@ -838,6 +853,11 @@
     $("button[name='tombol_riwayat']").click(function() {
         var id = $(this).data('id');
         window.location='?page=riwayatperiksa&id='+id;
+      });
+      
+    $("button[name='tombol_kunjungan']").click(function() {
+        var id = $(this).data('id');
+        window.location='?page=form_kunjungan&id='+id;
       });
     $("button[name='tombol_suratijin']").click(function() {
         var id = $(this).data('id');
