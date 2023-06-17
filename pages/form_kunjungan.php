@@ -1,8 +1,28 @@
 <link rel="stylesheet" href="agoi/select2.min.css">
-    <script src="agoi/select2.min.js"></script>
-<?php 
-    $no_daftar = @$_GET['id'];
- ?>
+<script src="agoi/select2.min.js"></script>
+<?php
+$no_daftar = @$_GET['id'];
+
+$poli_pcare = getRequestPcare("pcare/poli/1/100");
+if ($poli_pcare != null) {
+  $poli_pcare = json_decode($poli_pcare);
+}
+
+$kdsadar_pcare = getRequestPcare("pcare/kesadaran");
+if ($kdsadar_pcare != null) {
+  $kdsadar_pcare = json_decode($kdsadar_pcare);
+}
+
+$statuspulang_pcare = getRequestPcare("pcare/status-pulang/false");
+if ($statuspulang_pcare != null) {
+  $statuspulang_pcare = json_decode($statuspulang_pcare);
+}
+$dokter_pcare = getRequestPcare("pcare/dokter/1/15");
+if ($dokter_pcare != null) {
+  $dokter_pcare = json_decode($dokter_pcare);
+}
+
+?>
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb bg-light">
     <li class="breadcrumb-item"><a href="./"><i class="fas fa-home"></i> Home</a></li>
@@ -12,138 +32,140 @@
 
 <div class="page-content">
   <div class="row">
-    <div class="col-6"><h4><i class="fas fa-file-signature"></i> Form Kunjungan</h4></div>
+    <div class="col-6">
+      <h4><i class="fas fa-file-signature"></i> Form Kunjungan</h4>
+    </div>
     <div class="col-6 text-right">
-        <?php if($_SESSION['posisi_peg'] == 'Dokter2') { ?>
+      <?php if ($_SESSION['posisi_peg'] == 'Dokter2') { ?>
         <a href="?page=perawatan2">
-            <button class="btn btn-sm btn-danger"><i class="fas fa-list"></i> List Pasien <?php echo $_SESSION['nama_peg']; ?></button>
+          <button class="btn btn-sm btn-danger"><i class="fas fa-list"></i> List Pasien <?php echo $_SESSION['nama_peg']; ?></button>
         </a>
-        <?php } ?>
-        <?php if($_SESSION['posisi_peg'] == 'Dokter') { ?>
-            <a href="?page=perawatan">
-            <button class="btn btn-sm btn-danger"><i class="fas fa-list"></i> List Pasien <?php echo $_SESSION['nama_peg']; ?></button>
+      <?php } ?>
+      <?php if ($_SESSION['posisi_peg'] == 'Dokter') { ?>
+        <a href="?page=perawatan">
+          <button class="btn btn-sm btn-danger"><i class="fas fa-list"></i> List Pasien <?php echo $_SESSION['nama_peg']; ?></button>
         </a>
-        <?php } ?>
+      <?php } ?>
     </div>
   </div>
   <div class="row" style="padding: 0 20px;">
     <div class="col-md-12 vertical-form">
       <div class="row data-assesment">
-          <?php 
-          
-          $query_tampil = "SELECT * FROM tbl_daftarpasien LEFT JOIN pendaftaran_pcare on tbl_daftarpasien.no_daftar = pendaftaran_pcare.no_daftar WHERE tbl_daftarpasien.no_daftar='$no_daftar' ";
-          $sql_tampil = mysqli_query($conn, $query_tampil) or die ($conn->error);
-          $datapas = mysqli_fetch_array($sql_tampil); 
-              $nomor_rm = $datapas['nomor_rm'];
-              $nama_pasien = $datapas['nama_pas'];
-              $alergi = $datapas['alergi'];
-              $tidak_alergi = "tidak ada";
-         //Fungsi Menghitung Umur Pasien
-              $tanggal_lahir = new DateTime($datapas['lhr_pas']);
-              $sekarang = new DateTime("today");
-              if ($tanggal_lahir > $sekarang) { 
-                  $thn = "0";
-                  $bln = "0";
-                  $tgl = "0";
-              }
-              $thn = $sekarang->diff($tanggal_lahir)->y;
-              $bln = $sekarang->diff($tanggal_lahir)->m;
-              $tgl = $sekarang->diff($tanggal_lahir)->d;
-              //echo "Umur anda adalah :<br>";
-              //echo $thn." tahun ".$bln." bulan ".$tgl." hari";
-             ?>
+        <?php
 
-          <div class="col-md-12" style="text-align: left; font-size: 14px;">
-              <br>
-              <table border="0" cellpadding="0">
-                  <tr>
-                      <td width="100"><b>No. Registrasi</b></td>
-                      <td width="10">:</td>
-                      <td><?php echo $datapas['no_daftar']; ?></td>
-                      <td>Alergi :
-                        <?php
-                        $tidak_alergi = "Tidak Ada Alergi";
-                          if($datapas['alergi']){ ?>
-                            <span class="badge badge-pill badge-warning" style="padding: 8px; font-size: 11px;"><?php echo $datapas['alergi']; ?></span>
-                          <?php }else if($datapas['alergi'] == ''){?>                       
-                            <span class="badge badge-pill badge-success" style="padding: 8px; font-size: 11px;"><?php echo $tidak_alergi;?></span>
-                          <?php }
-                        ?>
-                     </td>
-                  </tr>
-                  <tr>
-                      <td width="100"><b>Nomor RM</b></td>
-                      <td width="10">:</td>
-                      <td><?php echo $datapas['nomor_rm']; ?></td>
-                  </tr>
-                  <tr>
-                      <td width="100"><b>Nama Pasien</b></td>
-                      <td width="10">:</td>
-                      <td><?php echo $datapas['nama_pas']; ?></td>
-                      <td><?php echo $datapas['jk_pas']; ?></td>
-                  </tr>
-                  <tr>
-                      <td width="100"><b>TTL Pasien</b></td>
-                      <td width="10">:</td>
-                      <td><?php echo $datapas['tpt_lahir']; ?>, <?php echo date('d-m-Y',strtotime($datapas['lhr_pas'])); ?> (<?php echo $thn." tahun ".$bln." bulan ";?>)</td>
-                  </tr>
-                  <tr>
-                      <td width="100"><b>Agama</b></td>
-                      <td width="10">:</td>
-                      <td><?php echo $datapas['agama']; ?></td>
-                  </tr>
-                  <tr>
-                      <td width="100"><b>Alamat</b></td>
-                      <td width="10">:</td>
-                      <td><?php echo $datapas['alm_pas']; ?></td>
-                  </tr>
-                  <tr>
-                      <td width="100"><b>Cara Bayar</b></td>
-                      <td width="10">:</td>
-                      <td><?php echo $datapas['asuransi_pas']; ?></td>
-                  </tr>
-                  <tr>
-                      <td width="100"><b>Dokter</b></td>
-                      <td width="10">:</td>
-                      <td><?php echo $datapas['nm_dokter']; ?></td>
-                  </tr>
-                  
-              </table>
-              <table class="data_pasien mt-3" border="0" cellpadding="0">
-                  <tr>
-                    <td>
-                        <button class="btn-transition btn btn-outline-info btn-sm" title="Form Assesment Pasien" id="tombol_diagnosa" name="tombol_diagnosa" data-id="<?php echo $datapas['no_daftar']; ?>"><i class="fas fa-stethoscope"> Assesment</i></button>
-                        <button class="btn-transition btn btn-outline-info btn-sm" title="Form Pemberian Obat Non Racikan" id="tombol_obatoral" name="tombol_obatoral" data-id="<?php echo $datapas['no_daftar']; ?>"><i class="fas fa-pills"> Obat Non racikan</i></button>
-                        <button class="btn-transition btn btn-outline-info btn-sm" title="Form Pemberian Obat Racikan" id="tombol_obatracik" name="tombol_obatracik" data-id="<?php echo $datapas['no_daftar']; ?>"><i class="fas fa-mortar-pestle"> Obat Racikan</i></button>
-                        <button class="btn-transition btn btn-outline-info btn-sm" title="Form Tindakan Pasien" id="tombol_tindakan" name="tombol_tindakan" data-id="<?php echo $datapas['no_daftar']; ?>"><i class="fas fa-syringe"> Tindakan</i></button>
-                        <button class="btn-transition btn btn-outline-info btn-sm" title="Form Laborat Pasien" id="tombol_laborat" name="tombol_laborat" data-id="<?php echo $datapas['no_daftar']; ?>"><i class="fas fa-flask"> Laborat</i></button> 
-                        <button class="btn btn-warning btn-sm" title="Kunjungan Pasien" id="tombol_kunjungan" name="tombol_kunjungan" data-id="<?php echo $datapas['no_daftar']; ?>"><i class="fas fa-user"> Kunjungan</i></button>
-                        <button class="btn-transition btn btn-outline-danger btn-sm" title="Riwayat Berobat Pasien" id="tombol_riwayat" name="tombol_riwayat" data-id="<?php echo $datapas['nomor_rm']; ?>"><i class="fas fa-receipt"> Riwayat Berobat</i></button>
-                        <div class="btn-group dropright">
-                            <button class="btn-transition btn btn-outline-danger btn-sm dropdown" type="button" title="Cetak Surat" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                               <i class="fas fa-envelope"> Cetak Surat</i></button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <button class="dropdown-item" id="tombol_suratijin" name="tombol_suratijin" data-id="<?php echo $datapas['no_daftar']; ?>">Surat Ijin Sakit</button>
-                                <button class="dropdown-item" id="tombol_suratsehat" name="tombol_suratsehat" data-id="<?php echo $datapas['no_daftar']; ?>">Surat Keterangan Sehat</button>
-                                <button class="dropdown-item" id="tombol_suratsakit" name="tombol_suratsakit" data-id="<?php echo $datapas['no_daftar']; ?>">Surat Keterangan Sakit</button>
-                                <button class="dropdown-item" id="tombol_rujuk" name="tombol_rujuk" data-id="<?php echo $datapas['no_daftar']; ?>">Rujuk Pasien</button>
-                                <button class="dropdown-item" id="tombol_swab" name="tombol_swab" data-id="<?php echo $datapas['no_daftar']; ?>">Surat Keterangan SWAB</button>
-                                <button class="dropdown-item" id="tombol_narkoba" name="tombol_narkoba" data-id="<?php echo $datapas['no_daftar']; ?>">Surat Ket. Narkoba</button>
-                            </div>
-                        </div>
-                    </td>
-                  </tr>
-              </table>
-          </div>
+        $query_tampil = "SELECT * FROM tbl_daftarpasien LEFT JOIN pendaftaran_pcare on tbl_daftarpasien.no_daftar = pendaftaran_pcare.no_daftar WHERE tbl_daftarpasien.no_daftar='$no_daftar' ";
+        $sql_tampil = mysqli_query($conn, $query_tampil) or die($conn->error);
+        $datapas = mysqli_fetch_array($sql_tampil);
+        $nomor_rm = $datapas['nomor_rm'];
+        $nama_pasien = $datapas['nama_pas'];
+        $alergi = $datapas['alergi'];
+        $tidak_alergi = "tidak ada";
+        //Fungsi Menghitung Umur Pasien
+        $tanggal_lahir = new DateTime($datapas['lhr_pas']);
+        $sekarang = new DateTime("today");
+        if ($tanggal_lahir > $sekarang) {
+          $thn = "0";
+          $bln = "0";
+          $tgl = "0";
+        }
+        $thn = $sekarang->diff($tanggal_lahir)->y;
+        $bln = $sekarang->diff($tanggal_lahir)->m;
+        $tgl = $sekarang->diff($tanggal_lahir)->d;
+        //echo "Umur anda adalah :<br>";
+        //echo $thn." tahun ".$bln." bulan ".$tgl." hari";
+        ?>
+
+        <div class="col-md-12" style="text-align: left; font-size: 14px;">
+          <br>
+          <table border="0" cellpadding="0">
+            <tr>
+              <td width="100"><b>No. Registrasi</b></td>
+              <td width="10">:</td>
+              <td><?php echo $datapas['no_daftar']; ?></td>
+              <td>Alergi :
+                <?php
+                $tidak_alergi = "Tidak Ada Alergi";
+                if ($datapas['alergi']) { ?>
+                  <span class="badge badge-pill badge-warning" style="padding: 8px; font-size: 11px;"><?php echo $datapas['alergi']; ?></span>
+                <?php } else if ($datapas['alergi'] == '') { ?>
+                  <span class="badge badge-pill badge-success" style="padding: 8px; font-size: 11px;"><?php echo $tidak_alergi; ?></span>
+                <?php }
+                ?>
+              </td>
+            </tr>
+            <tr>
+              <td width="100"><b>Nomor RM</b></td>
+              <td width="10">:</td>
+              <td><?php echo $datapas['nomor_rm']; ?></td>
+            </tr>
+            <tr>
+              <td width="100"><b>Nama Pasien</b></td>
+              <td width="10">:</td>
+              <td><?php echo $datapas['nama_pas']; ?></td>
+              <td><?php echo $datapas['jk_pas']; ?></td>
+            </tr>
+            <tr>
+              <td width="100"><b>TTL Pasien</b></td>
+              <td width="10">:</td>
+              <td><?php echo $datapas['tpt_lahir']; ?>, <?php echo date('d-m-Y', strtotime($datapas['lhr_pas'])); ?> (<?php echo $thn . " tahun " . $bln . " bulan "; ?>)</td>
+            </tr>
+            <tr>
+              <td width="100"><b>Agama</b></td>
+              <td width="10">:</td>
+              <td><?php echo $datapas['agama']; ?></td>
+            </tr>
+            <tr>
+              <td width="100"><b>Alamat</b></td>
+              <td width="10">:</td>
+              <td><?php echo $datapas['alm_pas']; ?></td>
+            </tr>
+            <tr>
+              <td width="100"><b>Cara Bayar</b></td>
+              <td width="10">:</td>
+              <td><?php echo $datapas['asuransi_pas']; ?></td>
+            </tr>
+            <tr>
+              <td width="100"><b>Dokter</b></td>
+              <td width="10">:</td>
+              <td><?php echo $datapas['nm_dokter']; ?></td>
+            </tr>
+
+          </table>
+          <table class="data_pasien mt-3" border="0" cellpadding="0">
+            <tr>
+              <td>
+                <button class="btn-transition btn btn-outline-info btn-sm" title="Form Assesment Pasien" id="tombol_diagnosa" name="tombol_diagnosa" data-id="<?php echo $datapas['no_daftar']; ?>"><i class="fas fa-stethoscope"> Assesment</i></button>
+                <button class="btn-transition btn btn-outline-info btn-sm" title="Form Pemberian Obat Non Racikan" id="tombol_obatoral" name="tombol_obatoral" data-id="<?php echo $datapas['no_daftar']; ?>"><i class="fas fa-pills"> Obat Non racikan</i></button>
+                <button class="btn-transition btn btn-outline-info btn-sm" title="Form Pemberian Obat Racikan" id="tombol_obatracik" name="tombol_obatracik" data-id="<?php echo $datapas['no_daftar']; ?>"><i class="fas fa-mortar-pestle"> Obat Racikan</i></button>
+                <button class="btn-transition btn btn-outline-info btn-sm" title="Form Tindakan Pasien" id="tombol_tindakan" name="tombol_tindakan" data-id="<?php echo $datapas['no_daftar']; ?>"><i class="fas fa-syringe"> Tindakan</i></button>
+                <button class="btn-transition btn btn-outline-info btn-sm" title="Form Laborat Pasien" id="tombol_laborat" name="tombol_laborat" data-id="<?php echo $datapas['no_daftar']; ?>"><i class="fas fa-flask"> Laborat</i></button>
+                <button class="btn btn-warning btn-sm" title="Kunjungan Pasien" id="tombol_kunjungan" name="tombol_kunjungan" data-id="<?php echo $datapas['no_daftar']; ?>"><i class="fas fa-user"> Kunjungan</i></button>
+                <button class="btn-transition btn btn-outline-danger btn-sm" title="Riwayat Berobat Pasien" id="tombol_riwayat" name="tombol_riwayat" data-id="<?php echo $datapas['nomor_rm']; ?>"><i class="fas fa-receipt"> Riwayat Berobat</i></button>
+                <div class="btn-group dropright">
+                  <button class="btn-transition btn btn-outline-danger btn-sm dropdown" type="button" title="Cetak Surat" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-envelope"> Cetak Surat</i></button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <button class="dropdown-item" id="tombol_suratijin" name="tombol_suratijin" data-id="<?php echo $datapas['no_daftar']; ?>">Surat Ijin Sakit</button>
+                    <button class="dropdown-item" id="tombol_suratsehat" name="tombol_suratsehat" data-id="<?php echo $datapas['no_daftar']; ?>">Surat Keterangan Sehat</button>
+                    <button class="dropdown-item" id="tombol_suratsakit" name="tombol_suratsakit" data-id="<?php echo $datapas['no_daftar']; ?>">Surat Keterangan Sakit</button>
+                    <button class="dropdown-item" id="tombol_rujuk" name="tombol_rujuk" data-id="<?php echo $datapas['no_daftar']; ?>">Rujuk Pasien</button>
+                    <button class="dropdown-item" id="tombol_swab" name="tombol_swab" data-id="<?php echo $datapas['no_daftar']; ?>">Surat Keterangan SWAB</button>
+                    <button class="dropdown-item" id="tombol_narkoba" name="tombol_narkoba" data-id="<?php echo $datapas['no_daftar']; ?>">Surat Ket. Narkoba</button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="form-container">
-    <div class="row" style="padding: 0 20px;">             
+    <div class="row" style="padding: 0 20px;">
       <div class="col-md-12 vertical-form">
         <form method="post" id="simpan_kunjungan" autocomplete="off">
-        <div class="row">
+          <div class="row">
 
             <div class="col-sm-6">
 
@@ -162,11 +184,17 @@
 
                 <label class="col-sm-2 col-form-label">Poli</label>
                 <div class="col-sm-10">
-                  <select name="kd_poli"  class="form-control form-control-sm" id="kd_poli">
-                    <!-- < foreach($poliOptions as $poli){ ?> -->
-                        <option value="-- Pilih poli --"></option>
-                    <!-- < } ?> -->
-                  </select>  
+                  <select name="kd_poli" class="form-control form-control-sm" id="kd_poli">
+                    
+								<option value="">-- Pilih Poli --</option>
+								<?php
+								if ($poli_pcare->metaData->code == 200) {
+									for ($i = 0; $i < $poli_pcare->response->count; $i++) {
+										echo "<option value='" . $poli_pcare->response->list[$i]->kdPoli . "' >" . $poli_pcare->response->list[$i]->nmPoli . "</option>";
+									}
+								}
+								?>
+                  </select>
                 </div>
               </div>
               <div class="form-group row">
@@ -178,9 +206,18 @@
 
 
               <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Kode Sadar</label>
+                <label class="col-sm-2 col-form-label">Kesadaran</label>
                 <div class="col-sm-10">
-                  <select name="kd_sadar"  class="form-control form-control-sm" id="kd_sadar"></select> 
+                  <select name="kd_sadar" class="form-control form-control-sm" id="kd_sadar">
+                    <option value="">-- Pilih Kesadaran --</option>
+								<?php
+								if ($kdsadar_pcare->metaData->code == 200) {
+									for ($i = 0; $i < $kdsadar_pcare->response->count; $i++) {
+										echo "<option value='" . $kdsadar_pcare->response->list[$i]->kdSadar . "' >" . $kdsadar_pcare->response->list[$i]->nmSadar . "</option>";
+									}
+								}
+								?>
+                  </select>
                 </div>
               </div>
 
@@ -242,8 +279,18 @@
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Status Pulang</label>
                 <div class="col-sm-10">
-                  
-                <select name="kd_status_pulang"  class="form-control form-control-sm" id="kd_status_pulang"></select>  
+
+                  <select name="kd_status_pulang" class="form-control form-control-sm" id="kd_status_pulang">
+                    
+                  <option value="">-- Pilih Status Pulang --</option>
+								<?php
+								if ($statuspulang_pcare->metaData->code == 200) {
+									for ($i = 0; $i < $statuspulang_pcare->response->count; $i++) {
+										echo "<option value='" . $statuspulang_pcare->response->list[$i]->kdStatusPulang . "' >" . $statuspulang_pcare->response->list[$i]->nmStatusPulang . "</option>";
+									}
+								}
+								?>
+                  </select>
                 </div>
               </div>
 
@@ -251,64 +298,74 @@
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Dokter</label>
                 <div class="col-sm-10">
-                  
-                <select name="kd_dokter"  class="form-control form-control-sm" id="kd_dokter"></select>   
+
+                  <select name="kd_dokter" class="form-control form-control-sm" id="kd_dokter">
+                    
+                  <option value="">-- Pilih Dokter --</option>
+								<?php
+								if ($dokter_pcare->metaData->code == 200) {
+									for ($i = 0; $i < $dokter_pcare->response->count; $i++) {
+										echo "<option value='" . $dokter_pcare->response->list[$i]->kdDokter . "' >" . $dokter_pcare->response->list[$i]->nmDokter . "</option>";
+									}
+								}
+								?>
+                  </select>
                 </div>
               </div>
 
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Diagnosa 1</label>
                 <div class="col-sm-10">
-                  
-                <select name="kd_diagnosa_1"  class="form-control form-control-sm" id="kd_diagnosa_1"></select>    
+
+                  <select name="kd_diagnosa_1" class="form-control form-control-sm" id="kd_diagnosa_1"></select>
                 </div>
               </div>
 
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Diagnosa 2</label>
                 <div class="col-sm-10">
-                <select name="kd_diagnosa_2"  class="form-control form-control-sm" id="kd_diagnosa_2"></select>    
+                  <select name="kd_diagnosa_2" class="form-control form-control-sm" id="kd_diagnosa_2"></select>
                 </div>
               </div>
 
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Diagnosa 3</label>
                 <div class="col-sm-10">
-                  
-                <select name="kd_diagnosa_3"  class="form-control form-control-sm" id="kd_diagnosa_3"></select>    
+
+                  <select name="kd_diagnosa_3" class="form-control form-control-sm" id="kd_diagnosa_3"></select>
                 </div>
               </div>
 
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Poli Rujuk Internal</label>
                 <div class="col-sm-10">
-                <select name="kd_poli_rujuk_internal"  class="form-control form-control-sm" id="kd_poli_rujuk_internal"></select>    
+                  <select name="kd_poli_rujuk_internal" class="form-control form-control-sm" id="kd_poli_rujuk_internal"></select>
                 </div>
               </div>
 
               <div class="form-group row">
-                 <label for="col-sm-2 col-form-label font-weight-bold"> Rujuk Lanjut </label>
+                <label for="col-sm-2 col-form-label font-weight-bold"> Rujuk Lanjut </label>
               </div>
 
 
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Sarana</label>
                 <div class="col-sm-10">
-                <select name="kd_sarana"  class="form-control form-control-sm" id="kd_sarana"></select>   
+                  <select name="kd_sarana" class="form-control form-control-sm" id="kd_sarana"></select>
                 </div>
               </div>
 
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Spesialis</label>
                 <div class="col-sm-10">
-                <select name="spesialis"  class="form-control form-control-sm" id="spesialis"></select>    
+                  <select name="spesialis" class="form-control form-control-sm" id="spesialis"></select>
                 </div>
               </div>
 
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label">SubSpesialis</label>
                 <div class="col-sm-10">
-                <select name="kd_sub_spesialis_1"  class="form-control form-control-sm" id="kd_sub_spesialis_1"></select>    
+                  <select name="kd_sub_spesialis_1" class="form-control form-control-sm" id="kd_sub_spesialis_1"></select>
                 </div>
               </div>
 
@@ -322,7 +379,7 @@
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label">PPK</label>
                 <div class="col-sm-10">
-                <select name="kdppk"  class="form-control form-control-sm" id="kdppk"></select>    
+                  <select name="kdppk" class="form-control form-control-sm" id="kdppk"></select>
                 </div>
               </div>
 
@@ -332,21 +389,21 @@
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Tacc</label>
                 <div class="col-sm-10">
-                <select name="kd_tacc"  class="form-control form-control-sm" id="kd_tacc"></select>    
+                  <select name="kd_tacc" class="form-control form-control-sm" id="kd_tacc"></select>
                 </div>
               </div>
 
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Alasan Tacc</label>
                 <div class="col-sm-10">
-                <select name="alasan_tacc"  class="form-control form-control-sm" id="alasan_tacc"></select>     
+                  <select name="alasan_tacc" class="form-control form-control-sm" id="alasan_tacc"></select>
                 </div>
               </div>
             </div>
-            </div>
+          </div>
         </form>
       </div>
-    </div>   
+    </div>
   </div>
 </div>
 
@@ -354,7 +411,7 @@
 
 <script>
   // Load data edit hasil periksa
-  $(document).on("click", "#tombolUbah", function(){
+  $(document).on("click", "#tombolUbah", function() {
     let no_daftar = $(this).data('no_daf');
     let no_diagnosa = $(this).data('no');
     let subjektive = $(this).data('subj');
@@ -390,35 +447,35 @@
   // End Load
   // Reset edit
   function reset() {
-      $("#asses").val("");
-      $("#objek").val("");
-      $("#subjek").val("");
-      $("#rtl").val("");
-      $("#berbad").val("");
-      $("#tingbad").val("");
-      $("#tek_darah").val("");
-      $("#suhu").val("");
-      $("#nad_i").val("");
-      $("#resp").val("");
-      $("#satur").val("");
+    $("#asses").val("");
+    $("#objek").val("");
+    $("#subjek").val("");
+    $("#rtl").val("");
+    $("#berbad").val("");
+    $("#tingbad").val("");
+    $("#tek_darah").val("");
+    $("#suhu").val("");
+    $("#nad_i").val("");
+    $("#resp").val("");
+    $("#satur").val("");
   }
 
   $(".modal-body #btnreset").click(function() {
-      reset();
-      document.getElementById("subjek").focus();
-    });
+    reset();
+    document.getElementById("subjek").focus();
+  });
 
   function loadttvnormal() {
-    document.getElementById("tekanan_darah").value ="120/70";
-    document.getElementById("temp").value ="36.5";
-    document.getElementById("saturasi").value ="100";
-    document.getElementById("nadi").value ="90";
+    document.getElementById("tekanan_darah").value = "120/70";
+    document.getElementById("temp").value = "36.5";
+    document.getElementById("saturasi").value = "100";
+    document.getElementById("nadi").value = "90";
   }
 
-  
+
   function loadttvpendaftaran() {
     // < var_dump($datapas); die(); ?>
-    document.getElementById("tekanan_darah").value = "<?= $datapas['sistole']."/".$datapas["diastole"] ?>";
+    document.getElementById("tekanan_darah").value = "<?= $datapas['sistole'] . "/" . $datapas["diastole"] ?>";
     // document.getElementById("temp").value  ="36.5";
     // document.getElementById("saturasi").value = 
     document.getElementById('tinggi_badan').value = "<?= $datapas['tinggi_badan'] ?>";
@@ -427,7 +484,7 @@
     document.getElementById("nadi").value = "<?= $datapas['heart_rate'] ?>";
   }
 
-  $("#simpan_edit").on("submit", function(event){
+  $("#simpan_edit").on("submit", function(event) {
     event.preventDefault();
     var no_daftar = $("#no_daf").val();
     var no_diagnosa = $("#no_diag").val();
@@ -446,11 +503,11 @@
     var alergi = $("#aler_gi").val();
 
     $.ajax({
-        url: "ajax/edit_periksa.php",
-        method: "POST",
-        data: "no_daftar="+no_daftar+"&no_diagnosa="+no_diagnosa+"&subjektive="+subjektive+"&objektive="+objektive+"&assesment="+assesment+"&plan="+plan+"&berat_badan="+berat_badan+"&tinggi_badan="+tinggi_badan+"&temp="+temp+"&tekanan_darah="+tekanan_darah+"&nadi="+nadi+"&saturasi="+saturasi+"&rr="+rr+"&butawarna="+butawarna+"&alergi="+alergi,
-        success: function(hasil) {
-        if(hasil=="berhasil") {
+      url: "ajax/edit_periksa.php",
+      method: "POST",
+      data: "no_daftar=" + no_daftar + "&no_diagnosa=" + no_diagnosa + "&subjektive=" + subjektive + "&objektive=" + objektive + "&assesment=" + assesment + "&plan=" + plan + "&berat_badan=" + berat_badan + "&tinggi_badan=" + tinggi_badan + "&temp=" + temp + "&tekanan_darah=" + tekanan_darah + "&nadi=" + nadi + "&saturasi=" + saturasi + "&rr=" + rr + "&butawarna=" + butawarna + "&alergi=" + alergi,
+      success: function(hasil) {
+        if (hasil == "berhasil") {
           Swal.fire({
             title: 'Berhasil',
             text: 'Data Berhasil Diubah',
@@ -462,7 +519,7 @@
               window.location.reload(true);
             }
           })
-        }else if(hasil=="gagal") {
+        } else if (hasil == "gagal") {
           Swal.fire(
             'Gagal',
             'Data Gagal Diubah',
@@ -472,88 +529,88 @@
       }
     })
   });
-  
+
   $("button[name='tombol_hapus']").click(function() {
-        var id = $(this).data("id");
-        var nama = $(this).data('nama');
-        Swal.fire({
-          title: 'Apakah Anda Yakin?',
-          text: 'Akan menghapus '+nama+', anda tidak dapat mengembalikan data yang telah dihapus.',
-          type: 'warning',
-          showCancelButton: true,
-          cancelButtonColor: '#d33',
-          confirmButtonColor: '#3085d6',
-          cancelButtonText: 'Tidak',
-          confirmButtonText: 'Hapus'
-        }).then((hapus) => {
-          if (hapus.value) {
-            $.ajax({
-              type: "POST",
-              url: "ajax/hapus.php?page=form_assesment",
-              data: "id="+id,
-              success: function(hasil) {
-                Swal.fire({
-                  title: 'Berhasil',
-                  text: 'Diagnosa Berhasil Dihapus',
-                  type: 'success',
-                  confirmButtonColor: '#3085d6',
-                  confirmButtonText: 'OK'
-                }).then((ok) => {
-                  if (ok.value) {
-                    window.location.reload(true);
-                  }
-                })
+    var id = $(this).data("id");
+    var nama = $(this).data('nama');
+    Swal.fire({
+      title: 'Apakah Anda Yakin?',
+      text: 'Akan menghapus ' + nama + ', anda tidak dapat mengembalikan data yang telah dihapus.',
+      type: 'warning',
+      showCancelButton: true,
+      cancelButtonColor: '#d33',
+      confirmButtonColor: '#3085d6',
+      cancelButtonText: 'Tidak',
+      confirmButtonText: 'Hapus'
+    }).then((hapus) => {
+      if (hapus.value) {
+        $.ajax({
+          type: "POST",
+          url: "ajax/hapus.php?page=form_assesment",
+          data: "id=" + id,
+          success: function(hasil) {
+            Swal.fire({
+              title: 'Berhasil',
+              text: 'Diagnosa Berhasil Dihapus',
+              type: 'success',
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'OK'
+            }).then((ok) => {
+              if (ok.value) {
+                window.location.reload(true);
               }
-            })  
+            })
           }
         })
-    });
+      }
+    })
+  });
 
-  $(document).ready(function(){    
-         function search(){
-               var code=$("#search").val();
-               var diagnosa=$("#search").val();
-               var deskripsi=$("#search").val();
+  $(document).ready(function() {
+    function search() {
+      var code = $("#search").val();
+      var diagnosa = $("#search").val();
+      var deskripsi = $("#search").val();
 
-            if(code!=""){
-              $("#result").html('<i class="fa fa-spin fa-spinner"></i>');
-               $.ajax({
-                  type:"post",
-                  url:"ajax/search_icd10.php",
-                  data:"code="+code+"&diagnosa="+diagnosa,
-                  success:function(data){
-                      $("#result").html(data);
-                      $("#search").val("");
-                   }
-                });
-            }                            
+      if (code != "") {
+        $("#result").html('<i class="fa fa-spin fa-spinner"></i>');
+        $.ajax({
+          type: "post",
+          url: "ajax/search_icd10.php",
+          data: "code=" + code + "&diagnosa=" + diagnosa,
+          success: function(data) {
+            $("#result").html(data);
+            $("#search").val("");
           }
-          $("#code").click(function() {
-              $("#lihat_data_diagnosa").click();
-          });
-
-          $("#button").click(function(){
-             search();
-          });
-
-          $('#search').keyup(function(e) {
-             if(e.keyCode == 13) {
-                search();
-              }
-          });
-    });
-    $("button[name='tombol_pilihdiagnosa']").click(function() {
-        var cod = $(this).data('cod');
-        var nam = $(this).data('nam');
-        var desk = $(this).data('desk');
-       
-
-        $("#code").val(cod);
-        $("#diagnosa").val(nam);
-        $("#deskripsi").val(desk);
+        });
+      }
+    }
+    $("#code").click(function() {
+      $("#lihat_data_diagnosa").click();
     });
 
-  $("#simpan_kunjungan").on("submit", function(event){
+    $("#button").click(function() {
+      search();
+    });
+
+    $('#search').keyup(function(e) {
+      if (e.keyCode == 13) {
+        search();
+      }
+    });
+  });
+  $("button[name='tombol_pilihdiagnosa']").click(function() {
+    var cod = $(this).data('cod');
+    var nam = $(this).data('nam');
+    var desk = $(this).data('desk');
+
+
+    $("#code").val(cod);
+    $("#diagnosa").val(nam);
+    $("#deskripsi").val(desk);
+  });
+
+  $("#simpan_kunjungan").on("submit", function(event) {
     event.preventDefault();
     var no_diagnosa = $("#no_diagnosa").val();
     var no_daftar = $("#no_daftar").val();
@@ -580,53 +637,53 @@
 
     // alert(nama+"/"+posisi+"/"+jk+"/"+tgl_lahir+"/"+alamat+"/"+username+"/"+password);
 
-  if(code=="") {
+    if (code == "") {
       document.getElementById("code").focus();
       Swal.fire(
         'Data Belum Lengkap',
         'Maaf, tolong isi kode ICD-10 terlebih dahulu',
         'warning'
       )
-    
+
     } else {
-    Swal.fire({
+      Swal.fire({
         title: 'Proses simpan data !',
         html: 'Mohon tunggu ...',
         allowOutsideClick: false,
         timer: 2000,
         onOpen: () => {
-            Swal.showLoading()
+          Swal.showLoading()
         },
-    }).then((ok) => {
-    // if (ya.value) {
-      $.ajax({
-        type: "POST",
-        url: "ajax/simpan_periksa.php",
-        data: "no_diagnosa="+no_diagnosa+"&no_daftar="+no_daftar+"&tgl_daftar="+tgl_daftar+"&tgl_periksa="+tgl_periksa+"&nama_pas="+nama_pas+"&nomor_rm="+nomor_rm+"&code="+code+"&diagnosa="+diagnosa+"&subjektive="+subjektive+"&objektive="+objektive+"&assesment="+assesment+"&plan="+plan+"&berat_badan="+berat_badan+"&tinggi_badan="+tinggi_badan+"&temp="+temp+"&tekanan_darah="+tekanan_darah+"&nadi="+nadi+"&rr="+rr+"&saturasi="+saturasi+"&butawarna="+butawarna+"&status_rawat="+status_rawat+"&alergi="+alergi,
-        success: function(hasil) {
-          if(hasil=="berhasil") {
-    Swal.fire({
-          title: 'Berhasil',
-          text: 'Assesment berhasil disimpan ',
-          type: 'success',
-          //confirmButtonColor: '#3085d6',
-          //confirmButtonText: 'OK'
-          showConfirmButton: false,
-          timer: 2000
-        }).then((ok) => {
-          //if (ok.value) {
-            window.location.reload(true);
-          //}
-        })
-      }else if(hasil=="gagal") {
-        Swal.fire(
-          'Gagal',
-          'Data Gagal Diubah',
-          'error'
-        )
-      }
+      }).then((ok) => {
+        // if (ya.value) {
+        $.ajax({
+          type: "POST",
+          url: "ajax/simpan_periksa.php",
+          data: "no_diagnosa=" + no_diagnosa + "&no_daftar=" + no_daftar + "&tgl_daftar=" + tgl_daftar + "&tgl_periksa=" + tgl_periksa + "&nama_pas=" + nama_pas + "&nomor_rm=" + nomor_rm + "&code=" + code + "&diagnosa=" + diagnosa + "&subjektive=" + subjektive + "&objektive=" + objektive + "&assesment=" + assesment + "&plan=" + plan + "&berat_badan=" + berat_badan + "&tinggi_badan=" + tinggi_badan + "&temp=" + temp + "&tekanan_darah=" + tekanan_darah + "&nadi=" + nadi + "&rr=" + rr + "&saturasi=" + saturasi + "&butawarna=" + butawarna + "&status_rawat=" + status_rawat + "&alergi=" + alergi,
+          success: function(hasil) {
+            if (hasil == "berhasil") {
+              Swal.fire({
+                title: 'Berhasil',
+                text: 'Assesment berhasil disimpan ',
+                type: 'success',
+                //confirmButtonColor: '#3085d6',
+                //confirmButtonText: 'OK'
+                showConfirmButton: false,
+                timer: 2000
+              }).then((ok) => {
+                //if (ok.value) {
+                window.location.reload(true);
+                //}
+              })
+            } else if (hasil == "gagal") {
+              Swal.fire(
+                'Gagal',
+                'Data Gagal Diubah',
+                'error'
+              )
             }
-          })  
+          }
+        })
         // }
       })
     }
@@ -634,57 +691,57 @@
 </script>
 
 <script>
-    $("button[name='tombol_obatoral']").click(function() {
-        var id = $(this).data('id');
-        window.location='?page=entry_obatpasien&id='+id;
-      });
-    $("button[name='tombol_obatracik']").click(function() {
-        var id = $(this).data('id');
-        window.location='?page=entry_obatracik&id='+id;
-      });
-    $("button[name='tombol_tindakan']").click(function() {
-        var id = $(this).data('id');
-        window.location='?page=entry_tindakanpasien&id='+id;
-      });
-    $("button[name='tombol_laborat']").click(function() {
-        var id = $(this).data('id');
-        window.location='?page=entry_laboratpasien&id='+id;
-      });
-    $("button[name='tombol_riwayat']").click(function() {
-        var id = $(this).data('id');
-        window.location='?page=riwayatperiksa&id='+id;
-      });
-      
-    $("button[name='tombol_kunjungan']").click(function() {
-        var id = $(this).data('id');
-        window.location='?page=form_kunjungan&id='+id;
-      });
-    $("button[name='tombol_suratijin']").click(function() {
-        var id = $(this).data('id');
-        window.location='?page=tambah_ijin&id='+id;
-      });
+  $("button[name='tombol_obatoral']").click(function() {
+    var id = $(this).data('id');
+    window.location = '?page=entry_obatpasien&id=' + id;
+  });
+  $("button[name='tombol_obatracik']").click(function() {
+    var id = $(this).data('id');
+    window.location = '?page=entry_obatracik&id=' + id;
+  });
+  $("button[name='tombol_tindakan']").click(function() {
+    var id = $(this).data('id');
+    window.location = '?page=entry_tindakanpasien&id=' + id;
+  });
+  $("button[name='tombol_laborat']").click(function() {
+    var id = $(this).data('id');
+    window.location = '?page=entry_laboratpasien&id=' + id;
+  });
+  $("button[name='tombol_riwayat']").click(function() {
+    var id = $(this).data('id');
+    window.location = '?page=riwayatperiksa&id=' + id;
+  });
 
-    $("button[name='tombol_suratsehat']").click(function() {
-        var id = $(this).data('id');
-        window.location='?page=tambah_suratsehat&id='+id;
-      });
+  $("button[name='tombol_kunjungan']").click(function() {
+    var id = $(this).data('id');
+    window.location = '?page=form_kunjungan&id=' + id;
+  });
+  $("button[name='tombol_suratijin']").click(function() {
+    var id = $(this).data('id');
+    window.location = '?page=tambah_ijin&id=' + id;
+  });
 
-    $("button[name='tombol_suratsakit']").click(function() {
-        var id = $(this).data('id');
-        window.location='?page=tambah_suratsakit&id='+id;
-      });
+  $("button[name='tombol_suratsehat']").click(function() {
+    var id = $(this).data('id');
+    window.location = '?page=tambah_suratsehat&id=' + id;
+  });
 
-    $("button[name='tombol_rujuk']").click(function() {
-        var id = $(this).data('id');
-        window.location='?page=tambah_rujukan&id='+id;
-      });
-    $("button[name='tombol_swab']").click(function() {
-        var id = $(this).data('id');
-        window.location='?page=tambah_swabantigen&id='+id;
-      });
+  $("button[name='tombol_suratsakit']").click(function() {
+    var id = $(this).data('id');
+    window.location = '?page=tambah_suratsakit&id=' + id;
+  });
+
+  $("button[name='tombol_rujuk']").click(function() {
+    var id = $(this).data('id');
+    window.location = '?page=tambah_rujukan&id=' + id;
+  });
+  $("button[name='tombol_swab']").click(function() {
+    var id = $(this).data('id');
+    window.location = '?page=tambah_swabantigen&id=' + id;
+  });
 </script>
 <script>
-    function goBack() {
-        window.history.back();
-    }
+  function goBack() {
+    window.history.back();
+  }
 </script>
