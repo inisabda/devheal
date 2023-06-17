@@ -101,6 +101,11 @@ function periode($tgl)
 	return $bulan . ' ' . $tahun;
 }
 
+function urlBridging()
+{
+	return "http://".$_SERVER['SERVER_NAME'].":8000";
+}
+
 function getRequestPcare($url)
 {
 	$endpoint = "http://localhost:8000/$url";
@@ -114,6 +119,8 @@ function getRequestPcare($url)
 
 	return $response->getBody()->getContents();
 }
+
+
 
 function postRequestPcare($url, $data)
 {

@@ -22,6 +22,16 @@ if ($dokter_pcare != null) {
   $dokter_pcare = json_decode($dokter_pcare);
 }
 
+$sarana_pcare = getRequestPcare("pcare/sarana");
+if ($sarana_pcare != null) {
+  $sarana_pcare = json_decode($sarana_pcare);
+}
+
+$spesialis_pcare = getRequestPcare("pcare/spesialis");
+if ($spesialis_pcare != null) {
+  $spesialis_pcare = json_decode($spesialis_pcare);
+}
+
 ?>
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb bg-light">
@@ -351,14 +361,33 @@ if ($dokter_pcare != null) {
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Sarana</label>
                 <div class="col-sm-10">
-                  <select name="kd_sarana" class="form-control form-control-sm" id="kd_sarana"></select>
+                  <select name="kd_sarana" class="form-control form-control-sm" id="kd_sarana">
+                    
+                  <option value="">-- Pilih Sarana --</option>
+								<?php
+								if ($sarana_pcare->metaData->code == 200) {
+									for ($i = 0; $i < $sarana_pcare->response->count; $i++) {
+										echo "<option value='" . $sarana_pcare->response->list[$i]->kdSarana . "' >" . $sarana_pcare->response->list[$i]->nmSarana . "</option>";
+									}
+								}
+								?>
+                  </select>
                 </div>
               </div>
 
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Spesialis</label>
                 <div class="col-sm-10">
-                  <select name="spesialis" class="form-control form-control-sm" id="spesialis"></select>
+                  <select name="spesialis" class="form-control form-control-sm" id="spesialis">
+                    <option value="">-- Pilih Spesialis --</option>
+								<?php
+								if ($spesialis_pcare->metaData->code == 200) {
+									for ($i = 0; $i < $spesialis_pcare->response->count; $i++) {
+										echo "<option value='" . $spesialis_pcare->response->list[$i]->kdSpesialis . "' >" . $spesialis_pcare->response->list[$i]->nmSpesialis . "</option>";
+									}
+								}
+								?>
+                  </select>
                 </div>
               </div>
 
@@ -407,9 +436,127 @@ if ($dokter_pcare != null) {
   </div>
 </div>
 
-<!-- Script Assesment -->
+<!-- Script Kunjungan -->
 
+<script src="agoi/select2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
+  $('#spesialis').select2({}).on('change', function() {
+			// 				// $(this).valid();
+			// 				// $(this).
+			// $('#kd_sub_spesialis_1').select2().destroy();
+			$('#kd_sub_spesialis_1').select2({
+				ajax: {
+					url: '<?= urlBridging() ?>/pcare/subspesialis/' + $('#spesialis').val(),
+          header:   {
+                      'Content-Type': 'application/json'
+                  },
+					// data: function(params) {
+					// 	var query = {
+					// 		search: params.term,
+					// 		spesialis: $('#spesialis').val()
+					// 	}
+
+					// 	// Query parameters will be ?search=[term]&type=public
+					// 	return query;
+					// },
+					processResults: function(data) {
+						// Transforms the top-level key of the response object from 'items' to 'results'
+						console.log()
+						var data = JSON.parse(data)
+						console.log(data)
+						console.log(data.response.list)
+						return {
+							results: $.map(data.response.list, function(item) {
+								return {
+									id: item.kdSubSpesialis, // Modify 'yourIdField' to the actual field name for the ID
+									text: item.nmSubSpesialis // Modify 'yourTextField' to the actual field name for the text
+								};
+							})
+						}
+					}
+				}
+			})
+
+		});
+
+		$('#kd_poli').select2({});
+		$('#kd_diagnosa_1').select2({});
+		$('#kd_diagnosa_2').select2({});
+		$('#kd_diagnosa_3').select2({});
+		$('#kd_sarana').select2({});
+		$('#kd_status_pulang').select2({});
+		$('#kd_dokter').select2({});
+		$('#kd_sadar').select2({});
+		getDiagnosa("#kd_diagnosa_1")
+		getDiagnosa("#kd_diagnosa_2")
+		getDiagnosa("#kd_diagnosa_3")
+    
+		function getDiagnosa(id) {
+			$(id).select2({
+					ajax: {
+						url: '<?= urlBridging() ?>/pcare/diagnosa_select',
+            header :{},
+						data: function(params) {
+							var query = {
+								search: params.term,
+								limit: 100,
+								show: 1,
+							}
+
+							// Query parameters will be ?search=[term]&type=public
+							return query;
+						},
+						processResults: function(data) {
+							// Transforms the top-level key of the response object from 'items' to 'results'
+							console.log()
+							var data = JSON.parse(data)
+							console.log(data)
+							console.log(data.response.list)
+							return {
+								results: $.map(data.response.list, function(item) {
+									return {
+										id: item.kdDiag, // Modify 'yourIdField' to the actual field name for the ID
+										text: item.nmDiag // Modify 'yourTextField' to the actual field name for the text
+									};
+								})
+							}
+						}
+					}
+				})
+				.on('change', function() {
+					// $(this).valid();
+					// $(this).
+				});
+
+			// $.ajax({
+			// 	method: 'get',
+			// 	url: "/pcare/diagnosa_select",
+			// 	dataType: "JSON",
+			// 	data: function(params) {
+			// 		var query = {
+			// 			search: params.term,
+			// 			show: '10',
+			// 			limit: '15'
+			// 		}
+			// 		// Query parameters will be ?search=[term]&type=public
+			// 		return query;
+			// 	},
+			// 	success: function(res) {
+			// 		$(id).empty();
+			// 		$(id).append('<option value="0">Pilih Diagnosa..</option>')
+			// 		$.each(res.response.list, function(key, value) {
+			// 			$(id).append('<option value="' + value.kdDokter + '">' + value.nmDokter + '</option>');
+			// 		});
+			// 		// if (selected) {
+			// 		//     $('#village_id').val(selected);
+			// 		// }
+			// 		$(id).select2({
+			// 			'placeholder': 'Pilih Dokter..'
+			// 		})
+			// 	}
+			// })
+		}
   // Load data edit hasil periksa
   $(document).on("click", "#tombolUbah", function() {
     let no_daftar = $(this).data('no_daf');
