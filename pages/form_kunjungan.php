@@ -428,6 +428,9 @@ if ($spesialis_pcare != null) {
                   <select name="alasan_tacc" class="form-control form-control-sm" id="alasan_tacc"></select>
                 </div>
               </div>
+              <div class="form-group row">
+                <button class="btn btn-outlined-blue btn-sm" type="submit">Simpan</button>
+              </div>
             </div>
           </div>
         </form>
@@ -611,25 +614,26 @@ if ($spesialis_pcare != null) {
     reset();
     document.getElementById("subjek").focus();
   });
+ 
+  
 
-  function loadttvnormal() {
-    document.getElementById("tekanan_darah").value = "120/70";
-    document.getElementById("temp").value = "36.5";
-    document.getElementById("saturasi").value = "100";
-    document.getElementById("nadi").value = "90";
-  }
+  function mergeArrayToString(array) {
+		let mergedString = '';
+		array.forEach(item => {
+			const field = item.field;
+			const message = item.message;
+			mergedString += `${field}: ${message}\n`;
+		});
+		return mergedString;
+	}
+		function formatDate(dateString) {
+			const parts = dateString.split('-');
+			const year = parts[0];
+			const month = parts[1];
+			const day = parts[2];
 
-
-  function loadttvpendaftaran() {
-    // < var_dump($datapas); die(); ?>
-    document.getElementById("tekanan_darah").value = "<?= $datapas['sistole'] . "/" . $datapas["diastole"] ?>";
-    // document.getElementById("temp").value  ="36.5";
-    // document.getElementById("saturasi").value = 
-    document.getElementById('tinggi_badan').value = "<?= $datapas['tinggi_badan'] ?>";
-    document.getElementById('berat_badan').value = "<?= $datapas['berat_badan'] ?>";
-    document.getElementById('rr').value = "<?= $datapas['resp_rate'] ?>";
-    document.getElementById("nadi").value = "<?= $datapas['heart_rate'] ?>";
-  }
+			return `${day}-${month}-${year}`;
+		}
 
   $("#simpan_edit").on("submit", function(event) {
     event.preventDefault();
@@ -713,128 +717,107 @@ if ($spesialis_pcare != null) {
     })
   });
 
-  $(document).ready(function() {
-    function search() {
-      var code = $("#search").val();
-      var diagnosa = $("#search").val();
-      var deskripsi = $("#search").val();
-
-      if (code != "") {
-        $("#result").html('<i class="fa fa-spin fa-spinner"></i>');
-        $.ajax({
-          type: "post",
-          url: "ajax/search_icd10.php",
-          data: "code=" + code + "&diagnosa=" + diagnosa,
-          success: function(data) {
-            $("#result").html(data);
-            $("#search").val("");
-          }
-        });
-      }
-    }
-    $("#code").click(function() {
-      $("#lihat_data_diagnosa").click();
-    });
-
-    $("#button").click(function() {
-      search();
-    });
-
-    $('#search').keyup(function(e) {
-      if (e.keyCode == 13) {
-        search();
-      }
-    });
-  });
-  $("button[name='tombol_pilihdiagnosa']").click(function() {
-    var cod = $(this).data('cod');
-    var nam = $(this).data('nam');
-    var desk = $(this).data('desk');
-
-
-    $("#code").val(cod);
-    $("#diagnosa").val(nam);
-    $("#deskripsi").val(desk);
-  });
+  $(document).ready(function() { 
+  
 
   $("#simpan_kunjungan").on("submit", function(event) {
     event.preventDefault();
-    var no_diagnosa = $("#no_diagnosa").val();
-    var no_daftar = $("#no_daftar").val();
-    var tgl_daftar = $("#tgl_daftar").val();
-    var tgl_periksa = $("#tgl_periksa").val();
-    var nama_pas = $("#nama_pas").val();
-    var nomor_rm = $("#nomor_rm").val();
-    var code = $("#code").val();
-    var diagnosa = $("#diagnosa").val();
-    var subjektive = $("#subjektive").val();
-    var objektive = $("#objektive").val();
-    var assesment = $("#assesment").val();
-    var plan = $("#plan").val();
-    var berat_badan = $("#berat_badan").val();
-    var tinggi_badan = $("#tinggi_badan").val();
-    var temp = $("#temp").val();
-    var tekanan_darah = $("#tekanan_darah").val();
-    var nadi = $("#nadi").val();
-    var rr = $("#rr").val();
-    var saturasi = $("#saturasi").val();
-    var status_rawat = $("#status_rawat").val();
-    var alergi = $("#alergi").val();
-    var butawarna = document.querySelector('input[name="butawarna"]:checked').value;
+    let data = {
+				"noKunjungan": null,
+				"noKartu": $('#no_kartu').val(),
+				"tglDaftar": $("#tgl_daftar").val() == null ? "" : formatDate($("#tgl_daftar").val()),
+				"kdPoli": $('#kd_poli').val(),
+				"keluhan": $('#keluhan').val(),
+				"kdSadar": $('#kd_sadar').val(),
+				"sistole": parseInt($('#tekanan_darah_sistole').val()),
+				"diastole": parseInt($('#tekanan_darah_diastole').val()),
+				"beratBadan": parseInt($('#berat_badan').val()),
+				"tinggiBadan": parseInt($('#tinggi_badan').val()),
+				"respRate": parseInt($('#frekwensi_nafas').val()),
+				"lingkarPerut": parseInt($('#lingkar_perut').val()),
+				"heartRate": parseInt($('#heart_rate').val()),
 
-    // alert(nama+"/"+posisi+"/"+jk+"/"+tgl_lahir+"/"+alamat+"/"+username+"/"+password);
+				"kdStatusPulang": $('#kd_status_pulang').val(),
+				"tglPulang": $('#tgl_pulang').val() != null ? formatDate($('#tgl_pulang').val()) : "",
+				"kdDokter": $('#kd_dokter').val(),
+				"kdDiag1": $('#kd_diagnosa_1').val() == null ? null : $('#kd_diagnosa_1').val(),
+				"kdDiag2": $('#kd_diagnosa_2').val() == null ? null : $('#kd_diagnosa_2').val(),
+				"kdDiag3": $('#kd_diagnosa_3').val() == null ? null : $('#kd_diagnosa_3').val(),
+				"kdPoliRujukInternal": null,
+				"rujukLanjut": {
+					"kdppk": $('#kdppk').val(),
+					"tglEstRujuk": $('#tgl_est_rujuk').val() != "" ? formatDate($('#tgl_est_rujuk').val()) : null,
+					"subSpesialis": {
+						"kdSubSpesialis1": parseInt($('#kd_sub_spesialis1').val()),
+						"kdSarana": parseInt($('#kd_sarana').val())
+					},
+					"khusus": null
+				},
+				"kdTacc": -1,
+				"alasanTacc": null
+			};
+			$.ajax({
+				method: 'POST',
+				url: "<?= urlBridging() ?>/pcare/addKunjungan",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				dataType: "json",
+				data: JSON.stringify(data),
+				success: function(result) {
+					console.log(result);
+					console.log(result.metaData);
+					// let result = JSON.parse(res)
+					// alert(result?.metaData?.message ?? "gagal insert");
+					if (result.metaData?.code == 412) {
 
-    if (code == "") {
-      document.getElementById("code").focus();
-      Swal.fire(
-        'Data Belum Lengkap',
-        'Maaf, tolong isi kode ICD-10 terlebih dahulu',
-        'warning'
-      )
-
-    } else {
-      Swal.fire({
-        title: 'Proses simpan data !',
-        html: 'Mohon tunggu ...',
-        allowOutsideClick: false,
-        timer: 2000,
-        onOpen: () => {
-          Swal.showLoading()
-        },
-      }).then((ok) => {
-        // if (ya.value) {
-        $.ajax({
-          type: "POST",
-          url: "ajax/simpan_periksa.php",
-          data: "no_diagnosa=" + no_diagnosa + "&no_daftar=" + no_daftar + "&tgl_daftar=" + tgl_daftar + "&tgl_periksa=" + tgl_periksa + "&nama_pas=" + nama_pas + "&nomor_rm=" + nomor_rm + "&code=" + code + "&diagnosa=" + diagnosa + "&subjektive=" + subjektive + "&objektive=" + objektive + "&assesment=" + assesment + "&plan=" + plan + "&berat_badan=" + berat_badan + "&tinggi_badan=" + tinggi_badan + "&temp=" + temp + "&tekanan_darah=" + tekanan_darah + "&nadi=" + nadi + "&rr=" + rr + "&saturasi=" + saturasi + "&butawarna=" + butawarna + "&status_rawat=" + status_rawat + "&alergi=" + alergi,
-          success: function(hasil) {
-            if (hasil == "berhasil") {
-              Swal.fire({
-                title: 'Berhasil',
-                text: 'Assesment berhasil disimpan ',
-                type: 'success',
-                //confirmButtonColor: '#3085d6',
-                //confirmButtonText: 'OK'
-                showConfirmButton: false,
-                timer: 2000
-              }).then((ok) => {
-                //if (ok.value) {
-                window.location.reload(true);
-                //}
-              })
-            } else if (hasil == "gagal") {
-              Swal.fire(
-                'Gagal',
-                'Data Gagal Diubah',
-                'error'
-              )
-            }
-          }
-        })
-        // }
-      })
-    }
+						if (result?.response != null) {
+							if (Array.isArray(result?.response)) {
+								console.log('The JSON value is an array.');
+								const mergedString = mergeArrayToString(result?.response);
+								Swal.fire({
+									title: 'Perhatian!',
+									text: `Terjadi Kesalahan input:\n${mergedString}`,
+									icon: 'info',
+								});
+							} else if (typeof result?.response === 'object' && result?.response !== null) {
+								console.log('The JSON value is an object.');
+								const {
+									field,
+									message
+								} = result?.response;
+								Swal.fire({
+									title: 'Perhatian!',
+									text: `Terjadi Kesalahan input:\n${field} ${message}`,
+									icon: 'info',
+								});
+							} else {
+								Swal.fire({
+									title: 'Perhatian!',
+									text: `Terjadi Kesalahan`,
+									icon: 'error',
+								});
+							}
+						}
+					} else if (result?.metaData?.code == 401) {
+						const message = result?.metaData?.message;
+						Swal.fire({
+							title: 'Perhatian!',
+							text: `Duplikasi Input :\n${message}`,
+							icon: 'info',
+						});
+					} else {
+						Swal.fire(
+							'Gagal Simpan!',
+							"gagal",
+							'error'
+						)
+					}
+				}
+			})
   });
+  
+}); 
 </script>
 
 <script>
