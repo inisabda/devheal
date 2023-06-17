@@ -152,7 +152,7 @@
 
                 <label class="col-sm-2 col-form-label">Tgl Daftar</label>
                 <div class="col-sm-10">
-                  <input type="date" name="tgl_daftar" id="tgl_daftar" class="form-control form-control-sm" value="">
+                  <input type="date" name="tgl_daftar" id="tgl_daftar" class="form-control form-control-sm" value="<?= $datapas['tgl_daftar'] ?>">
                 </div>
               </div>
 
@@ -162,7 +162,11 @@
 
                 <label class="col-sm-2 col-form-label">Poli</label>
                 <div class="col-sm-10">
-                  <select name="kd_poli"  class="form-control form-control-sm" id="kd_poli"></select>  
+                  <select name="kd_poli"  class="form-control form-control-sm" id="kd_poli">
+                    <!-- < foreach($poliOptions as $poli){ ?> -->
+                        <option value="-- Pilih poli --"></option>
+                    <!-- < } ?> -->
+                  </select>  
                 </div>
               </div>
               <div class="form-group row">
@@ -183,7 +187,7 @@
               <div class="form-group row">
                 <label for="berat_badan" class="col-sm-2 col-form-label">Berat Badan</label>
                 <div class="col-sm-10">
-                  <input type="number" class="form-control form-control-sm" name="berat_badan" id="berat_badan" placeholder="Masukkan BB">
+                  <input type="number" value="<?= $datapas['berat_badan'] == null ? '' : $datapas['berat_badan'] ?>" class="form-control form-control-sm" name="berat_badan" id="berat_badan" placeholder="Masukkan BB">
                 </div>
               </div>
               <!-- <div class="form-group row">
