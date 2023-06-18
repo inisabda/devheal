@@ -3,34 +3,75 @@
 <?php
 $no_daftar = @$_GET['id'];
 
+// $poli_pcare = null;
 $poli_pcare = getRequestPcare("pcare/poli/1/100");
 if ($poli_pcare != null) {
   $poli_pcare = json_decode($poli_pcare);
 }
 
+// $kdsadar_pcare = null;
 $kdsadar_pcare = getRequestPcare("pcare/kesadaran");
 if ($kdsadar_pcare != null) {
   $kdsadar_pcare = json_decode($kdsadar_pcare);
 }
 
+// $statuspulang_pcare = null;
 $statuspulang_pcare = getRequestPcare("pcare/status-pulang/false");
 if ($statuspulang_pcare != null) {
   $statuspulang_pcare = json_decode($statuspulang_pcare);
 }
+
+// $dokter_pcare = null;
 $dokter_pcare = getRequestPcare("pcare/dokter/1/15");
 if ($dokter_pcare != null) {
   $dokter_pcare = json_decode($dokter_pcare);
 }
 
+// $sarana_pcare = null;
 $sarana_pcare = getRequestPcare("pcare/sarana");
 if ($sarana_pcare != null) {
   $sarana_pcare = json_decode($sarana_pcare);
 }
 
+$spesialis_pcare = null;
 $spesialis_pcare = getRequestPcare("pcare/spesialis");
 if ($spesialis_pcare != null) {
   $spesialis_pcare = json_decode($spesialis_pcare);
 }
+
+$kdtacc =  [
+  [
+    'kdTacc' => '-1',
+    'nmTacc' => 'Tanpa TACC',
+    'alasanTacc' =>  []
+  ],
+  [
+    'kdTacc' => '1',
+    'nmTacc' => 'Time',
+    'alasanTacc' =>
+    [
+      '< 3 Hari',  '>= 3 - 7 Hari',  '>= 7 Hari',
+    ],
+  ],
+  [
+    'kdTacc' => '2',
+    'nmTacc' => 'Age',
+    'alasanTacc' => [
+      '< 1 Bulan', '>= 1 Bulan s/d < 12 Bulan', '>= 1 Tahun s/d < 5 Tahun', '>= 5 Tahun s/d < 12 Tahun', '>= 12 Tahun s/d < 55 Tahun', '>= 55 Tahun',
+    ],
+  ],
+  [
+    'kdTacc' => '3',
+    'nmTacc' => 'Complication',
+    'alasanTacc' =>  [],
+  ],
+  [
+    'kdTacc' => '4',
+    'nmTacc' => 'Comorbidity',
+    'alasanTacc' =>
+    ['< 3 Hari', '>= 3 - 7 Hari',  '>= 7 Hari',],
+  ],
+];
 
 ?>
 <nav aria-label="breadcrumb">
@@ -195,15 +236,17 @@ if ($spesialis_pcare != null) {
                 <label class="col-sm-2 col-form-label">Poli</label>
                 <div class="col-sm-10">
                   <select name="kd_poli" class="form-control form-control-sm" id="kd_poli">
-                    
-								<option value="">-- Pilih Poli --</option>
-								<?php
-								if ($poli_pcare->metaData->code == 200) {
-									for ($i = 0; $i < $poli_pcare->response->count; $i++) {
-										echo "<option value='" . $poli_pcare->response->list[$i]->kdPoli . "' >" . $poli_pcare->response->list[$i]->nmPoli . "</option>";
-									}
-								}
-								?>
+
+                    <option value="">-- Pilih Poli --</option>
+                    <?php
+                    if ($poli_pcare != null) {
+                      if ($poli_pcare->metaData->code == 200) {
+                        for ($i = 0; $i < $poli_pcare->response->count; $i++) {
+                          echo "<option value='" . $poli_pcare->response->list[$i]->kdPoli . "' >" . $poli_pcare->response->list[$i]->nmPoli . "</option>";
+                        }
+                      }
+                    }
+                    ?>
                   </select>
                 </div>
               </div>
@@ -220,13 +263,15 @@ if ($spesialis_pcare != null) {
                 <div class="col-sm-10">
                   <select name="kd_sadar" class="form-control form-control-sm" id="kd_sadar">
                     <option value="">-- Pilih Kesadaran --</option>
-								<?php
-								if ($kdsadar_pcare->metaData->code == 200) {
-									for ($i = 0; $i < $kdsadar_pcare->response->count; $i++) {
-										echo "<option value='" . $kdsadar_pcare->response->list[$i]->kdSadar . "' >" . $kdsadar_pcare->response->list[$i]->nmSadar . "</option>";
-									}
-								}
-								?>
+                    <?php
+                    if ($kdsadar_pcare != null) {
+                      if ($kdsadar_pcare->metaData->code == 200) {
+                        for ($i = 0; $i < $kdsadar_pcare->response->count; $i++) {
+                          echo "<option value='" . $kdsadar_pcare->response->list[$i]->kdSadar . "' >" . $kdsadar_pcare->response->list[$i]->nmSadar . "</option>";
+                        }
+                      }
+                    }
+                    ?>
                   </select>
                 </div>
               </div>
@@ -291,15 +336,17 @@ if ($spesialis_pcare != null) {
                 <div class="col-sm-10">
 
                   <select name="kd_status_pulang" class="form-control form-control-sm" id="kd_status_pulang">
-                    
-                  <option value="">-- Pilih Status Pulang --</option>
-								<?php
-								if ($statuspulang_pcare->metaData->code == 200) {
-									for ($i = 0; $i < $statuspulang_pcare->response->count; $i++) {
-										echo "<option value='" . $statuspulang_pcare->response->list[$i]->kdStatusPulang . "' >" . $statuspulang_pcare->response->list[$i]->nmStatusPulang . "</option>";
-									}
-								}
-								?>
+
+                    <option value="">-- Pilih Status Pulang --</option>
+                    <?php
+                    if ($statuspulang_pcare != null) {
+                      if ($statuspulang_pcare->metaData->code == 200) {
+                        for ($i = 0; $i < $statuspulang_pcare->response->count; $i++) {
+                          echo "<option value='" . $statuspulang_pcare->response->list[$i]->kdStatusPulang . "' >" . $statuspulang_pcare->response->list[$i]->nmStatusPulang . "</option>";
+                        }
+                      }
+                    }
+                    ?>
                   </select>
                 </div>
               </div>
@@ -310,15 +357,17 @@ if ($spesialis_pcare != null) {
                 <div class="col-sm-10">
 
                   <select name="kd_dokter" class="form-control form-control-sm" id="kd_dokter">
-                    
-                  <option value="">-- Pilih Dokter --</option>
-								<?php
-								if ($dokter_pcare->metaData->code == 200) {
-									for ($i = 0; $i < $dokter_pcare->response->count; $i++) {
-										echo "<option value='" . $dokter_pcare->response->list[$i]->kdDokter . "' >" . $dokter_pcare->response->list[$i]->nmDokter . "</option>";
-									}
-								}
-								?>
+
+                    <option value="">-- Pilih Dokter --</option>
+                    <?php
+                    if ($dokter_pcare != null) {
+                      if ($dokter_pcare->metaData->code == 200) {
+                        for ($i = 0; $i < $dokter_pcare->response->count; $i++) {
+                          echo "<option value='" . $dokter_pcare->response->list[$i]->kdDokter . "' >" . $dokter_pcare->response->list[$i]->nmDokter . "</option>";
+                        }
+                      }
+                    }
+                    ?>
                   </select>
                 </div>
               </div>
@@ -354,82 +403,98 @@ if ($spesialis_pcare != null) {
               </div>
 
               <div class="form-group row">
-                <label for="col-sm-2 col-form-label font-weight-bold"> Rujuk Lanjut </label>
+                <label for="col-sm-2 col-form-label font-weight-bold"> Rujuk Lanjut
+                  <input type="checkbox" name="is_rujuk_lanjut" id="is_rujuk_lanjut" class="form-control form-control-sm">
+                </label>
               </div>
 
+              <div id="rujuk_lanjut_field" class="row" style="display: none;">
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">Sarana</label>
+                  <div class="col-sm-10">
+                    <select name="kd_sarana" style="width: 100%;" class="form-control form-control-sm" id="kd_sarana">
 
-              <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Sarana</label>
-                <div class="col-sm-10">
-                  <select name="kd_sarana" class="form-control form-control-sm" id="kd_sarana">
-                    
-                  <option value="">-- Pilih Sarana --</option>
-								<?php
-								if ($sarana_pcare->metaData->code == 200) {
-									for ($i = 0; $i < $sarana_pcare->response->count; $i++) {
-										echo "<option value='" . $sarana_pcare->response->list[$i]->kdSarana . "' >" . $sarana_pcare->response->list[$i]->nmSarana . "</option>";
-									}
-								}
-								?>
-                  </select>
+                      <option value="">-- Pilih Sarana --</option>
+                      <?php
+                      if ($sarana_pcare != null) {
+                        if ($sarana_pcare->metaData->code == 200) {
+                          for ($i = 0; $i < $sarana_pcare->response->count; $i++) {
+                            echo "<option value='" . $sarana_pcare->response->list[$i]->kdSarana . "' >" . $sarana_pcare->response->list[$i]->nmSarana . "</option>";
+                          }
+                        }
+                      }
+                      ?>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">Spesialis</label>
+                  <div class="col-sm-10">
+                    <select name="spesialis" style="width: 100%;" class="form-control form-control-sm" id="spesialis">
+                      <option value="">-- Pilih Spesialis --</option>
+                      <?php
+                      if ($spesialis_pcare != null) {
+                        if ($spesialis_pcare->metaData->code == 200) {
+                          for ($i = 0; $i < $spesialis_pcare->response->count; $i++) {
+                            echo "<option value='" . $spesialis_pcare->response->list[$i]->kdSpesialis . "' >" . $spesialis_pcare->response->list[$i]->nmSpesialis . "</option>";
+                          }
+                        }
+                      }
+                      ?>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">SubSpesialis</label>
+                  <div class="col-sm-10">
+                    <select name="kd_sub_spesialis_1" style="width: 100%;" class="form-control form-control-sm" id="kd_sub_spesialis_1"></select>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">Tanggal Est. Rujuk</label>
+                  <div class="col-sm-10">
+                    <input type="date" class="form-control form-control-sm" name="tgl_est_rujuk" id="tgl_est_rujuk">
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">PPK</label>
+                  <div class="col-sm-10">
+                    <select name="kdppk" style="width: 100%;" class="form-control form-control-sm" id="kdppk"></select>
+                  </div>
+                </div>
+
+                <input type="hidden" name="khusus" value="">
+                <input type="hidden" name="no_kartu" id="no_kartu" value="">
+
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">Tacc</label>
+                  <div class="col-sm-10">
+                    <select name="kd_tacc" style="width: 100%;" class="form-control form-control-sm" id="kd_tacc">
+                      <option value="">-- Pilih Tacc --</option>
+                      <?php
+                      for ($i = 0; $i < count($kdtacc); $i++) {
+                        echo "<option data-alasan='" . json_encode($kdtacc[$i]['alasanTacc']) . "' value='" . $kdtacc[$i]['kdTacc'] . "' >" . $kdtacc[$i]['nmTacc'] . "</option>";
+                      }
+                      ?>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">Alasan Tacc</label>
+                  <div class="col-sm-10">
+                    <select name="alasan_tacc" style="width: 100%;" class="form-control form-control-sm" id="alasan_tacc">
+                      <option value="">-- Pilih Alasan --</option>
+                    </select>
+                  </div>
                 </div>
               </div>
-
               <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Spesialis</label>
-                <div class="col-sm-10">
-                  <select name="spesialis" class="form-control form-control-sm" id="spesialis">
-                    <option value="">-- Pilih Spesialis --</option>
-								<?php
-								if ($spesialis_pcare->metaData->code == 200) {
-									for ($i = 0; $i < $spesialis_pcare->response->count; $i++) {
-										echo "<option value='" . $spesialis_pcare->response->list[$i]->kdSpesialis . "' >" . $spesialis_pcare->response->list[$i]->nmSpesialis . "</option>";
-									}
-								}
-								?>
-                  </select>
-                </div>
-              </div>
-
-              <div class="form-group row">
-                <label class="col-sm-2 col-form-label">SubSpesialis</label>
-                <div class="col-sm-10">
-                  <select name="kd_sub_spesialis_1" class="form-control form-control-sm" id="kd_sub_spesialis_1"></select>
-                </div>
-              </div>
-
-              <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Tanggal Est. Rujuk</label>
-                <div class="col-sm-10">
-                  <input type="date" class="form-control form-control-sm" name="tgl_est_rujuk" id="tgl_est_rujuk">
-                </div>
-              </div>
-
-              <div class="form-group row">
-                <label class="col-sm-2 col-form-label">PPK</label>
-                <div class="col-sm-10">
-                  <select name="kdppk" class="form-control form-control-sm" id="kdppk"></select>
-                </div>
-              </div>
-
-              <input type="hidden" name="khusus" value="">
-              <input type="hidden" name="no_kartu" id="no_kartu" value="">
-
-              <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Tacc</label>
-                <div class="col-sm-10">
-                  <select name="kd_tacc" class="form-control form-control-sm" id="kd_tacc"></select>
-                </div>
-              </div>
-
-              <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Alasan Tacc</label>
-                <div class="col-sm-10">
-                  <select name="alasan_tacc" class="form-control form-control-sm" id="alasan_tacc"></select>
-                </div>
-              </div>
-              <div class="form-group row">
-                <button class="btn btn-outlined-blue btn-sm" type="submit">Simpan</button>
+                <button class="btn btn-outline-primary btn-sm" type="submit">Simpan</button>
               </div>
             </div>
           </div>
@@ -444,122 +509,161 @@ if ($spesialis_pcare != null) {
 <script src="agoi/select2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
+  // function onChangeRujukLanjut(event){
+  //   console.log(event)
+  // }
+  $('#is_rujuk_lanjut').on('change', function(event) {
+    console.log(event.target.checked)
+    if (!event.target.checked) {
+      document.getElementById('rujuk_lanjut_field').style.display = "none";
+    } else {
+      document.getElementById('rujuk_lanjut_field').style.display = "block";
+    }
+  })
+
+  $('#kd_tacc').on('change', function() {
+    if ($(this).val() != 3) {
+      console.log($(this).find(":selected").data('alasan'));
+      if ($(this).find(":selected").data('alasan').length > 0) {
+        console.log("lebih dari 1");
+
+        $('#alasan_tacc').html("")
+        $.each($(this).find(":selected").data('alasan'), function(key, value) {
+          $('#alasan_tacc').append('<option value="' + value + '">' + value + '</option>');
+        });
+      } else {
+        // $('#alasan_tacc').html("")
+        $('#alasan_tacc').val(null)
+      }
+    } else {
+      if ($('#kd_diagnosa_1').val() == "" || $('#kd_diagnosa_1').val() == null) {
+        Swal.fire("Perhatian", "Diagnosa Harus diisi dahulu", "warning")
+        $('#kd_tacc').val(null).trigger('change')
+        return false;
+      } else {
+        $('#alasan_tacc').html("")
+        $('#alasan_tacc').append('<option value="' + $('#kd_diagnosa_1').select2('data')[0].text + '">' + $('#kd_diagnosa_1').select2('data')[0].text + '</option>');
+      }
+    }
+  });
+
+
   $('#spesialis').select2({}).on('change', function() {
-			// 				// $(this).valid();
-			// 				// $(this).
-			// $('#kd_sub_spesialis_1').select2().destroy();
-			$('#kd_sub_spesialis_1').select2({
-				ajax: {
-					url: '<?= urlBridging() ?>/pcare/subspesialis/' + $('#spesialis').val(),
-          header:   {
-                      'Content-Type': 'application/json'
-                  },
-					// data: function(params) {
-					// 	var query = {
-					// 		search: params.term,
-					// 		spesialis: $('#spesialis').val()
-					// 	}
+    // 				// $(this).valid();
+    // 				// $(this).
+    // $('#kd_sub_spesialis_1').select2().destroy();
+    $('#kd_sub_spesialis_1').select2({
+      ajax: {
+        url: '<?= urlBridging() ?>/pcare/subspesialis/' + $('#spesialis').val(),
+        header: {
+          'Content-Type': 'application/json'
+        },
+        // data: function(params) {
+        // 	var query = {
+        // 		search: params.term,
+        // 		spesialis: $('#spesialis').val()
+        // 	}
 
-					// 	// Query parameters will be ?search=[term]&type=public
-					// 	return query;
-					// },
-					processResults: function(data) {
-						// Transforms the top-level key of the response object from 'items' to 'results'
-						console.log()
-						var data = JSON.parse(data)
-						console.log(data)
-						console.log(data.response.list)
-						return {
-							results: $.map(data.response.list, function(item) {
-								return {
-									id: item.kdSubSpesialis, // Modify 'yourIdField' to the actual field name for the ID
-									text: item.nmSubSpesialis // Modify 'yourTextField' to the actual field name for the text
-								};
-							})
-						}
-					}
-				}
-			})
+        // 	// Query parameters will be ?search=[term]&type=public
+        // 	return query;
+        // },
+        processResults: function(data) {
+          // Transforms the top-level key of the response object from 'items' to 'results'
+          console.log()
+          var data = JSON.parse(data)
+          console.log(data)
+          console.log(data.response.list)
+          return {
+            results: $.map(data.response.list, function(item) {
+              return {
+                id: item.kdSubSpesialis, // Modify 'yourIdField' to the actual field name for the ID
+                text: item.nmSubSpesialis // Modify 'yourTextField' to the actual field name for the text
+              };
+            })
+          }
+        }
+      }
+    })
 
-		});
+  });
 
-		$('#kd_poli').select2({});
-		$('#kd_diagnosa_1').select2({});
-		$('#kd_diagnosa_2').select2({});
-		$('#kd_diagnosa_3').select2({});
-		$('#kd_sarana').select2({});
-		$('#kd_status_pulang').select2({});
-		$('#kd_dokter').select2({});
-		$('#kd_sadar').select2({});
-		getDiagnosa("#kd_diagnosa_1")
-		getDiagnosa("#kd_diagnosa_2")
-		getDiagnosa("#kd_diagnosa_3")
-    
-		function getDiagnosa(id) {
-			$(id).select2({
-					ajax: {
-						url: '<?= urlBridging() ?>/pcare/diagnosa_select',
-            header :{},
-						data: function(params) {
-							var query = {
-								search: params.term,
-								limit: 100,
-								show: 1,
-							}
+  $('#kd_poli').select2({});
+  $('#kd_diagnosa_1').select2({});
+  $('#kd_diagnosa_2').select2({});
+  $('#kd_diagnosa_3').select2({});
+  $('#kd_sarana').select2({});
+  $('#kd_status_pulang').select2({});
+  $('#kd_dokter').select2({});
+  $('#kd_sadar').select2({});
+  getDiagnosa("#kd_diagnosa_1")
+  getDiagnosa("#kd_diagnosa_2")
+  getDiagnosa("#kd_diagnosa_3")
 
-							// Query parameters will be ?search=[term]&type=public
-							return query;
-						},
-						processResults: function(data) {
-							// Transforms the top-level key of the response object from 'items' to 'results'
-							console.log()
-							var data = JSON.parse(data)
-							console.log(data)
-							console.log(data.response.list)
-							return {
-								results: $.map(data.response.list, function(item) {
-									return {
-										id: item.kdDiag, // Modify 'yourIdField' to the actual field name for the ID
-										text: item.nmDiag // Modify 'yourTextField' to the actual field name for the text
-									};
-								})
-							}
-						}
-					}
-				})
-				.on('change', function() {
-					// $(this).valid();
-					// $(this).
-				});
+  function getDiagnosa(id) {
+    $(id).select2({
+        ajax: {
+          url: '<?= urlBridging() ?>/pcare/diagnosa_select',
+          header: {},
+          data: function(params) {
+            var query = {
+              search: params.term,
+              limit: 100,
+              show: 1,
+            }
 
-			// $.ajax({
-			// 	method: 'get',
-			// 	url: "/pcare/diagnosa_select",
-			// 	dataType: "JSON",
-			// 	data: function(params) {
-			// 		var query = {
-			// 			search: params.term,
-			// 			show: '10',
-			// 			limit: '15'
-			// 		}
-			// 		// Query parameters will be ?search=[term]&type=public
-			// 		return query;
-			// 	},
-			// 	success: function(res) {
-			// 		$(id).empty();
-			// 		$(id).append('<option value="0">Pilih Diagnosa..</option>')
-			// 		$.each(res.response.list, function(key, value) {
-			// 			$(id).append('<option value="' + value.kdDokter + '">' + value.nmDokter + '</option>');
-			// 		});
-			// 		// if (selected) {
-			// 		//     $('#village_id').val(selected);
-			// 		// }
-			// 		$(id).select2({
-			// 			'placeholder': 'Pilih Dokter..'
-			// 		})
-			// 	}
-			// })
-		}
+            // Query parameters will be ?search=[term]&type=public
+            return query;
+          },
+          processResults: function(data) {
+            // Transforms the top-level key of the response object from 'items' to 'results'
+            console.log()
+            var data = JSON.parse(data)
+            console.log(data)
+            console.log(data.response.list)
+            return {
+              results: $.map(data.response.list, function(item) {
+                return {
+                  id: item.kdDiag, // Modify 'yourIdField' to the actual field name for the ID
+                  text: item.kdDiag + " - " + item.nmDiag // Modify 'yourTextField' to the actual field name for the text
+                };
+              })
+            }
+          }
+        }
+      })
+      .on('change', function() {
+        // $(this).valid();
+        // $(this).
+      });
+
+    // $.ajax({
+    // 	method: 'get',
+    // 	url: "/pcare/diagnosa_select",
+    // 	dataType: "JSON",
+    // 	data: function(params) {
+    // 		var query = {
+    // 			search: params.term,
+    // 			show: '10',
+    // 			limit: '15'
+    // 		}
+    // 		// Query parameters will be ?search=[term]&type=public
+    // 		return query;
+    // 	},
+    // 	success: function(res) {
+    // 		$(id).empty();
+    // 		$(id).append('<option value="0">Pilih Diagnosa..</option>')
+    // 		$.each(res.response.list, function(key, value) {
+    // 			$(id).append('<option value="' + value.kdDokter + '">' + value.nmDokter + '</option>');
+    // 		});
+    // 		// if (selected) {
+    // 		//     $('#village_id').val(selected);
+    // 		// }
+    // 		$(id).select2({
+    // 			'placeholder': 'Pilih Dokter..'
+    // 		})
+    // 	}
+    // })
+  }
   // Load data edit hasil periksa
   $(document).on("click", "#tombolUbah", function() {
     let no_daftar = $(this).data('no_daf');
@@ -614,26 +718,27 @@ if ($spesialis_pcare != null) {
     reset();
     document.getElementById("subjek").focus();
   });
- 
-  
+
+
 
   function mergeArrayToString(array) {
-		let mergedString = '';
-		array.forEach(item => {
-			const field = item.field;
-			const message = item.message;
-			mergedString += `${field}: ${message}\n`;
-		});
-		return mergedString;
-	}
-		function formatDate(dateString) {
-			const parts = dateString.split('-');
-			const year = parts[0];
-			const month = parts[1];
-			const day = parts[2];
+    let mergedString = '';
+    array.forEach(item => {
+      const field = item.field;
+      const message = item.message;
+      mergedString += `${field}: ${message}\n`;
+    });
+    return mergedString;
+  }
 
-			return `${day}-${month}-${year}`;
-		}
+  function formatDate(dateString) {
+    const parts = dateString.split('-');
+    const year = parts[0];
+    const month = parts[1];
+    const day = parts[2];
+
+    return `${day}-${month}-${year}`;
+  }
 
   $("#simpan_edit").on("submit", function(event) {
     event.preventDefault();
@@ -717,107 +822,111 @@ if ($spesialis_pcare != null) {
     })
   });
 
-  $(document).ready(function() { 
-  
+  $(document).ready(function() {
 
-  $("#simpan_kunjungan").on("submit", function(event) {
-    event.preventDefault();
-    let data = {
-				"noKunjungan": null,
-				"noKartu": $('#no_kartu').val(),
-				"tglDaftar": $("#tgl_daftar").val() == null ? "" : formatDate($("#tgl_daftar").val()),
-				"kdPoli": $('#kd_poli').val(),
-				"keluhan": $('#keluhan').val(),
-				"kdSadar": $('#kd_sadar').val(),
-				"sistole": parseInt($('#tekanan_darah_sistole').val()),
-				"diastole": parseInt($('#tekanan_darah_diastole').val()),
-				"beratBadan": parseInt($('#berat_badan').val()),
-				"tinggiBadan": parseInt($('#tinggi_badan').val()),
-				"respRate": parseInt($('#frekwensi_nafas').val()),
-				"lingkarPerut": parseInt($('#lingkar_perut').val()),
-				"heartRate": parseInt($('#heart_rate').val()),
 
-				"kdStatusPulang": $('#kd_status_pulang').val(),
-				"tglPulang": $('#tgl_pulang').val() != null ? formatDate($('#tgl_pulang').val()) : "",
-				"kdDokter": $('#kd_dokter').val(),
-				"kdDiag1": $('#kd_diagnosa_1').val() == null ? null : $('#kd_diagnosa_1').val(),
-				"kdDiag2": $('#kd_diagnosa_2').val() == null ? null : $('#kd_diagnosa_2').val(),
-				"kdDiag3": $('#kd_diagnosa_3').val() == null ? null : $('#kd_diagnosa_3').val(),
-				"kdPoliRujukInternal": null,
-				"rujukLanjut": {
-					"kdppk": $('#kdppk').val(),
-					"tglEstRujuk": $('#tgl_est_rujuk').val() != "" ? formatDate($('#tgl_est_rujuk').val()) : null,
-					"subSpesialis": {
-						"kdSubSpesialis1": parseInt($('#kd_sub_spesialis1').val()),
-						"kdSarana": parseInt($('#kd_sarana').val())
-					},
-					"khusus": null
-				},
-				"kdTacc": -1,
-				"alasanTacc": null
-			};
-			$.ajax({
-				method: 'POST',
-				url: "<?= urlBridging() ?>/pcare/addKunjungan",
-				headers: {
-					"Content-Type": "application/json"
-				},
-				dataType: "json",
-				data: JSON.stringify(data),
-				success: function(result) {
-					console.log(result);
-					console.log(result.metaData);
-					// let result = JSON.parse(res)
-					// alert(result?.metaData?.message ?? "gagal insert");
-					if (result.metaData?.code == 412) {
+    $("#simpan_kunjungan").on("submit", function(event) {
+      event.preventDefault();
+      let data = {
+        "noKunjungan": null,
+        "noKartu": $('#no_kartu').val(),
+        "tglDaftar": $("#tgl_daftar").val() == null ? "" : formatDate($("#tgl_daftar").val()),
+        "kdPoli": $('#kd_poli').val(),
+        "keluhan": $('#keluhan').val(),
+        "kdSadar": $('#kd_sadar').val(),
+        "sistole": parseInt($('#tekanan_darah_sistole').val()),
+        "diastole": parseInt($('#tekanan_darah_diastole').val()),
+        "beratBadan": parseInt($('#berat_badan').val()),
+        "tinggiBadan": parseInt($('#tinggi_badan').val()),
+        "respRate": parseInt($('#frekwensi_nafas').val()),
+        "lingkarPerut": parseInt($('#lingkar_perut').val()),
+        "heartRate": parseInt($('#heart_rate').val()),
 
-						if (result?.response != null) {
-							if (Array.isArray(result?.response)) {
-								console.log('The JSON value is an array.');
-								const mergedString = mergeArrayToString(result?.response);
-								Swal.fire({
-									title: 'Perhatian!',
-									text: `Terjadi Kesalahan input:\n${mergedString}`,
-									icon: 'info',
-								});
-							} else if (typeof result?.response === 'object' && result?.response !== null) {
-								console.log('The JSON value is an object.');
-								const {
-									field,
-									message
-								} = result?.response;
-								Swal.fire({
-									title: 'Perhatian!',
-									text: `Terjadi Kesalahan input:\n${field} ${message}`,
-									icon: 'info',
-								});
-							} else {
-								Swal.fire({
-									title: 'Perhatian!',
-									text: `Terjadi Kesalahan`,
-									icon: 'error',
-								});
-							}
-						}
-					} else if (result?.metaData?.code == 401) {
-						const message = result?.metaData?.message;
-						Swal.fire({
-							title: 'Perhatian!',
-							text: `Duplikasi Input :\n${message}`,
-							icon: 'info',
-						});
-					} else {
-						Swal.fire(
-							'Gagal Simpan!',
-							"gagal",
-							'error'
-						)
-					}
-				}
-			})
+        "kdStatusPulang": $('#kd_status_pulang').val(),
+        "tglPulang": $('#tgl_pulang').val() != null ? formatDate($('#tgl_pulang').val()) : "",
+        "kdDokter": $('#kd_dokter').val(),
+        "kdDiag1": $('#kd_diagnosa_1').val() == null ? null : $('#kd_diagnosa_1').val(),
+        "kdDiag2": $('#kd_diagnosa_2').val() == null ? null : $('#kd_diagnosa_2').val(),
+        "kdDiag3": $('#kd_diagnosa_3').val() == null ? null : $('#kd_diagnosa_3').val(),
+        "kdPoliRujukInternal": null,
+        "rujukLanjut": {
+          "kdppk": $('#kdppk').val(),
+          "tglEstRujuk": $('#tgl_est_rujuk').val() != "" ? formatDate($('#tgl_est_rujuk').val()) : null,
+          "subSpesialis": {
+            "kdSubSpesialis1": parseInt($('#kd_sub_spesialis1').val()),
+            "kdSarana": parseInt($('#kd_sarana').val())
+          },
+          "khusus": null
+        },
+        "kdTacc": -1,
+        "alasanTacc": null
+      };
+      if ($('#is_rujuk_lanjut').is(":checked")) {} else {
+        data.rujukLanjut = null;
+      }
+      console.log(data);
+      $.ajax({
+        method: 'POST',
+        url: "<?= urlBridging() ?>/pcare/addKunjungan",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        dataType: "json",
+        data: JSON.stringify(data),
+        success: function(result) {
+          console.log(result);
+          console.log(result.metaData);
+          // let result = JSON.parse(res)
+          // alert(result?.metaData?.message ?? "gagal insert");
+          if (result.metaData?.code == 412) {
+
+            if (result?.response != null) {
+              if (Array.isArray(result?.response)) {
+                console.log('The JSON value is an array.');
+                const mergedString = mergeArrayToString(result?.response);
+                Swal.fire({
+                  title: 'Perhatian!',
+                  text: `Terjadi Kesalahan input:\n${mergedString}`,
+                  icon: 'info',
+                });
+              } else if (typeof result?.response === 'object' && result?.response !== null) {
+                console.log('The JSON value is an object.');
+                const {
+                  field,
+                  message
+                } = result?.response;
+                Swal.fire({
+                  title: 'Perhatian!',
+                  text: `Terjadi Kesalahan input:\n${field} ${message}`,
+                  icon: 'info',
+                });
+              } else {
+                Swal.fire({
+                  title: 'Perhatian!',
+                  text: `Terjadi Kesalahan`,
+                  icon: 'error',
+                });
+              }
+            }
+          } else if (result?.metaData?.code == 401) {
+            const message = result?.metaData?.message;
+            Swal.fire({
+              title: 'Perhatian!',
+              text: `Duplikasi Input :\n${message}`,
+              icon: 'info',
+            });
+          } else {
+            Swal.fire(
+              'Gagal Simpan!',
+              "gagal",
+              'error'
+            )
+          }
+        }
+      })
+    });
+
   });
-  
-}); 
 </script>
 
 <script>
@@ -840,6 +949,11 @@ if ($spesialis_pcare != null) {
   $("button[name='tombol_riwayat']").click(function() {
     var id = $(this).data('id');
     window.location = '?page=riwayatperiksa&id=' + id;
+  });
+
+  $("button[name='tombol_diagnosa']").click(function() {
+    var id = $(this).data('id');
+    window.location = '?page=form_assesment&id=' + id;
   });
 
   $("button[name='tombol_kunjungan']").click(function() {
