@@ -6,7 +6,7 @@
     $koneksi = mysqli_connect('localhost', 'root', '', 'klinik_project');
     $query_tampil = mysqli_query($koneksi, "SELECT tbl_daftarpasien.*, tbl_daftarpasien.no_daftar, tbl_antrian.id, tbl_antrian.status, tbl_antrian.nama_pas FROM tbl_daftarpasien
     LEFT JOIN tbl_antrian ON tbl_daftarpasien.no_daftar=tbl_antrian.no_daftar
-     WHERE tgl_daftar = CURDATE() AND status_masuk='rawat' AND nm_dokter = 'dr. Novi'")  ;
+     WHERE tgl_daftar = CURDATE() AND status_masuk='rawat' AND nm_dokter = '".$_SERVER['DOKTER2']."'")  ;
     $rows = array();
     if (!empty($query_tampil)) {
         //$no = $start + 1;
