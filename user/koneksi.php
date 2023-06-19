@@ -1,10 +1,10 @@
 
 <?php
 // deklarasi parameter koneksi database
-$server   = "localhost";
-$username = "root";
+$server   = $_SERVER["DB_HOST"];
+$username = $_SERVER["DB_USER"];
 $password = "";
-$database = "klinik_project";
+$database = $_SERVER["DB_NAME"];
 
 // koneksi database
 $mysqli = new mysqli($server, $username, $password, $database);

@@ -1,8 +1,8 @@
 <?php
-	$host = "localhost";
-	$root = "root";
-	$pass = "";
-	$db_name = "klinik_project";
+	$host = $_SERVER["DB_HOST"];
+	$root = $_SERVER["DB_USER"];
+	$pass = $_SERVER["DB_PASSWORD"];
+	$db_name = $_SERVER["DB_NAME"];
 	$mysqli = new mysqli($host,$root,$pass,$db_name); 
 	$mysqli->select_db($db_name); 
 	$mysqli->query("SET NAMES 'utf8'");

@@ -3,8 +3,10 @@
 require 'vendor/autoload.php'; // Assuming GuzzleHTTP is installed via Composer 
 
 use GuzzleHttp\Client;
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
-$conn = new mysqli("localhost", "root", "", "klinik_project");
+$conn = new mysqli($_SERVER["DB_HOST"], $_SERVER["DB_USER"], $_SERVER["DB_PASSWORD"], $_SERVER["DB_NAME"]);
 
 function tgl_indo($tgl)
 {
@@ -103,12 +105,12 @@ function periode($tgl)
 
 function urlBridging()
 {
-	return "http://".$_SERVER['SERVER_NAME'].":8000";
+	return $_SERVER['URL_BRIDGING'];
 }
 
 function getRequestPcare($url)
 {
-	$endpoint = "http://localhost:8000/$url";
+	$endpoint = $_SERVER['URL_BRIDGING'].$url;
 	$client = new Client();
 	$header =  [
 		'headers' => [
@@ -124,7 +126,7 @@ function getRequestPcare($url)
 
 function postRequestPcare($url, $data)
 {
-	$endpoint = "http://localhost:8000/$url";
+	$endpoint = $_SERVER['URL_BRIDGING'].$url;
 	$client = new Client();
 	$header =  [
 		// 'secret-header' => 'megono',

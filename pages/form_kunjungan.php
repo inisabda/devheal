@@ -253,7 +253,7 @@ $kdtacc =  [
               <div class="form-group row">
                 <label for="keluhan" class="col-sm-2 col-form-label">Keluhan</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control form-control-sm" name="keluhan" id="keluhan" placeholder="Keluhan Pasien">
+                  <input type="text" class="form-control form-control-sm" value="<?= $datapas['keluhan'] ?>" name="keluhan" id="keluhan" placeholder="Keluhan Pasien">
                 </div>
               </div>
 
@@ -291,34 +291,34 @@ $kdtacc =  [
               <div class="form-group row">
                 <label for="tinggi_badan" class="col-sm-2 col-form-label">Tinggi Badan</label>
                 <div class="col-sm-10">
-                  <input type="number" class="form-control form-control-sm" name="tinggi_badan" id="tinggi_badan" placeholder="Masukkan TB">
+                  <input type="number" value="<?= $datapas['tinggi_badan'] ?>" class="form-control form-control-sm" name="tinggi_badan" id="tinggi_badan" placeholder="Masukkan TB">
                 </div>
               </div>
               <div class="form-group row">
                 <label for="tekanan_darah_sistole" class="col-sm-2 col-form-label">Tekanan Darah</label>
                 <div class="col-sm-2">
-                  <input type="text" class="form-control form-control-sm" name="tekanan_darah_sistole" id="tekanan_darah_sistole" placeholder="Sistole">
+                  <input type="text" value="<?= $datapas['sistole'] ?>" class="form-control form-control-sm" name="tekanan_darah_sistole" id="tekanan_darah_sistole" placeholder="Sistole">
                 </div>
                 <div class="col-sm-2">
-                  <input type="text" class="form-control form-control-sm" name="tekanan_darah_diastole" id="tekanan_darah_diastole" placeholder="Diastole">
+                  <input type="text" value="<?= $datapas['diastole'] ?>" class="form-control form-control-sm" name="tekanan_darah_diastole" id="tekanan_darah_diastole" placeholder="Diastole">
                 </div>
               </div>
               <div class="form-group row">
                 <label for="frekwensi_nafas" class="col-sm-2 col-form-label">Frekwensi Nafas</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control form-control-sm" name="frekwensi_nafas" id="frekwensi_nafas" placeholder="Masukkan Frekwensi Nafas">
+                  <input type="text" value="<?= $datapas['resp_rate'] ?>" class="form-control form-control-sm" name="frekwensi_nafas" id="frekwensi_nafas" placeholder="Masukkan Frekwensi Nafas">
                 </div>
               </div>
               <div class="form-group row">
                 <label for="lingkar_perut" class="col-sm-2 col-form-label">Lingkar Perut</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control form-control-sm" name="lingkar_perut" id="lingkar_perut" placeholder="Masukkan Lingkar Perut">
+                  <input type="text" value="<?= $datapas['lingkar_perut'] ?>" class="form-control form-control-sm" name="lingkar_perut" id="lingkar_perut" placeholder="Masukkan Lingkar Perut">
                 </div>
               </div>
               <div class="form-group row">
                 <label for="heart_rate" class="col-sm-2 col-form-label">Heart Rate</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control form-control-sm" name="heart_rate" id="heart_rate" placeholder="Masukkan Heart Rate">
+                  <input type="text" value="<?= $datapas['heart_rate'] ?>" class="form-control form-control-sm" name="heart_rate" id="heart_rate" placeholder="Masukkan Heart Rate">
                 </div>
               </div>
             </div>
@@ -931,7 +931,7 @@ $kdtacc =  [
 
 // <!-- /spesialis/rujuk/subspesialis/{Parameter 1}/sarana/{Parameter 2}/tglEstRujuk/{Parameter 3} -->
 if ($('#spesialis').val() == null || $('#subspesialis').val() == null || $('#sarana').val() == null) {
-  alert("SPESIALIS, SUBSPESIALIS, SARANA HARUS DIISI")
+  // alert("SPESIALIS, SUBSPESIALIS, SARANA HARUS DIISI")
 } else {
   $('#kd_ppk').select2({
     ajax: {

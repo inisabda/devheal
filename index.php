@@ -3,7 +3,12 @@
   require 'vendor/autoload.php'; 
   require_once "koneksi.php";
   include "config/setting.php";
+  
   session_start();
+  $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+  $dotenv->load();
+
+
   if(!@$_SESSION['posisi_peg']) {
     echo "<script>window.location='login.php';</script>";
   } else {

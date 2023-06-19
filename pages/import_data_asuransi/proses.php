@@ -2,7 +2,7 @@
 
 	// Panggil Library Excel Reader
 	include "../import_data_asuransi/excel_reader2.php";
-	$koneksi = mysqli_connect("localhost", "root","","klinik_project");
+	$koneksi = mysqli_connect($_SERVER["DB_HOST"],   $_SERVER["DB_USER"],$_SERVER["DB_PASSWORD"],$_SERVER["DB_NAME"]);
 
 	//upload file xls
 	$target = basename($_FILES['file']['name']);

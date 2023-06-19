@@ -1,5 +1,5 @@
 <?php
-    $conn = new mysqli("localhost", "root", "", "klinik_project");
+    $conn = new mysqli($_SERVER["DB_HOST"], $_SERVER["DB_USER"], $_SERVER["DB_PASSWORD"], $_SERVER["DB_NAME"]);
     $query_tampil = "SELECT * FROM tbl_setting ";
     $sql_tampil = mysqli_query($conn, $query_tampil) or die ($conn->error);
     while($data = mysqli_fetch_array($sql_tampil)){

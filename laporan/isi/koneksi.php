@@ -1,5 +1,5 @@
 <?php 
-	$conn = new mysqli("localhost", "root", "", "klinik_project");
+	$conn = new mysqli($_SERVER["DB_HOST"], $_SERVER["DB_USER"], $_SERVER["DB_PASSWORD"], $_SERVER["DB_NAME"]);
 
 	function tgl_indo($tgl) {
 		$tanggal = substr($tgl,8,2);

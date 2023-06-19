@@ -1,6 +1,6 @@
 <?php
 # create database connection
-$connect = mysqli_connect("localhost","root","","klinik_project");
+$connect = mysqli_connect($_SERVER["DB_HOST"],  $_SERVER["DB_USER"],$_SERVER["DB_PASSWORD"],$_SERVER["DB_NAME"]);
 if(!empty($_POST["ip_kdobat"])) {
   $query = "SELECT * FROM tbl_dataobat WHERE kd_obat='" . $_POST["ip_kdobat"] . "'";
   $result = mysqli_query($connect,$query);

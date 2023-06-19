@@ -3,3 +3,4 @@ BACKUP/
 klinik-apotek/
 vendor/
 klinik-apotek.rar
+.env
