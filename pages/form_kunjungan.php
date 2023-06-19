@@ -926,6 +926,48 @@ $kdtacc =  [
       })
     });
 
+    
+		$('#tgl_est_rujuk').on('change', function() {
+
+// <!-- /spesialis/rujuk/subspesialis/{Parameter 1}/sarana/{Parameter 2}/tglEstRujuk/{Parameter 3} -->
+if ($('#spesialis').val() == null || $('#subspesialis').val() == null || $('#sarana').val() == null) {
+  alert("SPESIALIS, SUBSPESIALIS, SARANA HARUS DIISI")
+} else {
+  $('#kd_ppk').select2({
+    ajax: {
+      url: '<?= urlBridging() ?>/pcare/ppkSpesialis',
+      data: function(params) {
+      	var query = {
+      		search: params.term,
+      		subspesialis: $('#subspesialis').val(),
+      		tgl: $('#tgl_est_rujuk').val(),
+      		sarana: $('#sarana').val(),
+      	}
+
+      	// Query parameters will be ?search=[term]&type=public
+      	return query;
+      },
+      processResults: function(data) {
+        // Transforms the top-level key of the response object from 'items' to 'results'
+        console.log()
+        var data = JSON.parse(data)
+        console.log(data)
+        console.log(data.response.list)
+        return {
+          results: $.map(data.response.list, function(item) {
+            return {
+              id: item.kdPpk, // Modify 'yourIdField' to the actual field name for the ID
+              text: item.nmPpk // Modify 'yourTextField' to the actual field name for the text
+            };
+          })
+        }
+      }
+    }
+  })
+
+}
+})
+
   });
 </script>
 
