@@ -1,4 +1,8 @@
 <?php 
+
+require __DIR__."/../../vendor/autoload.php";
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__."/../../");
+$dotenv->load();
 	$conn = new mysqli($_SERVER["DB_HOST"], $_SERVER["DB_USER"], $_SERVER["DB_PASSWORD"], $_SERVER["DB_NAME"]);
 
 	function tgl_indo($tgl) {

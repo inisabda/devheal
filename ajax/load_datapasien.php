@@ -1,5 +1,8 @@
 <?php 
-    $koneksi = mysqli_connect('localhost', 'root', '', 'klinik_project');
+require __DIR__."/../vendor/autoload.php";
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__."/../");
+$dotenv->load();
+    $koneksi = mysqli_connect($_SERVER['DB_HOST'], $_SERVER['DB_USER'], $_SERVER['DB_PASSWORD'], $_SERVER['DB_NAME']);
     $query_tampil = mysqli_query($koneksi, "SELECT * FROM tbl_pasien")  ;
     $rows = array();
     if (!empty($query_tampil)) {

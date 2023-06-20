@@ -1,4 +1,7 @@
 <?php
+require __DIR__."/../vendor/autoload.php";
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__."/../");
+$dotenv->load();
     $conn = new mysqli($_SERVER["DB_HOST"], $_SERVER["DB_USER"], $_SERVER["DB_PASSWORD"], $_SERVER["DB_NAME"]);
     $query_tampil = "SELECT * FROM tbl_setting ";
     $sql_tampil = mysqli_query($conn, $query_tampil) or die ($conn->error);

@@ -1,4 +1,7 @@
 <?php 
+require __DIR__."/../vendor/autoload.php";
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__."/../");
+$dotenv->load();
     $koneksi = mysqli_connect('localhost', 'root', '', 'penjualan_obat');
     $query_tampil = mysqli_query($koneksi, "SELECT * FROM tbl_icd10 ORDER BY id_icd ASC")  ;
     $rows = array();

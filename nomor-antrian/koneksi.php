@@ -1,4 +1,9 @@
 <?php
+
+require __DIR__."/../vendor/autoload.php";
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__."/../");
+$dotenv->load();
+
 // deklarasi parameter koneksi database
 $host     = $_SERVER["DB_HOST"];              // server database, default “localhost” atau “127.0.0.1”
 $username = $_SERVER["DB_USER"];                   // username database, default “root”

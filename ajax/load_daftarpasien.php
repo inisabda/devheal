@@ -2,7 +2,10 @@
     // session_start();
     // include "../koneksi.php";
     // $nama_dokter = $_SESSION['nama_peg'] == 'dr. M. Amin Misbah';
-    $koneksi = mysqli_connect('localhost', 'root', '', 'klinik_project');
+require __DIR__."/../vendor/autoload.php";
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__."/../");
+$dotenv->load();
+    $koneksi = mysqli_connect($_SERVER['DB_HOST'], $_SERVER['DB_USER'], $_SERVER['DB_PASSWORD'], $_SERVER['DB_NAME']);
     
     $query_tampil = mysqli_query($koneksi, "SELECT tbl_daftarpasien.*, tbl_daftarpasien.no_daftar, tbl_antrian.id, tbl_antrian.status, tbl_antrian.nama_pas FROM tbl_daftarpasien
     LEFT JOIN tbl_antrian ON tbl_daftarpasien.no_daftar=tbl_antrian.no_daftar
