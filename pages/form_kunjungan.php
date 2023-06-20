@@ -468,7 +468,7 @@ $kdtacc =  [
                 </div>
 
                 <input type="hidden" name="khusus" value="">
-                <input type="hidden" name="no_kartu" id="no_kartu" value="">
+                <input type="hidden" name="no_kartu" id="no_kartu" value="<?= $datapas['no_kartu'] ?>">
 
                 <div class="form-group row">
                   <label class="col-sm-2 col-form-label">Tacc</label>
@@ -554,7 +554,7 @@ $kdtacc =  [
     // $('#kd_sub_spesialis_1').select2().destroy();
     $('#kd_sub_spesialis_1').select2({
       ajax: {
-        url: '<?= urlBridging() ?>/pcare/subspesialis/' + $('#spesialis').val(),
+        url: '<?= urlBridging() ?>pcare/subspesialis/' + $('#spesialis').val(),
         header: {
           'Content-Type': 'application/json'
         },
@@ -595,6 +595,7 @@ $kdtacc =  [
   $('#kd_status_pulang').select2({});
   $('#kd_dokter').select2({});
   $('#kd_sadar').select2({});
+  $('#kdppk').select2({});
   getDiagnosa("#kd_diagnosa_1")
   getDiagnosa("#kd_diagnosa_2")
   getDiagnosa("#kd_diagnosa_3")
@@ -602,7 +603,7 @@ $kdtacc =  [
   function getDiagnosa(id) {
     $(id).select2({
         ajax: {
-          url: '<?= urlBridging() ?>/pcare/diagnosa_select',
+          url: '<?= urlBridging() ?>pcare/diagnosa_select',
           header: {},
           data: function(params) {
             var query = {
@@ -867,7 +868,7 @@ $kdtacc =  [
       console.log(data);
       $.ajax({
         method: 'POST',
-        url: "<?= urlBridging() ?>/pcare/addKunjungan",
+        url: "<?= urlBridging() ?>pcare/addKunjungan",
         headers: {
           "Content-Type": "application/json"
         },
@@ -915,6 +916,13 @@ $kdtacc =  [
               text: `Duplikasi Input :\n${message}`,
               icon: 'info',
             });
+          }else if (result?.metaData?.code == 201) {
+            const message = result?.metaData?.message;
+            Swal.fire({
+              title: 'Sukes!',
+              text: `\n${message}`,
+              icon: 'success',
+            });
           } else {
             Swal.fire(
               'Gagal Simpan!',
@@ -926,16 +934,47 @@ $kdtacc =  [
       })
     });
 
-    
+    $('#kdppk').select2({
+    ajax: {
+      type: "POST",
+      url: '<?= urlBridging() ?>pcare/ppkSpesialis',
+      data: function(params) { 
+        console.log($('#subspesialis').select2('data').id)
+      	var query = { 
+      		subspesialis: $('#subspesialis').select2('data').id,
+      		tgl: $('#tgl_est_rujuk').val(),
+      		sarana: $('#sarana').select2('data').id
+      	}
+
+      	// Query parameters will be ?search=[term]&type=public
+      	return query;
+      },
+      processResults: function(data) {
+        // Transforms the top-level key of the response object from 'items' to 'results'
+        console.log()
+        var data = JSON.parse(data)
+        console.log(data)
+        console.log(data.response.list)
+        return {
+          results: $.map(data.response.list, function(item) {
+            return {
+              id: item.kdPpk, // Modify 'yourIdField' to the actual field name for the ID
+              text: item.nmPpk // Modify 'yourTextField' to the actual field name for the text
+            };
+          })
+        }
+      }
+    }
+  })
 		$('#tgl_est_rujuk').on('change', function() {
 
 // <!-- /spesialis/rujuk/subspesialis/{Parameter 1}/sarana/{Parameter 2}/tglEstRujuk/{Parameter 3} -->
 if ($('#spesialis').val() == null || $('#subspesialis').val() == null || $('#sarana').val() == null) {
   // alert("SPESIALIS, SUBSPESIALIS, SARANA HARUS DIISI")
 } else {
-  $('#kd_ppk').select2({
+  $('#kdppk').select2({
     ajax: {
-      url: '<?= urlBridging() ?>/pcare/ppkSpesialis',
+      url: '<?= urlBridging() ?>pcare/ppkSpesialis',
       data: function(params) {
       	var query = {
       		search: params.term,
