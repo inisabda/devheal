@@ -46,7 +46,7 @@
 					    </div>
 					    <label for="nomor_rm" class="col-sm-2 col-form-label">Nomor RM</label>
 					    <div class="col-sm-3">
-					      <input type="text" class="form-control form-control-sm" id="nomor_rm" value="<?php echo $nomor_rm; ?>" placeholder="Masukkan Nomor RM"  readonly>
+					      <input type="text" class="form-control form-control-sm" id="nomor_rm" value="<?php echo $nomor_rm; ?>" placeholder="Masukkan Nomor RM" >
 					    </div>
 					</div>
 					<div class="form-group row pt-1">

@@ -21,7 +21,7 @@
         <link rel="stylesheet" href="asset/sweetalert/dist/sweetalert2.min.css">
         <style type="text/css">
             body{
-                background-image: url(images/bg1.jpg);
+                background-image: url(images/bg1.png);
             }
 
         </style>

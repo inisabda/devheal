@@ -83,7 +83,7 @@ $kdtkp = json_decode($jsonString);
 						</div>
 						<label for="nomor_rm" class="col-sm-2 col-form-label">Nomor RM</label>
 						<div class="col-sm-4">
-							<input name="nomor_rm" type="text" class="form-control form-control-sm" id="nomor_rm" value="<?php echo $data['nomor_rm']; ?>" readonly>
+							<input name="nomor_rm" type="text" class="form-control form-control-sm" id="nomor_rm" value="<?php echo $data['nomor_rm']; ?>" >
 						</div>
 					</div>
 
