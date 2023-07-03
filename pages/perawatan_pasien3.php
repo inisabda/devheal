@@ -168,7 +168,7 @@
       $('#sisa-antrian').load('panggilan-antrian/get_sisa_antrian.php');
   		var table = $("#daftar").DataTable({
 				"ajax": {
-				"url" : "ajax/load_daftarpasien2.php",
+				"url" : "ajax/load_daftarpasien3.php",
 				"dataSrc" : ""
 			},
 			"lengthMenu" : [[20, 30, 40, -2], [20, 30, 40, "All"]],
