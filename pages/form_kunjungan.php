@@ -217,7 +217,9 @@ $kdtacc =  [
       <div class="col-md-12 vertical-form">
         <form method="post" id="simpan_kunjungan" autocomplete="off">
           <div class="row">
-
+             <div class="col-sm-12">
+              <a class="btn btn-sm btn-primary my-2 mx-2" href="<?= urlBridging()."pcare/cetakKunjungan/".$datapas['no_rujukan'] ?>">Cetak Kunjungan/Rujukan</a>
+             </div>
             <div class="col-sm-6">
 
 
