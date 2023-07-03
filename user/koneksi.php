@@ -7,7 +7,7 @@ $dotenv->load();
 // deklarasi parameter koneksi database
 $server   = $_SERVER["DB_HOST"];
 $username = $_SERVER["DB_USER"];
-$password = "";
+$password = $_SERVER["DB_PASSWORD"];
 $database = $_SERVER["DB_NAME"];
 
 // koneksi database

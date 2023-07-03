@@ -1,5 +1,8 @@
 <?php
 
+require __DIR__."/../vendor/autoload.php";
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__."/../");
+$dotenv->load();
 $koneksi=new mysqli($_SERVER["DB_HOST"],   $_SERVER["DB_USER"],$_SERVER["DB_PASSWORD"],$_SERVER["DB_NAME"]);
 
 $filename="lap_data_pasien-(".date('d-m-y').").xls";
