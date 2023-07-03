@@ -49,6 +49,7 @@
 				      	<option value="Manager" <?php if($data['pos_peg'] == "Manager") {echo "selected";} ?>>Manager</option>
 				      	<option value="Dokter" <?php if($data['pos_peg'] == "Dokter") {echo "selected";} ?>>Dokter 1</option>
 				      	<option value="Dokter2" <?php if($data['pos_peg'] == "Dokter2") {echo "selected";} ?>>Dokter 2</option>
+						  <option value="Dokter3" <?php if($data['pos_peg'] == "Dokter3") {echo "selected";} ?>>Dokter 3</option>
 				      	<option value="Pendaftaran" <?php if($data['pos_peg'] == "Pendaftaran") {echo "selected";} ?>>Pendaftaran</option>
 				      	<option value="Apoteker" <?php if($data['pos_peg'] == "Apoteker") {echo "selected";} ?>>Apoteker</option>
 				      	<option value="Kasir" <?php if($data['pos_peg'] == "Kasir") {echo "selected";} ?>>Kasir</option>

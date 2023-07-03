@@ -12,8 +12,10 @@ $dotenv->load();
         $kab = $data['kab'];
         $dokter1 = $data['dokter1'];
         $dokter2 = $data['dokter2'];
+        $dokter3 = $data['dokter3'];
         $sip1 = $data['sip1'];
         $sip2 = $data['sip2'];
+        $sip3 = $data['sip3'];
         $no_hp = $data['no_hp'];
         $email = $data['email'];
 ?>

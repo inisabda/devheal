@@ -32,7 +32,7 @@
 				            <th>Jenis Kelamin</th>
 				            <th>Tanggal Lahir</th>
 				            <th>No HP</th>
-				            <?php if($_SESSION['posisi_peg'] == 'Admin' || $_SESSION['posisi_peg'] == 'Manager' || $_SESSION['posisi_peg'] == 'Dokter' || $_SESSION['posisi_peg'] == 'Dokter2' || $_SESSION['posisi_peg'] == 'Pendaftaran') { ?>
+				            <?php if($_SESSION['posisi_peg'] == 'Admin' || $_SESSION['posisi_peg'] == 'Manager' || $_SESSION['posisi_peg'] == 'Dokter' || $_SESSION['posisi_peg'] == 'Dokter2' || $_SESSION['posisi_peg'] == 'Dokter3' || $_SESSION['posisi_peg'] == 'Pendaftaran') { ?>
 				            <th>Opsi</th>
 				        	<?php } ?>
 				        </tr>
@@ -53,7 +53,7 @@
 				 			<td width="13%"><?php echo $data['jk_peg']; ?></td>
 				 			<td><?php echo $data['lhr_peg']; ?></td>
 				 			<td><?php echo $data['hp_peg']; ?></td>
-				 			<?php if($_SESSION['posisi_peg'] == 'Admin' || $_SESSION['posisi_peg'] == 'Manager' || $_SESSION['posisi_peg'] == 'Pendaftaran' || $_SESSION['posisi_peg'] == 'Dokter' || $_SESSION['posisi_peg'] == 'Dokter2') { ?>
+				 			<?php if($_SESSION['posisi_peg'] == 'Admin' || $_SESSION['posisi_peg'] == 'Manager' || $_SESSION['posisi_peg'] == 'Pendaftaran' || $_SESSION['posisi_peg'] == 'Dokter' || $_SESSION['posisi_peg'] == 'Dokter2'| $_SESSION['posisi_peg'] == 'Dokter3') { ?>
 				 			<td class="td-opsi">
 				 				<button class="btn-transition btn btn-outline-primary btn-sm" title="edit" id="tombol_edit" name="tombol_edit" data-id="<?php echo $data['id_peg']; ?>"><i class="fas fa-user-edit"></i></button>
 				 				<button class="btn-transition btn btn-outline-danger btn-sm" title="hapus" id="tombol_hapus" name="tombol_hapus" data-id="<?php echo $data['id_peg']; ?>" data-nama="<?php echo $data['nama_peg']; ?>"><i class="fas fa-trash"></i></button>

@@ -11,7 +11,7 @@
 			<a href="?page=info_kadaluarsa">
 				<button class="btn btn-sm btn-danger">Info Kadaluarsa Obat</button>
 			</a>
-			 <?php if($_SESSION['posisi_peg'] == 'Admin' || $_SESSION['posisi_peg'] == 'Manager' || $_SESSION['posisi_peg'] == 'Dokter' || $_SESSION['posisi_peg'] == 'Dokter2' || $_SESSION['posisi_peg'] == 'Apoteker') { ?>
+			 <?php if($_SESSION['posisi_peg'] == 'Admin' || $_SESSION['posisi_peg'] == 'Manager' || $_SESSION['posisi_peg'] == 'Dokter' || $_SESSION['posisi_peg'] == 'Dokter2' || $_SESSION['posisi_peg'] == 'Dokter3' || $_SESSION['posisi_peg'] == 'Apoteker') { ?>
 			<button class="btn btn-sm btn-info" data-toggle="modal" data-target="#importObat" title="Import data obat">
 				<i class="far fa-file-excel"></i> Import Data Obat
 			</button>
@@ -94,7 +94,7 @@
 		            <th>Satuan</th>
 		            <th>Kategori</th>
 		            <th>Supplier</th>
-		            <?php if($_SESSION['posisi_peg'] == 'Admin' || $_SESSION['posisi_peg'] == 'Manager' || $_SESSION['posisi_peg'] == 'Dokter' || $_SESSION['posisi_peg'] == 'Dokter2' || $_SESSION['posisi_peg'] == 'Apoteker') { ?>
+		            <?php if($_SESSION['posisi_peg'] == 'Admin' || $_SESSION['posisi_peg'] == 'Manager' || $_SESSION['posisi_peg'] == 'Dokter' || $_SESSION['posisi_peg'] == 'Dokter2' || $_SESSION['posisi_peg'] == 'Dokter3' || $_SESSION['posisi_peg'] == 'Apoteker') { ?>
 		            <th>Opsi</th>
 		        	<?php } ?>
 		        </tr>
@@ -144,7 +144,7 @@
 				 				data-minstok="<?php echo $data['minstk_obat']; ?>">
                     <i class="fas fa-info-circle"></i>
                 </button>
-				 				<?php if($_SESSION['posisi_peg'] == 'Admin' || $_SESSION['posisi_peg'] == 'Manager' || $_SESSION['posisi_peg'] == 'Dokter' || $_SESSION['posisi_peg'] == 'Dokter2' || $_SESSION['posisi_peg'] == 'Apoteker') { ?>
+				 				<?php if($_SESSION['posisi_peg'] == 'Admin' || $_SESSION['posisi_peg'] == 'Manager' || $_SESSION['posisi_peg'] == 'Dokter' || $_SESSION['posisi_peg'] == 'Dokter2' || $_SESSION['posisi_peg'] == 'Dokter3' || $_SESSION['posisi_peg'] == 'Apoteker') { ?>
                 <button class="btn-transition btn btn-outline-primary btn-sm" title="edit" id="tombol_edit" name="tombol_edit" data-kode="<?php echo $data['kd_obat']; ?>">
                     <i class="fas fa-edit"></i>
                 </button>
