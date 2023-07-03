@@ -5,7 +5,7 @@ $dotenv->load();
 // deklarasi parameter koneksi database
 $host     = $_SERVER["DB_HOST"];              // server database, default “localhost” atau “127.0.0.1”
 $username = $_SERVER["DB_USER"];                   // username database, default “root”
-$password = "";                       // password database, default kosong
+$password = $_SERVER["DB_PASSWORD"];                       // password database, default kosong
 $database = $_SERVER["DB_NAME"];             // memilih database yang akan digunakan
 
 // buat koneksi database

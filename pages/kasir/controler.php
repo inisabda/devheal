@@ -1,7 +1,10 @@
 <?php 
 
+require __DIR__."/../vendor/autoload.php";
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__."/../");
+$dotenv->load();
 	$username = $_SERVER["DB_USER"];
-    $password = "";
+    $password = $_SERVER["DB_PASSWORD"];
     $database = $_SERVER["DB_NAME"];
     $hostname = $_SERVER["DB_HOST"];
     $con = mysqli_connect($hostname,$username,$password,$database) or die("Connection Corrupt");

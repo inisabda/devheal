@@ -1,6 +1,9 @@
 <?php
 	// Panggil Library Excel Reader
 	include "../import_data_obat/excel_reader2.php";
+	require __DIR__."/../vendor/autoload.php";
+	$dotenv = Dotenv\Dotenv::createImmutable(__DIR__."/../");
+	$dotenv->load();
 	$koneksi = mysqli_connect($_SERVER["DB_HOST"],   $_SERVER["DB_USER"],$_SERVER["DB_PASSWORD"],$_SERVER["DB_NAME"]);
 
 	//upload file xls
