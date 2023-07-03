@@ -33,6 +33,8 @@
 			$pos = "DR1";
 		} else if($posisi=="Dokter2") {
 			$pos = "DR2";
+		} else if($posisi=="Dokter3") {
+			$pos = "DR3";
 		} else if($posisi=="Pendaftaran") {
 			$pos = "DAF";
 		} else if($posisi=="Apoteker") {

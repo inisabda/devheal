@@ -38,6 +38,7 @@
 				      	<option value="Kasir">Kasir</option>
 				      	<option value="Dokter">Dokter 1</option>
 				      	<option value="Dokter2">Dokter 2</option>
+						  <option value="Dokter3">Dokter 3</option>
 				      </select>
 				    </div>
 				  </div>

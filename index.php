@@ -213,12 +213,12 @@
                       </ul>
                     <?php } ?>
 
-                    <?php if($_SESSION['posisi_peg'] == 'Admin' || $_SESSION['posisi_peg'] == 'Dokter' || $_SESSION['posisi_peg'] == 'Dokter2' ) { ?>
+                    <?php if($_SESSION['posisi_peg'] == 'Admin' || $_SESSION['posisi_peg'] == 'Dokter' || $_SESSION['posisi_peg'] == 'Dokter2'  | $_SESSION['posisi_peg'] == 'Dokter3' ) { ?>
                       <ul class="list-group">
-                        <a href="#" class="list-group-item list-group-item-action <?php if(@$_GET['page']=='ruang_rawat' || @$_GET['page']=='perawatan' || @$_GET['page']=='perawatan2' ){echo "show";} ?>" data-toggle="collapse" data-target="#menu-collapse-ruangRawat" aria-expanded="true" aria-controls="menu-collapse-ruangRawat">
+                        <a href="#" class="list-group-item list-group-item-action <?php if(@$_GET['page']=='ruang_rawat' || @$_GET['page']=='perawatan' || @$_GET['page']=='perawatan2' | @$_GET['page']=='perawatan3' ){echo "show";} ?>" data-toggle="collapse" data-target="#menu-collapse-ruangRawat" aria-expanded="true" aria-controls="menu-collapse-ruangRawat">
                           <i class="fas fa-book-medical"></i> Rawat Pasien <i class="fas fa-angle-down float-right mt-1"></i>
                         </a>
-                        <div id="menu-collapse-ruangRawat" class="collapse <?php if(@$_GET['page']=='perawatan' || @$_GET['page']=='perawatan2') {echo "show";} ?>" aria-labelledby=""
+                        <div id="menu-collapse-ruangRawat" class="collapse <?php if(@$_GET['page']=='perawatan' || @$_GET['page']=='perawatan2' | @$_GET['page']=='perawatan3') {echo "show";} ?>" aria-labelledby=""
                           data-parent="#daftar_menu">
                           <?php if($_SESSION['posisi_peg'] == 'Admin' || $_SESSION['posisi_peg'] == 'Dokter') { ?> 
                             <a href="?page=perawatan" class="list-group-item list-group-item-action list-group-item-collapse <?php if(@$_GET['page']=='perawatan') {echo "active";} ?>"><i class="fas fa-angle-right"></i> Rawat <?php echo $dokter1; ?>
@@ -227,6 +227,11 @@
                           <?php if($_SESSION['posisi_peg'] == 'Admin' || $_SESSION['posisi_peg'] == 'Dokter2' ) { ?> 
                             <a href="?page=perawatan2" class="list-group-item list-group-item-action list-group-item-collapse <?php if(@$_GET['page']=='perawatan2') {echo "active";} ?>">
                               <i class="fas fa-angle-right"></i> Rawat <?php echo $dokter2; ?>
+                            </a>
+                          <?php } ?>
+                          <?php if($_SESSION['posisi_peg'] == 'Admin' || $_SESSION['posisi_peg'] == 'Dokter3' ) { ?> 
+                            <a href="?page=perawatan3" class="list-group-item list-group-item-action list-group-item-collapse <?php if(@$_GET['page']=='perawatan3') {echo "active";} ?>">
+                              <i class="fas fa-angle-right"></i> Rawat <?php echo $dokter3; ?>
                             </a>
                           <?php } ?>
                         </div>
@@ -424,6 +429,8 @@
                 include 'pages/perawatan_pasien.php';
               } else if(@$_GET['page']=='perawatan2') {
                 include 'pages/perawatan_pasien2.php';
+              } else if(@$_GET['page']=='perawatan3') {
+                include 'pages/perawatan_pasien3.php';
               } else if(@$_GET['page']=='form_assesment') {
                 include 'pages/form_assesment.php'; 
               } else if(@$_GET['page']=='form_kunjungan') {

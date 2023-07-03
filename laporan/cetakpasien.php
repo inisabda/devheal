@@ -50,6 +50,9 @@
                         <br>
                         <?php echo $dokter2; ?> SIP : <?php echo $sip2; ?>
                         <br>
+                        <br>
+                        <?php echo $dokter3; ?> SIP : <?php echo $sip3; ?>
+                        <br>
                         Email : <?php echo $email; ?> - <?php echo $no_hp; ?></span>
                     </td>
                 </tr>
