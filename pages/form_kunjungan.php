@@ -109,7 +109,10 @@ $kdtacc =  [
       <div class="row data-assesment">
         <?php
 
-        $query_tampil = "SELECT * FROM tbl_daftarpasien LEFT JOIN pendaftaran_pcare on tbl_daftarpasien.no_daftar = pendaftaran_pcare.no_daftar WHERE tbl_daftarpasien.no_daftar='$no_daftar' ";
+        $query_tampil = "SELECT tbl_daftarpasien.*, pendaftaran_pcare.*, rujukan_t.no_kunjungan  FROM tbl_daftarpasien 
+        LEFT JOIN pendaftaran_pcare on tbl_daftarpasien.no_daftar = pendaftaran_pcare.no_daftar
+        LEFT JOIN rujukan_t on tbl_daftarpasien.no_daftar = rujukan_t.no_daftar
+         WHERE tbl_daftarpasien.no_daftar='$no_daftar' ";
         $sql_tampil = mysqli_query($conn, $query_tampil) or die($conn->error);
         $datapas = mysqli_fetch_array($sql_tampil);
         $nomor_rm = $datapas['nomor_rm'];
@@ -223,7 +226,7 @@ $kdtacc =  [
         <form method="post" id="simpan_kunjungan" autocomplete="off">
           <div class="row">
              <div class="col-sm-12">
-              <a class="btn btn-sm btn-primary my-2 mx-2" href="<?= urlBridging()."pcare/cetakKunjungan/".$datapas['no_rujukan'] ?>">Cetak Kunjungan/Rujukan</a>
+              <a class="btn btn-sm btn-primary my-2 mx-2" href="<?= urlBridging()."pcare/cetakKunjungan/".$datapas['no_kunjungan'] ?>">Cetak Kunjungan/Rujukan</a>
              </div>
             <div class="col-sm-6">
 
@@ -476,6 +479,7 @@ $kdtacc =  [
 
                 <input type="hidden" name="khusus" value="">
                 <input type="hidden" name="no_kartu" id="no_kartu" value="<?= $datapas['no_kartu'] ?>">
+                <input type="hidden" name="no_daftar" id="no_daftar" value="<?= $no_daftar ?>">
 
                 <div class="form-group row">
                   <label class="col-sm-2 col-form-label">Tacc</label>
@@ -836,6 +840,7 @@ $kdtacc =  [
     $("#simpan_kunjungan").on("submit", function(event) {
       event.preventDefault();
       let data = {
+        "no_daftar": '<?= $no_daftar ?>',
         "noKunjungan": null,
         "noKartu": $('#no_kartu').val(),
         "tglDaftar": $("#tgl_daftar").val() == null ? "" : formatDate($("#tgl_daftar").val()),
