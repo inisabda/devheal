@@ -871,8 +871,8 @@ $kdtacc =  [
           "kdppk": $('#kdppk').val(),
           "tglEstRujuk": $('#tgl_est_rujuk').val() != "" ? formatDate($('#tgl_est_rujuk').val()) : null,
           "subSpesialis": {
-            "kdSubSpesialis1": parseInt($('#kd_sub_spesialis_1').val()),
-            "kdSarana": parseInt($('#kd_sarana').val())
+            "kdSubSpesialis1": $('#kd_sub_spesialis_1').val(),
+            "kdSarana": $('#kd_sarana').val()
           },
           "khusus": null
         },
@@ -896,7 +896,7 @@ $kdtacc =  [
           console.log(result.metaData);
           // let result = JSON.parse(res)
           // alert(result?.metaData?.message ?? "gagal insert");
-          if (result.metaData?.code == 412) {
+          if (result.metaData?.code == 412 || result.metaData?.code == 203 ) {
 
             if (result?.response != null) {
               if (Array.isArray(result?.response)) {
