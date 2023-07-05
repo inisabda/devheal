@@ -102,6 +102,11 @@ $kdtacc =  [
           <button class="btn btn-sm btn-danger"><i class="fas fa-list"></i> List Pasien <?php echo $_SESSION['nama_peg']; ?></button>
         </a>
       <?php } ?>
+      <?php if ($_SESSION['posisi_peg'] == 'Dokter4') { ?>
+        <a href="?page=perawatan4">
+          <button class="btn btn-sm btn-danger"><i class="fas fa-list"></i> List Pasien <?php echo $_SESSION['nama_peg']; ?></button>
+        </a>
+      <?php } ?>
     </div>
   </div>
   <div class="row" style="padding: 0 20px;">
@@ -866,7 +871,7 @@ $kdtacc =  [
           "kdppk": $('#kdppk').val(),
           "tglEstRujuk": $('#tgl_est_rujuk').val() != "" ? formatDate($('#tgl_est_rujuk').val()) : null,
           "subSpesialis": {
-            "kdSubSpesialis1": parseInt($('#kd_sub_spesialis1').val()),
+            "kdSubSpesialis1": parseInt($('#kd_sub_spesialis_1').val()),
             "kdSarana": parseInt($('#kd_sarana').val())
           },
           "khusus": null
@@ -951,11 +956,11 @@ $kdtacc =  [
       type: "POST",
       url: '<?= urlBridging() ?>pcare/ppkSpesialis',
       data: function(params) { 
-        console.log($('#subspesialis').select2('data').id)
+        // console.log($('#subspesialis').val())
       	var query = { 
-      		subspesialis: $('#subspesialis').select2('data').id,
+      		subspesialis: $('#kd_sub_spesialis_1').val(),
       		tgl: $('#tgl_est_rujuk').val(),
-      		sarana: $('#sarana').select2('data').id
+      		sarana: $('#kd_sarana').val(),
       	}
 
       	// Query parameters will be ?search=[term]&type=public
@@ -970,8 +975,8 @@ $kdtacc =  [
         return {
           results: $.map(data.response.list, function(item) {
             return {
-              id: item.kdPpk, // Modify 'yourIdField' to the actual field name for the ID
-              text: item.nmPpk // Modify 'yourTextField' to the actual field name for the text
+              id: item.kdppk, // Modify 'yourIdField' to the actual field name for the ID
+              text: item.nmppk // Modify 'yourTextField' to the actual field name for the text
             };
           })
         }
@@ -990,9 +995,9 @@ if ($('#spesialis').val() == null || $('#subspesialis').val() == null || $('#sar
       data: function(params) {
       	var query = {
       		search: params.term,
-      		subspesialis: $('#subspesialis').val(),
+      		subspesialis: $('#kd_sub_spesialis_1').val(),
       		tgl: $('#tgl_est_rujuk').val(),
-      		sarana: $('#sarana').val(),
+      		sarana: $('#kd_sarana').val(),
       	}
 
       	// Query parameters will be ?search=[term]&type=public
@@ -1007,8 +1012,8 @@ if ($('#spesialis').val() == null || $('#subspesialis').val() == null || $('#sar
         return {
           results: $.map(data.response.list, function(item) {
             return {
-              id: item.kdPpk, // Modify 'yourIdField' to the actual field name for the ID
-              text: item.nmPpk // Modify 'yourTextField' to the actual field name for the text
+              id: item.kdppk, // Modify 'yourIdField' to the actual field name for the ID
+              text: item.nmppk // Modify 'yourTextField' to the actual field name for the text
             };
           })
         }

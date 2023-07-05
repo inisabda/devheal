@@ -45,6 +45,9 @@ include "../config/setting.php";
         <br>
         <?php echo $dokter3; ?> : SIP <?php echo $sip3; ?>
         <br>
+        <br>
+        <?php echo $dokter4; ?> : SIP <?php echo $sip4; ?>
+        <br>
         <?php echo $alamat_klinik; ?> - <?php echo $no_hp; ?>
         </div>
         <hr>

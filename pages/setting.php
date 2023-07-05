@@ -62,6 +62,11 @@
 			                <td>:</td>
 			                <td style="padding-left: 10px; padding-top: 8px;"><input class="form-control form-control-sm "type="text" name="dokter3" id="dokter3" value="<?php echo $dokter3; ?>"></td>
 			            </tr>
+						<tr>
+			                <td style="padding-left: 1px; font-size: 14px;">Nama Dokter 4</td>
+			                <td>:</td>
+			                <td style="padding-left: 10px; padding-top: 8px;"><input class="form-control form-control-sm "type="text" name="dokter4" id="dokter4" value="<?php echo $dokter4; ?>"></td>
+			            </tr>
 			            <tr>
 			                <td style="padding-left: 1px; font-size: 14px;">SIP Dokter 1</td>
 			                <td>:</td>
@@ -76,6 +81,11 @@
 			                <td style="padding-left: 1px; font-size: 14px;">SIP Dokter 3</td>
 			                <td>:</td>
 			                <td style="padding-left: 10px; padding-top: 8px;"><input class="form-control form-control-sm "type="text" name="sip3" id="sip3" value="<?php echo $sip3; ?>" required></td>
+			            </tr>
+						<tr>
+			                <td style="padding-left: 1px; font-size: 14px;">SIP Dokter 4</td>
+			                <td>:</td>
+			                <td style="padding-left: 10px; padding-top: 8px;"><input class="form-control form-control-sm "type="text" name="sip4" id="sip4" value="<?php echo $sip4; ?>" required></td>
 			            </tr>
 			            <tr>
 			                <td style="padding-left: 1px; font-size: 14px;">E-Mail</td>
