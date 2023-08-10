@@ -112,7 +112,9 @@
                   <th>No Registrasi</th>
                   <th>Nama Pasien</th>
                   <th>Nomor RM</th>
-                  <th>Panggil</th>                  
+                  <th>Panggil Periksa</th>  
+                  <th>Panggil Pendaftaran</th>         
+                  <th>Daftar</th>                  
                 </tr>
               </thead>
             </table>
@@ -206,14 +208,43 @@
               // jika data "status = 0"
               else if (data["status"] === "0") {
                 // tampilkan button panggil
-                var btn = "<button class=\"btn btn-success btn-sm rounded-circle\"><i class=\"bi-mic-fill\"></i></button>";
+                var btn = "<button class=\"btn btn-success btn-sm periksa rounded-circle\"><i class=\"bi-mic-fill\"></i></button>";
               } 
               // jika data "status = 1"
               else if (data["status"] === "1") {
                 // tampilkan button ulangi panggilan
-                var btn = "<button class=\"btn btn-secondary btn-sm rounded-circle\"><i class=\"bi-mic-fill\"></i></button>";
+                var btn = "<button class=\"btn btn-secondary btn-sm periksa rounded-circle\"><i class=\"bi-mic-fill\"></i></button>";
               };
               return btn;
+            }
+          },
+          
+          {
+            "data": null,
+            "orderable": false,
+            "searchable": false,
+            "width": '100px',
+            "className": 'text-center',
+            "render": function(data, type, row) {
+              // jika tidak ada data "status"
+              if (data["status"] === "") {
+                // sembunyikan button panggil
+                var btn = "-";
+              }  
+                var btn = "<button class=\"btn btn-secondary btn-sm pendaftaran rounded-circle\"><i class=\"bi-mic-fill\"></i></button>";
+             
+              return btn;
+            }
+          },
+          {
+            "data": null,
+            "orderable": false,
+            "searchable": false,
+            "width": '100px',
+            "className": 'text-center',
+            "render": function(data, type, row) { 
+              console.log(data)
+              return `<a href="?page=daftar_pasien&id=${data["nomor_rm"]}" target='_blank' class='btn btn-sm btn-primary'>Daftarkan Pasien</a>`;
             }
           },
         ],
@@ -224,7 +255,7 @@
       });
 
       // panggilan antrian dan update data
-      $('#tabel-antrian tbody').on('click', 'button', function() {
+      $('#tabel-antrian tbody').on('click', 'button.periksa', function() {
         // ambil data dari datatables 
         var data = table.row($(this).parents('tr')).data();
         // buat variabel untuk menampilkan data "id"
@@ -242,7 +273,7 @@
 
         // mainkan suara nomor antrian
         setTimeout(function() {
-          responsiveVoice.speak("Nomor Antrian A, " + data["no_antrian"] + ", menuju ruang, periksa", "Indonesian Male", {
+          responsiveVoice.speak(`Nomor Antrian ${data["kd_antrian"]}, ${data["no_antrian"]}, menuju ruang, periksa`, "Indonesian Male", {
             rate: 0.9,
             pitch: 1,
             volume: 1
@@ -255,6 +286,35 @@
           url: "panggilan-antrian/update.php",          // url file proses update data
           data: { id: id }            // tentukan data yang dikirim
         });
+      });
+
+      $('#tabel-antrian tbody').on('click', 'button.pendaftaran', function() {
+        // ambil data dari datatables 
+        var data = table.row($(this).parents('tr')).data();
+        // buat variabel untuk menampilkan data "id"
+        var id = data["id"];
+        // buat variabel untuk menampilkan audio bell antrian
+        var bell = document.getElementById('tingtung');
+
+        // mainkan suara bell antrian
+        bell.pause();
+        bell.currentTime = 0;
+        bell.play();
+
+        // set delay antara suara bell dengan suara nomor antrian
+        durasi_bell = bell.duration * 770;
+
+        // mainkan suara nomor antrian
+        setTimeout(function() {
+          responsiveVoice.speak(`Nomor Antrian ${data["kd_antrian"]}, ${data["no_antrian"]}, menuju loket, pendaftaran`, "Indonesian Male", {
+            rate: 0.9,
+            pitch: 1,
+            volume: 1
+          });
+        }, durasi_bell);
+
+        // proses update data
+        
       });
 
       // auto reload data antrian setiap 1 detik untuk menampilkan data secara realtime

@@ -9,7 +9,7 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && ($_SERVER['HTTP_X_REQUESTED_WITH
   $tanggal = gmdate("Y-m-d", time() + 60 * 60 * 7);
 
   // sql statement untuk menampilkan data dari tabel "tbl_antrian" berdasarkan "tanggal"
-  $query = mysqli_query($mysqli, "SELECT id, no_antrian, status, no_daftar, nama_pas, nomor_rm FROM tbl_antrian 
+  $query = mysqli_query($mysqli, "SELECT id, no_antrian, status,kd_antrian, no_daftar, nama_pas, nomor_rm FROM tbl_antrian 
                                   WHERE tanggal='$tanggal'")
                                   or die('Ada kesalahan pada query tampil data : ' . mysqli_error($mysqli));
   // ambil jumlah baris data hasil query
@@ -24,6 +24,7 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && ($_SERVER['HTTP_X_REQUESTED_WITH
     // ambil data hasil query
     while ($row = mysqli_fetch_assoc($query)) {
       $data['id']         = $row["id"];
+      $data['kd_antrian'] = $row["kd_antrian"];
       $data['no_antrian'] = $row["no_antrian"];
       $data['status']     = $row["status"];
       $data['no_daftar']  = $row["no_daftar"];
@@ -44,6 +45,7 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && ($_SERVER['HTTP_X_REQUESTED_WITH
     // buat data kosong untuk ditampilkan
     $data['id']         = "";
     $data['no_antrian'] = "";
+    $data['kd_antrian'] = "";
     $data['no_daftar'] = "-";
     $data['status']     = "";
     $data['nama_pas']     = "-";

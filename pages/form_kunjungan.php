@@ -232,6 +232,8 @@ $kdtacc =  [
           <div class="row">
              <div class="col-sm-12">
               <a class="btn btn-sm btn-primary my-2 mx-2" href="<?= urlBridging()."pcare/cetakKunjungan/".$datapas['no_kunjungan'] ?>">Cetak Kunjungan/Rujukan</a>
+              
+              <!-- <a class="btn btn-sm btn-outline-primary my-2 mx-2" href="< urlBridging()."pcare/cetakRujukan/".$datapas['no_kunjungan'] ?>">Cetak Rujukan</a> -->
              </div>
             <div class="col-sm-6">
 
