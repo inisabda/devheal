@@ -132,6 +132,12 @@
 					      <textarea name="alergi" id="alergi" rows="2" class="form-control" placeholder="Masukkan alergi (Jika pasien terdapat alergi) kosongkan bila tidak ada" style="font-size: 14px;"></textarea>
 					    </div>
 					</div>
+					<div class="form-group row pt-1">
+						<label for="no_kartu_bpjs" class="col-sm-3 col-form-label">Nomor Kartu BPJS</label>
+					    <div class="col-sm-9">
+					      <input type="text" name="no_kartu_bpjs" id="no_kartu_bpjs" rows="2" class="form-control" placeholder="Masukkan Nomor Kartu BPJS (Jika pasien menggunakan bpjs) kosongkan bila tidak ada" style="font-size: 14px;"></input>
+					    </div>
+					</div>
 					<!-- <div class="form-group row">
 				    <label for="desa" class="col-sm-3 col-form-label">Desa / Kelurahan</label>
 				    <div class="col-sm-9">
@@ -374,6 +380,7 @@
 		var nik = $("#nik").val();
 		var alergi = $("#alergi").val();
 		var agama = $("#agama").val();
+		var no_kartu_bpjs = $("#no_kartu_bpjs").val();
 		//var desa= $("#desa").val();
 		//var kec = $("#kec").val();
 		//var kab_kota = $("#kab_kota").val();
@@ -428,7 +435,7 @@
 			$.ajax({
 				type: "POST",
 				url: "ajax/simpan_pasien.php",
-				data: "nama_pas="+nama_pas+"&jk="+jk+"&tpt_lahir="+tpt_lahir+"&tgl_lahir="+tgl_lahir+"&pekerjaan="+pekerjaan+"&alm_pas="+alm_pas+"&nomor_rm="+nomor_rm+"&nik="+nik+"&no_hp="+no_hp+"&alergi="+alergi+"&agama="+agama,
+				data: "nama_pas="+nama_pas+"&jk="+jk+"&tpt_lahir="+tpt_lahir+"&tgl_lahir="+tgl_lahir+"&pekerjaan="+pekerjaan+"&alm_pas="+alm_pas+"&nomor_rm="+nomor_rm+"&nik="+nik+"&no_hp="+no_hp+"&alergi="+alergi+"&agama="+agama+"&no_kartu_bpjs="+no_kartu_bpjs,
 				//+"&no_bpjs="+no_bpjs+"&no_hp="+no_hp+"&desa="+desa+"&kec="+kec+"&kab_kota="+kab_kota+"&provinsi="+provinsi+"&poscode="+poscode,
 				success: function(hasil) {
 					if(hasil=="berhasil") {
