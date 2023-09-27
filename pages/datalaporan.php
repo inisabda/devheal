@@ -25,23 +25,22 @@
                         <tr>
                             <td>1.</td>
                             <td>Laporan Kunjungan Pasien Rawat Jalan Per Bulan</td>
-                            <td><a href="?page=laporpasien"><button class="btn btn-sm btn-warning">Proses</button></a></td>
+                            <td><a href="?page=laporpasien"><button class="btn btn-sm btn-success">Proses</button></a></td>
                         </tr>
                         <tr>
                             <td>2.</td>
                             <td>Laporan Pendapatan Klinik Rawat Jalan Per Bulan</td>
-                            <td><a href="?page=laporpendapatan"><button class="btn btn-sm btn-warning">Proses</button></a></td>
-                         
+                            <td><a href="?page=laporpendapatan"><button class="btn btn-sm btn-success">Proses</button></a></td>
                         </tr>
                         <tr>
                             <td>3.</td>
                             <td>Laporan Penjualan Obat Apotek Per Bulan</td>
-                            <td><a href="?page=laporpenjualan_apotek"><button class="btn btn-sm btn-warning">Proses</button></a></td>
+                            <td><a href="?page=laporpenjualan_apotek"><button class="btn btn-sm btn-success">Proses</button></a></td>
                         </tr>
                         <tr>
                             <td>4</td>
                             <td>Laporan Pembelian Obat Apotek Per Bulan</td>
-                            <td><a href="?page=laporpembelian_apotek"><button class="btn btn-sm btn-warning">Proses</button></a></td>
+                            <td><a href="?page=laporpembelian_apotek"><button class="btn btn-sm btn-success">Proses</button></a></td>
                         </tr>
                     </tbody>
                 </table>

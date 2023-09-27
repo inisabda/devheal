@@ -66,14 +66,14 @@
   <body class="bg-light">
     <div id="container">
       <div id="main">
-        <div class="col-md-12 bg-primary p-1 title">
+        <div class="col-md-12 bg-info p-1 title">
           <div class="row">
             <div class="col-md-6">
               <img src="images/logoklinik.png" style="border-radius: 10px 10px 10px 10px;" width="50" alt="">
-              <span class="text-white font-weight-light">ERM-<?php echo $nama_klinik; ?> - <?php echo $kab; ?></span>
+              <span class="text-white font-weight-bold">ERM - <?php echo $nama_klinik; ?> - <?php echo $kab; ?></span>
             </div>
             <div class="col-md-6 text-right mt-2">
-              <a class="badge-pill badge-warning" style="padding: 4px"><i class="fas fa-user-circle"></i> No RM Terakhir :
+            <a class="badge badge-light" style="padding: 8px"><i class="fas fa-user-circle"></i> No RM Terakhir :
                 <?php 
                   $query_tampil = "SELECT * FROM tbl_pasien ORDER BY nomor_rm DESC LIMIT 1";
                   $sql_tampil = mysqli_query($conn, $query_tampil) or die ($conn->error);
@@ -92,12 +92,12 @@
                     <span class="posisi">ID : <span id="id_session" class="posisi"><?php echo $_SESSION['id_peg']; ?></span>
                   </div>
                   <div class="row tombol">
-                    <div class="col-3">
+                    <div class="col-6">
                       <button class="btn btn-sm btn-success" id="tombol_profil" data-toggle="modal" data-target="#profil_user">Profil</button>
                     </div>&nbsp;
-                    <div class="col-3">
+                    <!-- <div class="col-3">
                       <button class="btn btn-sm btn-primary" id="tombol_password" data-toggle="modal" data-target="#password_user">UPass</button>
-                    </div>&nbsp;&nbsp;
+                    </div>&nbsp;&nbsp; -->
                     <div class="col-3">
                       <button class="btn btn-sm btn-danger" id="tombol_keluar">Logout</button>
                     </div>
@@ -108,20 +108,20 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-2 sidebar">
+          <div class="col-md-2 sidebar bg-light">
             <div class="accordion" id="menu">
-              <ul class="list-group">
+              <!-- <ul class="list-group">
                 <li href="#" class="list-group-item list-group-item-action menu-utama" data-toggle="collapse" data-target="#menu-collapse" aria-expanded="true" aria-controls="menu-collapse" style="border-radius: 5px 5px 0 0;"> Menu <i class="fas fa-list float-right mt-1"></i></li>
-              </ul>
+              </ul> -->
               <div id="menu-collapse" class="collapse show" aria-labelledby="" data-parent="#menu">
                 <div class="accordion" id="daftar_menu">
                   <ul class="list-group">
-                    <a href="./" class="list-group-item list-group-item-action <?php if(@$_GET['page']=='') {echo "active";} ?>" style="border-radius: 0;"><i class="fas fa-home"></i> Home</a>
+                    <a href="./" class="list-group-item list-group-item-action <?php if(@$_GET['page']=='') {echo "active";} ?>" style="border-radius: 0;"><i class="fas fa-tachometer-alt"></i> Home</a>
 
                     <?php if($_SESSION['posisi_peg'] == 'Admin' || $_SESSION['posisi_peg'] == 'Manager' || $_SESSION['posisi_peg'] == 'Dokter' || $_SESSION['posisi_peg'] == 'Dokter2' || $_SESSION['posisi_peg'] == 'Apoteker' || $_SESSION['posisi_peg'] == 'Pendaftaran' ) { ?>
                       <a href="#" class="list-group-item list-group-item-action <?php if(@$_GET['page']=='dataobat' || @$_GET['page']=='tabelracikan' || @$_GET['page']=='datapegawai' || @$_GET['page']=='datapasien' || @$_GET['page']=='edit_datapasien' || @$_GET['page']=='data_tindakan' || @$_GET['page']=='transaksi' || @$_GET['page']=='bankdata' || @$_GET['page']=='tambah_dataobat' || @$_GET['page']=='tambah_racikan' || @$_GET['page']=='racikanobat' || @$_GET['page']=='tambah_datatindakan'|| @$_GET['page']=='edit_datatindakan'|| @$_GET['page']=='tambah_datapegawai' || @$_GET['page']=='edit_datapegawai' || @$_GET['page']=='tambah_datapasien' || @$_GET['page']=='edit_datapasien' || @$_GET['page']=='edit_dataobat' || @$_GET['page']=='edit_racikan' || @$_GET['page']=='datasupplier' || @$_GET['page']=='tambah_datasupplier' || @$_GET['page']=='edit_datasupplier' || @$_GET['page']=='datadokter' || @$_GET['page']=='tambah_datadokter' || @$_GET['page']=='edit_datadokter' || @$_GET['page']=='info_kadaluarsa' || @$_GET['page']=='datalaborat' || @$_GET['page']=='tambah_datalaborat' || @$_GET['page']=='edit_datalaborat' || @$_GET['page']=='data_pasien_asuransi' || @$_GET['page']=='tambah_pasien_asuransi' || @$_GET['page']=='edit_pasien_asuransi' || @$_GET['page']=='aturan_pakai' || @$_GET['page']== 'cara_bayar' || @$_GET['page']== 'datafaskes' || @$_GET['page']== 'diagnosa') {echo "show";} ?>"
                         data-toggle="collapse" data-target="#menu-collapse-master" aria-expanded="true" aria-controls="menu-collapse-master">
-                        <i class="fas fa-folder"></i> Data Master <i class="fas fa-angle-down float-right mt-1"></i></a>
+                        <i class="fas fa-folder-open"></i> Data Master <i class="fas fa-angle-down float-right mt-1"></i></a>
                     <?php } ?>
 
                     <?php if($_SESSION['posisi_peg'] == 'Admin' || $_SESSION['posisi_peg'] == 'Manager' || $_SESSION['posisi_peg'] == 'Dokter' || $_SESSION['posisi_peg'] == 'Dokter2' || $_SESSION['posisi_peg'] == 'Apoteker' || $_SESSION['posisi_peg'] == 'Pendaftaran' ) { ?>
@@ -184,7 +184,7 @@
                     <?php if($_SESSION['posisi_peg'] == 'Admin' || $_SESSION['posisi_peg'] == 'Dokter' || $_SESSION['posisi_peg'] == 'Dokter2' || $_SESSION['posisi_peg'] == 'Pendaftaran' ) { ?>
                       <ul class="list-group">                      
                         <a href="#" class="list-group-item list-group-item-action <?php if(@$_GET['page']=='pendaftaran' || @$_GET['page']=='datapendaftaran' || @$_GET['page']=='edit_pendaftaran' || @$_GET['page']=='daftar_pasien'){echo "show";} ?>" data-toggle="collapse" data-target="#menu-collapse-pendaftaran" aria-expanded="true" aria-controls="menu-collapse-pendaftaran">
-                          <i class="fas fa-users"></i> Pendaftaran <i class="fas fa-angle-down float-right mt-1"></i>
+                          <i class="fas fa-user-plus"></i> Pendaftaran <i class="fas fa-angle-down float-right mt-1"></i>
                         </a>
                         <div id="menu-collapse-pendaftaran" class="collapse <?php if(@$_GET['page']=='pendaftaran' || @$_GET['page']=='daftar_pasien' || @$_GET['page']=='datapendaftaran' || @$_GET['page']=='edit_pendaftaran') {echo "show";} ?>" aria-labelledby=""
                           data-parent="#daftar_menu">
@@ -199,7 +199,7 @@
                       
                       <ul class="list-group">
                         <a href="#" class="list-group-item list-group-item-action <?php if(@$_GET['page']=='antrian' || @$_GET['page']=='nomor-antrian' || @$_GET['page']=='panggilan-antrian' ){echo "show";} ?>" data-toggle="collapse" data-target="#menu-collapse-antrian" aria-expanded="true" aria-controls="menu-collapse-antrian">
-                          <i class="fas fa-bullhorn"></i> Antrian <i class="fas fa-angle-down float-right mt-1"></i>
+                          <i class="fas fa-users"></i> Antrian <i class="fas fa-angle-down float-right mt-1"></i>
                         </a>
                         <div id="menu-collapse-antrian" class="collapse <?php if(@$_GET['page']=='antrian' || @$_GET['page']=='panggilan-antrian' || @$_GET['page']=='nomor-antrian') {echo "show";} ?>" aria-labelledby=""
                           data-parent="#daftar_menu">
@@ -213,12 +213,12 @@
                       </ul>
                     <?php } ?>
 
-                    <?php if($_SESSION['posisi_peg'] == 'Admin' || $_SESSION['posisi_peg'] == 'Dokter' || $_SESSION['posisi_peg'] == 'Dokter2'  || $_SESSION['posisi_peg'] == 'Dokter3' || $_SESSION['posisi_peg'] == 'Dokter4' ) { ?>
+                    <?php if($_SESSION['posisi_peg'] == 'Admin' || $_SESSION['posisi_peg'] == 'Dokter' || $_SESSION['posisi_peg'] == 'Dokter2'  || $_SESSION['posisi_peg'] == 'Dokter3' || $_SESSION['posisi_peg'] == 'Dokter4' || $_SESSION['posisi_peg'] == 'Dokter5' ) { ?>
                       <ul class="list-group">
-                        <a href="#" class="list-group-item list-group-item-action <?php if(@$_GET['page']=='ruang_rawat' || @$_GET['page']=='perawatan' || @$_GET['page']=='perawatan2' || @$_GET['page']=='perawatan3' || @$_GET['page']=='perawatan4' ){echo "show";} ?>" data-toggle="collapse" data-target="#menu-collapse-ruangRawat" aria-expanded="true" aria-controls="menu-collapse-ruangRawat">
-                          <i class="fas fa-book-medical"></i> Rawat Pasien <i class="fas fa-angle-down float-right mt-1"></i>
+                        <a href="#" class="list-group-item list-group-item-action <?php if(@$_GET['page']=='ruang_rawat' || @$_GET['page']=='perawatan' || @$_GET['page']=='perawatan2' || @$_GET['page']=='perawatan3' || @$_GET['page']=='perawatan4' || @$_GET['page']=='perawatan5' ){echo "show";} ?>" data-toggle="collapse" data-target="#menu-collapse-ruangRawat" aria-expanded="true" aria-controls="menu-collapse-ruangRawat">
+                          <i class="fas fa-stethoscope"></i> Rawat Pasien <i class="fas fa-angle-down float-right mt-1"></i>
                         </a>
-                        <div id="menu-collapse-ruangRawat" class="collapse <?php if(@$_GET['page']=='perawatan' || @$_GET['page']=='perawatan2' || @$_GET['page']=='perawatan3' || @$_GET['page']=='perawatan4') {echo "show";} ?>" aria-labelledby=""
+                        <div id="menu-collapse-ruangRawat" class="collapse <?php if(@$_GET['page']=='perawatan' || @$_GET['page']=='perawatan2' || @$_GET['page']=='perawatan3' || @$_GET['page']=='perawatan4' || @$_GET['page']=='perawatan5') {echo "show";} ?>" aria-labelledby=""
                           data-parent="#daftar_menu">
                           <?php if($_SESSION['posisi_peg'] == 'Admin' || $_SESSION['posisi_peg'] == 'Dokter') { ?> 
                             <a href="?page=perawatan" class="list-group-item list-group-item-action list-group-item-collapse <?php if(@$_GET['page']=='perawatan') {echo "active";} ?>"><i class="fas fa-angle-right"></i> Rawat <?php echo $dokter1; ?>
@@ -239,6 +239,11 @@
                               <i class="fas fa-angle-right"></i> Rawat <?php echo $dokter4; ?>
                             </a>
                           <?php } ?>
+                          <?php if($_SESSION['posisi_peg'] == 'Admin' || $_SESSION['posisi_peg'] == 'Dokter5' ) { ?> 
+                            <a href="?page=perawatan5" class="list-group-item list-group-item-action list-group-item-collapse <?php if(@$_GET['page']=='perawatan5') {echo "active";} ?>">
+                              <i class="fas fa-angle-right"></i> Rawat <?php echo $dokter5; ?>
+                            </a>
+                          <?php } ?>
                         </div>
                       </ul>
                       <a href="?page=riwayatmedis" class="list-group-item list-group-item-action <?php if(@$_GET['page']=='riwayatmedis'|| @$_GET['page']=='rekammedis') {echo "active";} ?>">
@@ -248,7 +253,7 @@
 
                     <?php if($_SESSION['posisi_peg'] == 'Admin'|| $_SESSION['posisi_peg'] == 'Apoteker' ) { ?>
                       <a href="?page=farmasi" class="list-group-item list-group-item-action <?php if(@$_GET['page']=='farmasi' || @$_GET['page']=='farmasiorderobat' || @$_GET['page']=='farmasiobatracik') {echo "active";} ?>">
-                        <i class="fas fa-capsules"></i> Farmasi Rawat Jalan
+                        <i class="fas fa-wheelchair"></i> Farmasi Rawat Jalan
                       </a>
                     <?php } ?>
 
@@ -315,7 +320,7 @@
 
                     <?php if($_SESSION['posisi_peg'] == 'Admin' || $_SESSION['posisi_peg'] == 'Dokter' || $_SESSION['posisi_peg'] == 'Dokter2' ) { ?>
                       <a href="?page=datalaporan" class="list-group-item list-group-item-action <?php if(@$_GET['page']=='datalaporan' || @$_GET['page']=='laporpasien' || @$_GET['page']=='laporpendapatan' || @$_GET['page']=='laporpenjualan_apotek' || @$_GET['page']=='laporpembelian_apotek'){echo "active";} ?>">
-                        <i class="fas fa-bed"></i> Laporan Pasien
+                        <i class="fas fa-file-medical"></i> Laporan Pasien
                       </a>
                     <?php } ?>
 
@@ -336,7 +341,7 @@
 
                     <?php if($_SESSION['posisi_peg'] == 'Admin' || $_SESSION['posisi_peg'] == 'Dokter' || $_SESSION['posisi_peg'] == 'Dokter2') { ?>
                       <a href="?page=setting" class="list-group-item list-group-item-action <?php if(@$_GET['page']=='setting') {echo "active";} ?>">
-                        <i class="fas fa-wrench"></i> Setting Aplikasi
+                        <i class="fas fa-tools"></i> Setting Aplikasi
                       </a>
                     <?php } ?>
                     <!-- <a href="?page=laporan" class="list-group-item list-group-item-action <?php if(@$_GET['page']=='laporan') {echo "active";} ?>">
@@ -438,6 +443,8 @@
                 include 'pages/perawatan_pasien3.php';
               } else if(@$_GET['page']=='perawatan4') {
                 include 'pages/perawatan_pasien4.php';
+              } else if(@$_GET['page']=='perawatan5') {
+                include 'pages/perawatan_pasien5.php';
               } else if(@$_GET['page']=='form_assesment') {
                 include 'pages/form_assesment.php'; 
               } else if(@$_GET['page']=='form_kunjungan') {

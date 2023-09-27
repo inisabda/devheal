@@ -45,6 +45,8 @@
                         <br>
                         <?php echo $dokter4; ?> SIP : <?php echo $sip4; ?>
                         <br>
+                        <?php echo $dokter5; ?> SIP : <?php echo $sip5; ?>
+                        <br>
                         Email : <?php echo $email; ?> - <?php echo $no_hp; ?></span>
                     </td>
                 </tr>

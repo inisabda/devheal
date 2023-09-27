@@ -5,7 +5,7 @@
 </nav>
 <div class="page-content">
 	<div>
-		<div class="col-12"><h5>Selamat Datang <font color="#FF0000"><?php echo $_SESSION['nama_peg']; ?> </font><i class="far fa-smile"></i></h5></div>
+		<div class="col-12"><h5>Selamat Datang <font color="#226199"><?php echo $_SESSION['nama_peg']; ?> </font><i class="far fa-smile"></i></h5></div>
 	</div>
 	
 	<div class="konten-home" style="margin-top: 25px;">

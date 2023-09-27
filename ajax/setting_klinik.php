@@ -32,15 +32,17 @@ if(isset($_FILES['fileImg']['name'])){
     $dokter2 =$_POST['dokter2'];
     $dokter3 =$_POST['dokter3'];
     $dokter4 =$_POST['dokter4'];
+    $dokter5 =$_POST['dokter5'];
     $sip1 =$_POST['sip1'];
     $sip2 =$_POST['sip2'];
     $sip3 =$_POST['sip3'];
     $sip4 =$_POST['sip4'];
+    $sip5 =$_POST['sip5'];
     $no_hp =$_POST['no_hp'];
     $email =$_POST['email'];
 
     move_uploaded_file($tmpName, '../images/' . $newImageName);
-    $query = "UPDATE tbl_setting SET nama_klinik='$nm_klinik', alamat_klinik='$alm_klinik', kab='$kab', dokter1='$dokter1', dokter2='$dokter2', dokter3='$dokter3', dokter4='$dokter4', sip1='$sip1', sip2='$sip2', sip3='$sip3', sip4='$sip4', no_hp='$no_hp', email='$email', logo ='$newImageName' WHERE id_klinik='$id_klinik'";
+    $query = "UPDATE tbl_setting SET nama_klinik='$nm_klinik', alamat_klinik='$alm_klinik', kab='$kab', dokter1='$dokter1', dokter2='$dokter2', dokter3='$dokter3', dokter4='$dokter4', dokter5='$dokter5', sip1='$sip1', sip2='$sip2', sip3='$sip3', sip4='$sip4', sip5='$sip5', no_hp='$no_hp', email='$email', logo ='$newImageName' WHERE id_klinik='$id_klinik'";
 	// 	$sql = mysqli_query($conn, $query) or die ($conn->error);
 
 

@@ -107,6 +107,11 @@ $kdtacc =  [
           <button class="btn btn-sm btn-danger"><i class="fas fa-list"></i> List Pasien <?php echo $_SESSION['nama_peg']; ?></button>
         </a>
       <?php } ?>
+      <?php if ($_SESSION['posisi_peg'] == 'Dokter5') { ?>
+        <a href="?page=perawatan5">
+          <button class="btn btn-sm btn-danger"><i class="fas fa-list"></i> List Pasien <?php echo $_SESSION['nama_peg']; ?></button>
+        </a>
+      <?php } ?>
     </div>
   </div>
   <div class="row" style="padding: 0 20px;">

@@ -14,10 +14,12 @@ $dotenv->load();
         $dokter2 = $data['dokter2'];
         $dokter3 = $data['dokter3'];
         $dokter4 = $data['dokter4'];
+        $dokter5 = $data['dokter5'];
         $sip1 = $data['sip1'];
         $sip2 = $data['sip2'];
         $sip3 = $data['sip3'];
         $sip4 = $data['sip4'];
+        $sip5 = $data['sip5'];
         $no_hp = $data['no_hp'];
         $email = $data['email'];
 ?>

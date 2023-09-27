@@ -32,7 +32,7 @@
             <br>
             <div align="center" style="width:320px;margin-top:5%;">
                 <form  method="POST" name="login_form" id="login_form" class="well well-lg" style="-webkit-box-shadow: 0px 0px 20px #0bb0ea;">
-                    <h4><label>Sistim Elektonik Rekam Medis <?php echo $nama_klinik; ?> - <?php echo $kab; ?></label></h4>
+                    <h4><label>Sistem Elektronik Rekam Medis <?php echo $nama_klinik; ?> - <?php echo $kab; ?></label></h4>
                     <div class="mdl-card__title" style="text-align: center; border: 0;">
                         <img src="images/logoklinik.png" width="100" alt="" >
                     </div>

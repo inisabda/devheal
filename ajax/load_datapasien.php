@@ -13,6 +13,7 @@ $dotenv->load();
             $nestedData['nomor_rm'] = $value['nomor_rm'];
             $nestedData['nama_pas'] = $value['nama_pas'];
             $nestedData['nik'] = $value['nik'];
+            $nestedData['no_kartu_bpjs'] = $value['no_kartu_bpjs'];
             $nestedData['agama'] = $value['agama'];
             $nestedData['jk_pas'] = $value['jk_pas'];
             $nestedData['alm_pas'] = $value['alm_pas'];

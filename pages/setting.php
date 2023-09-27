@@ -10,7 +10,7 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb bg-light">
     <li class="breadcrumb-item"><a href="./"><i class="fas fa-home"></i> Home</a></li>
-    <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-briefcase-medical"></i> Data Aturan Pakai</li>
+    <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-tools"></i> Setting Aplikasi</li>
   </ol>
 </nav>
 
@@ -67,6 +67,11 @@
 			                <td>:</td>
 			                <td style="padding-left: 10px; padding-top: 8px;"><input class="form-control form-control-sm "type="text" name="dokter4" id="dokter4" value="<?php echo $dokter4; ?>"></td>
 			            </tr>
+						<tr>
+			                <td style="padding-left: 1px; font-size: 14px;">Nama Dokter 5</td>
+			                <td>:</td>
+			                <td style="padding-left: 10px; padding-top: 8px;"><input class="form-control form-control-sm "type="text" name="dokter5" id="dokter5" value="<?php echo $dokter5; ?>"></td>
+			            </tr>
 			            <tr>
 			                <td style="padding-left: 1px; font-size: 14px;">SIP Dokter 1</td>
 			                <td>:</td>
@@ -87,6 +92,11 @@
 			                <td>:</td>
 			                <td style="padding-left: 10px; padding-top: 8px;"><input class="form-control form-control-sm "type="text" name="sip4" id="sip4" value="<?php echo $sip4; ?>" required></td>
 			            </tr>
+						<tr>
+			                <td style="padding-left: 1px; font-size: 14px;">SIP Dokter 5</td>
+			                <td>:</td>
+			                <td style="padding-left: 10px; padding-top: 8px;"><input class="form-control form-control-sm "type="text" name="sip5" id="sip5" value="<?php echo $sip5; ?>" required></td>
+			            </tr>
 			            <tr>
 			                <td style="padding-left: 1px; font-size: 14px;">E-Mail</td>
 			                <td>:</td>
@@ -105,7 +115,7 @@
 			            	<td></td>
 			            	<td></td>
 			                <td style="padding-rigt: 10px; padding-top: 8px; text-align: right;">
-			                	<button type="submit" class="btn btn-danger btn-sm" id="submitButtom"><i class="fas fa-save"></i> Update</button></td>
+			                	<button type="submit" class="btn btn-success btn-sm" id="submitButtom"><i class="fas fa-save"></i> Update</button></td>
 			            </tr>
 			        </table>
 			  	</form>
